@@ -1,0 +1,384 @@
+{
+  "version": 1,
+  "source": "tuned:dev",
+  "thresholds": {
+    "confidence_high": 0.65,
+    "confidence_low": 0.6,
+    "top2_margin_min": 0.05,
+    "ood_similarity_min": 0.55,
+    "similarity_min": 0.7,
+    "neighbor_agreement_min": 0.6
+  },
+  "retrieval": {
+    "mode": "hybrid",
+    "k": 5,
+    "k_widened": 10
+  },
+  "routing": {
+    "clarify_on_missing_slot": true,
+    "answer_when_top2_same_category": true,
+    "gibberish_min_chars": 3,
+    "gibberish_max_token_chars": 25
+  },
+  "escalation": {
+    "sensitive_terms": {
+      "legal_threat": [
+        "lawyer",
+        "attorney",
+        "solicitor",
+        "sue you",
+        "sue the",
+        "lawsuit",
+        "legal action",
+        "take you to court",
+        "consumer court",
+        "ombudsman",
+        "legal notice",
+        "police complaint",
+        "file a case",
+        "fir against"
+      ],
+      "fraud": [
+        "fraud",
+        "fraudulent",
+        "scam",
+        "scammed",
+        "unauthorized charge",
+        "unauthorised charge",
+        "stolen",
+        "hacked",
+        "identity theft",
+        "someone used my card",
+        "did not authorize",
+        "card was charged twice"
+      ],
+      "chargeback": [
+        "chargeback",
+        "charge back",
+        "dispute with my bank",
+        "dispute the charge",
+        "bank dispute",
+        "reverse the transaction"
+      ],
+      "harassment": [
+        "harass",
+        "harassed",
+        "harassment",
+        "abusive",
+        "threatening",
+        "threatened",
+        "stalking",
+        "hate speech"
+      ],
+      "self_harm": [
+        "kill myself",
+        "suicide",
+        "suicidal",
+        "self harm",
+        "self-harm",
+        "end my life",
+        "hurt myself",
+        "want to die"
+      ]
+    }
+  },
+  "slots": {
+    "required": {
+      "cancel_order": [
+        "order_number"
+      ],
+      "change_order": [
+        "order_number"
+      ],
+      "track_order": [
+        "order_number"
+      ],
+      "get_refund": [
+        "order_number"
+      ],
+      "track_refund": [
+        "order_number"
+      ]
+    },
+    "slot_labels": {
+      "order_number": "order number",
+      "invoice_number": "invoice number",
+      "tracking_number": "tracking number",
+      "email": "email address",
+      "amount": "amount",
+      "date": "date"
+    },
+    "questions": {
+      "order_number": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account.",
+      "invoice_number": "Could you share your invoice number? It is printed at the top of the invoice you received.",
+      "tracking_number": "Could you share the tracking number from your shipping confirmation?",
+      "email": "Which email address did you use for the order?",
+      "amount": "What amount was involved, and in which currency?",
+      "date": "When did this happen? A date or date range is enough."
+    },
+    "not_have_phrases": [
+      "can't find",
+      "cannot find",
+      "cant find",
+      "can not find",
+      "can't locate",
+      "cannot locate",
+      "lost",
+      "i lost",
+      "don't have",
+      "dont have",
+      "do not have",
+      "doesn't have",
+      "didn't get",
+      "did not get",
+      "no longer have",
+      "haven't got",
+      "have not got",
+      "not sure where",
+      "don't remember",
+      "dont remember",
+      "can't remember",
+      "cannot remember",
+      "forgot",
+      "i forgot",
+      "no idea",
+      "not with me",
+      "misplaced",
+      "don't know the",
+      "dont know the",
+      "without the",
+      "unable to find"
+    ],
+    "derived_from_train": {
+      "cancel_order": {
+        "order_number": 0.96
+      },
+      "change_order": {
+        "order_number": 0.96
+      },
+      "track_order": {
+        "order_number": 0.97
+      },
+      "delivery_period": {
+        "order_number": 0.91
+      },
+      "check_invoice": {
+        "person_name": 0.39,
+        "invoice_number": 0.59
+      },
+      "get_invoice": {
+        "person_name": 0.42,
+        "invoice_number": 0.55
+      },
+      "get_refund": {
+        "amount": 0.12
+      },
+      "track_refund": {
+        "amount": 0.19
+      },
+      "create_account": {
+        "account_type": 0.38
+      },
+      "delete_account": {
+        "account_type": 0.41
+      },
+      "switch_account": {
+        "account_type": 0.68
+      }
+    },
+    "required_note": "User-side slots with strong TRAIN instruction evidence (placeholders {{Order Number}} at .96/.96/.97 for cancel_order/change_order/track_order) plus the product-required refund override: a get_refund/track_refund request without an order number must be clarified, never answered ('refund processed'). delivery_period, check_invoice, get_invoice and payment_issue were dropped: TRAIN instructions for those intents carry no dominant user-side slot (e.g. check_invoice references {{Person Name}} at .39 and {{Invoice Number}} at .002), so requiring their assistant-side placeholders forced clarifies on legitimate queries. See docs/L2_AUDIT.md section 10.",
+    "__note": "Replaces the old 'derived_from_train._note' provenance entry; ratios below remain the evidence."
+  },
+  "tuning": {
+    "split": "dev",
+    "objective": "maximise answered-item intent accuracy subject to answered coverage >= 0.80",
+    "min_coverage": 0.8,
+    "log": [
+      "2026-10-31T00:10:25 dev grid search: 144 triples, min_coverage=0.8, selected conf_high=0.65 conf_low=0.6 margin_min=0.05 -> coverage=0.926 answered_accuracy=0.9981",
+      "2026-10-31T00:08:34 dev grid search: 144 triples, min_coverage=0.8, selected conf_high=0.65 conf_low=0.6 margin_min=0.05 -> coverage=0.9197 answered_accuracy=0.9981",
+      "2026-10-31T00:07:22 dev grid search: 144 triples, min_coverage=0.8, selected conf_high=0.65 conf_low=0.6 margin_min=0.05 -> coverage=0.9197 answered_accuracy=0.9981",
+      "2026-10-31T00:04:23 dev grid search: 144 triples, min_coverage=0.8, selected conf_high=0.65 conf_low=0.6 margin_min=0.05 -> coverage=0.7046 answered_accuracy=0.9984"
+    ],
+    "n_dev": 1730,
+    "grid_size": 144,
+    "selected": {
+      "confidence_high": 0.65,
+      "confidence_low": 0.6,
+      "top2_margin_min": 0.05,
+      "coverage": 0.926,
+      "answer_accuracy": 0.9981,
+      "n_answered": 1602,
+      "clarify_rate": 0.0694,
+      "escalate_rate": 0.0046,
+      "missing_info_rate": 0.0694
+    },
+    "baseline": {
+      "confidence_high": 0.65,
+      "confidence_low": 0.6,
+      "top2_margin_min": 0.05,
+      "coverage": 0.926,
+      "answer_accuracy": 0.9981,
+      "n_answered": 1602,
+      "clarify_rate": 0.0694,
+      "escalate_rate": 0.0046,
+      "missing_info_rate": 0.0694
+    },
+    "top": [
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.05,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.1,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.15,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.2,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.3,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.65,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.4,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.75,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.05,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.75,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.1,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.75,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.15,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      },
+      {
+        "confidence_high": 0.75,
+        "confidence_low": 0.6,
+        "top2_margin_min": 0.2,
+        "coverage": 0.926,
+        "answer_accuracy": 0.9981,
+        "n_answered": 1602,
+        "clarify_rate": 0.0694,
+        "escalate_rate": 0.0046,
+        "missing_info_rate": 0.0694
+      }
+    ]
+  },
+  "updated": "2026-10-31",
+  "description": "Single tunable policy for Level-2 agents (A3 route, A4 audit, A5 coordinate). Rewritten by scripts/tune_a3_policy.py from DEV only; never tuned on TEST.",
+  "threshold_notes": {
+    "confidence_high": "at or above this, A1 is trusted when margin is also healthy",
+    "confidence_low": "below this A3 escalates (no answer attempt)",
+    "top2_margin_min": "below this the top-2 hypotheses are treated as ambiguous",
+    "ood_similarity_min": "A3 escalation floor for query/neighbour similarity. Deliberately lower than a1_config.json s_min (0.770013), which is calibrated on full-length dataset instructions and flags valid short user queries. Measured on 2026-10-30: clearly out-of-domain queries ('weather in Paris', 'write a poem', 'tell me a joke') score 0.24-0.34; short in-domain queries ('cancel my order', 'where is my order 998877') score 0.72-0.93. 0.55 catches clear OOD without escalating valid short requests; ambiguous adjacent-domain queries (~0.66-0.70) are left to confidence/ambiguity rules.",
+    "similarity_min": "A4 check: query/source-instruction cosine A2 requires (a2 SIM_MIN is 0.9107)",
+    "neighbor_agreement_min": "A4 check: share of retrieved neighbours that agree with the predicted intent"
+  },
+  "intents": {
+    "cancel_order": "ORDER",
+    "change_order": "ORDER",
+    "change_shipping_address": "SHIPPING",
+    "check_cancellation_fee": "CANCEL",
+    "check_invoice": "INVOICE",
+    "check_payment_methods": "PAYMENT",
+    "check_refund_policy": "REFUND",
+    "complaint": "FEEDBACK",
+    "contact_customer_service": "CONTACT",
+    "contact_human_agent": "CONTACT",
+    "create_account": "ACCOUNT",
+    "delete_account": "ACCOUNT",
+    "delivery_options": "DELIVERY",
+    "delivery_period": "DELIVERY",
+    "edit_account": "ACCOUNT",
+    "get_invoice": "INVOICE",
+    "get_refund": "REFUND",
+    "newsletter_subscription": "SUBSCRIPTION",
+    "payment_issue": "PAYMENT",
+    "place_order": "ORDER",
+    "recover_password": "ACCOUNT",
+    "registration_problems": "ACCOUNT",
+    "review": "FEEDBACK",
+    "set_up_shipping_address": "SHIPPING",
+    "switch_account": "ACCOUNT",
+    "track_order": "ORDER",
+    "track_refund": "REFUND"
+  },
+  "audit": {
+    "grounding_jaccard_min": 0.35,
+    "neutral_placeholder_note": "{{X}} is replaced with 'your <label>' when the placeholder maps to a known slot, else with the lowercased placeholder name.",
+    "claim_rewrite_note": "Passive 'has/have/had been <verb>ed' and 'is being <verb>ed' are rewritten to conditional wording; 'is on its way' is softened; every other completion-claim sentence is dropped entirely.",
+    "retry_note": "If alignment or grounding fails, audit() flags the candidate and sets retry_candidate_rank=2; audit_with_retry() may re-audit A2's next-best supporting example once."
+  }
+}

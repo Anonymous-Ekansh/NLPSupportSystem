@@ -1,0 +1,630 @@
+{
+  "_about": "Day 1 baseline copy for Level 2 comparison. Values copied verbatim from existing evidence/artefact files; nothing was recomputed.",
+  "sources": [
+    "outputs/evidence/a1.json",
+    "outputs/evidence/a2.json",
+    "outputs/metrics/test_metrics.json",
+    "outputs/models/a1_config.json",
+    "outputs/splits/split_report.json"
+  ],
+  "served_models": {
+    "a1": "embedding -> LogisticRegression (level L2), sentence-transformers/all-MiniLM-L6-v2, temperature 0.482836",
+    "a2": "response retrieval, dense routed mode (evidence a2.served_mode)"
+  },
+  "a1": {
+    "served_level": "L2",
+    "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "temperature": 0.482836,
+    "tau": 0.441705,
+    "s_min": 0.770013,
+    "n_test": 3475,
+    "level_metrics": {
+      "L0": {
+        "accuracy": 0.0432,
+        "macro_f1": 0.0031,
+        "macro_f1_ci_lo": 0.0026,
+        "macro_f1_ci_hi": 0.0035,
+        "category_accuracy": 0.0863
+      },
+      "L1": {
+        "accuracy": 0.9991,
+        "macro_f1": 0.9988,
+        "macro_f1_ci_lo": 0.9973,
+        "macro_f1_ci_hi": 1.0,
+        "category_accuracy": 1.0
+      },
+      "L2": {
+        "accuracy": 0.9954,
+        "macro_f1": 0.9952,
+        "macro_f1_ci_lo": 0.9927,
+        "macro_f1_ci_hi": 0.9974,
+        "category_accuracy": 0.9983
+      },
+      "L3": {
+        "accuracy": 0.9928,
+        "macro_f1": 0.9913,
+        "macro_f1_ci_lo": 0.9873,
+        "macro_f1_ci_hi": 0.9947,
+        "category_accuracy": 0.9991
+      }
+    },
+    "paired_bootstrap_served_vs_l1": {
+      "ci_lo": -0.0061,
+      "ci_hi": -0.0015,
+      "includes_zero": false
+    },
+    "per_intent_f1": {
+      "cancel_order": 0.9877,
+      "change_order": 0.9955,
+      "change_shipping_address": 0.9896,
+      "check_cancellation_fee": 1.0,
+      "check_invoice": 0.9963,
+      "check_payment_methods": 0.9966,
+      "check_refund_policy": 0.993,
+      "complaint": 0.9933,
+      "contact_customer_service": 0.9965,
+      "contact_human_agent": 0.9966,
+      "create_account": 0.9917,
+      "delete_account": 1.0,
+      "delivery_options": 0.9882,
+      "delivery_period": 0.9966,
+      "edit_account": 1.0,
+      "get_invoice": 0.996,
+      "get_refund": 0.9851,
+      "newsletter_subscription": 1.0,
+      "payment_issue": 0.9933,
+      "place_order": 0.9966,
+      "recover_password": 1.0,
+      "registration_problems": 0.9933,
+      "review": 1.0,
+      "set_up_shipping_address": 0.9933,
+      "switch_account": 0.9953,
+      "track_order": 0.9952,
+      "track_refund": 1.0
+    },
+    "top10_confusions": [
+      {
+        "true": "get_refund",
+        "pred": "check_refund_policy",
+        "count": 2
+      },
+      {
+        "true": "switch_account",
+        "pred": "create_account",
+        "count": 1
+      },
+      {
+        "true": "set_up_shipping_address",
+        "pred": "change_shipping_address",
+        "count": 1
+      },
+      {
+        "true": "registration_problems",
+        "pred": "create_account",
+        "count": 1
+      },
+      {
+        "true": "payment_issue",
+        "pred": "registration_problems",
+        "count": 1
+      },
+      {
+        "true": "payment_issue",
+        "pred": "get_refund",
+        "count": 1
+      },
+      {
+        "true": "get_refund",
+        "pred": "check_payment_methods",
+        "count": 1
+      },
+      {
+        "true": "delivery_period",
+        "pred": "delivery_options",
+        "count": 1
+      },
+      {
+        "true": "contact_customer_service",
+        "pred": "contact_human_agent",
+        "count": 1
+      },
+      {
+        "true": "complaint",
+        "pred": "place_order",
+        "count": 1
+      }
+    ],
+    "flag_f1": {
+      "B": 0.9952,
+      "C": 0.9928,
+      "E": 0.9935,
+      "I": 0.9928,
+      "K": 0.997,
+      "L": 0.9952,
+      "M": 0.8911,
+      "N": 1.0,
+      "P": 0.99,
+      "Q": 0.9933,
+      "S": 1.0,
+      "V": 1.0,
+      "W": 0.9856,
+      "Z": 0.9707
+    },
+    "ece_before": 0.0082,
+    "ece_after": 0.0027,
+    "ood_auroc_maxprob": 0.9643,
+    "ood_auroc_top1sim": 0.9962,
+    "n_errors": 16
+  },
+  "a2": {
+    "served_mode": "dense",
+    "dev_rouge_scores": {
+      "sparse": 0.3315,
+      "dense": 0.3364,
+      "hybrid": 0.3358
+    },
+    "test_results": {
+      "sparse_routed": {
+        "cosine_sim": 0.8131,
+        "rouge_l_f1": 0.3285,
+        "intent_consistency": 0.9963,
+        "placeholder_safe_rate": 0.777,
+        "check_rejection_rate": 0.4532,
+        "check_passed_rate": 0.6547,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.5943,
+            "rouge_l_f1": 0.1909,
+            "intent_consistency": 0.1875
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.7407,
+            "rouge_l_f1": 0.3062,
+            "intent_consistency": 0.9603
+          }
+        }
+      },
+      "sparse_global": {
+        "cosine_sim": 0.806,
+        "rouge_l_f1": 0.3368,
+        "intent_consistency": 0.996,
+        "placeholder_safe_rate": 0.5819,
+        "check_rejection_rate": 0.0,
+        "check_passed_rate": 1.0,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.7229,
+            "rouge_l_f1": 0.3178,
+            "intent_consistency": 0.9375
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.7283,
+            "rouge_l_f1": 0.3149,
+            "intent_consistency": 0.9762
+          }
+        }
+      },
+      "dense_routed": {
+        "cosine_sim": 0.8292,
+        "rouge_l_f1": 0.3373,
+        "intent_consistency": 0.996,
+        "placeholder_safe_rate": 0.7721,
+        "check_rejection_rate": 0.299,
+        "check_passed_rate": 0.7085,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.5612,
+            "rouge_l_f1": 0.1845,
+            "intent_consistency": 0.125
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.7485,
+            "rouge_l_f1": 0.305,
+            "intent_consistency": 0.9524
+          }
+        }
+      },
+      "dense_global": {
+        "cosine_sim": 0.8394,
+        "rouge_l_f1": 0.3499,
+        "intent_consistency": 0.9983,
+        "placeholder_safe_rate": 0.5833,
+        "check_rejection_rate": 0.0,
+        "check_passed_rate": 1.0,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.6805,
+            "rouge_l_f1": 0.2793,
+            "intent_consistency": 0.8125
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.75,
+            "rouge_l_f1": 0.3094,
+            "intent_consistency": 0.9603
+          }
+        }
+      },
+      "hybrid_routed": {
+        "cosine_sim": 0.8242,
+        "rouge_l_f1": 0.3318,
+        "intent_consistency": 0.996,
+        "placeholder_safe_rate": 0.7758,
+        "check_rejection_rate": 0.3312,
+        "check_passed_rate": 0.6967,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.5963,
+            "rouge_l_f1": 0.1886,
+            "intent_consistency": 0.125
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.7486,
+            "rouge_l_f1": 0.3043,
+            "intent_consistency": 0.9524
+          }
+        }
+      },
+      "hybrid_global": {
+        "cosine_sim": 0.8366,
+        "rouge_l_f1": 0.3449,
+        "intent_consistency": 0.9994,
+        "placeholder_safe_rate": 0.5862,
+        "check_rejection_rate": 0.0,
+        "check_passed_rate": 1.0,
+        "slices": {
+          "a1_misclassified": {
+            "n": 16,
+            "cosine_sim": 0.6889,
+            "rouge_l_f1": 0.2898,
+            "intent_consistency": 0.9375
+          },
+          "low_confidence": {
+            "n": 126,
+            "cosine_sim": 0.7554,
+            "rouge_l_f1": 0.3118,
+            "intent_consistency": 0.9921
+          }
+        }
+      },
+      "random_routed": {
+        "cosine_sim": 0.6769,
+        "rouge_l_f1": 0.2876,
+        "intent_consistency": 1.0,
+        "placeholder_safe_rate": 0.5799,
+        "check_rejection_rate": 0.0,
+        "check_passed_rate": 1.0,
+        "slices": {}
+      }
+    },
+    "n_test": 3475,
+    "a1_accuracy_on_test": 0.9954,
+    "a1_low_conf_rate": 0.0363
+  },
+  "a1_config": {
+    "served_level": "L2",
+    "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "temperature": 0.482836,
+    "tau": 0.441705,
+    "tau_coverage": 1.0,
+    "s_min": 0.770013,
+    "s_min_dev_flagged_pct": 0.0283,
+    "s_min_ood_flagged_pct": 0.9667,
+    "knn_k": null,
+    "knn_temp": null,
+    "l2_C": 50.0,
+    "ece_before_scaling": 0.008133,
+    "ece_after_scaling": 0.002806,
+    "ladder": {
+      "L0": {
+        "name": "majority class",
+        "dev_accuracy": 0.0405,
+        "dev_macro_f1": 0.0029,
+        "dev_log_loss": 33.141254,
+        "servable": false
+      },
+      "L1": {
+        "name": "TF-IDF word+char_wb \u2192 LogReg",
+        "dev_accuracy": 0.9971,
+        "dev_macro_f1": 0.9967,
+        "dev_log_loss": 0.024819,
+        "servable": false
+      },
+      "L2": {
+        "name": "embedding \u2192 LogReg (C=50.0)",
+        "dev_accuracy": 0.9965,
+        "dev_macro_f1": 0.9963,
+        "dev_log_loss": 0.015107,
+        "best_C": 50.0,
+        "servable": true
+      },
+      "L3": {
+        "name": "sim-weighted kNN (k=15, T=0.05)",
+        "dev_accuracy": 0.9931,
+        "dev_macro_f1": 0.9925,
+        "dev_log_loss": 0.048249,
+        "best_k": 15,
+        "best_temp": 0.05,
+        "servable": true
+      }
+    },
+    "embed_bakeoff": [
+      {
+        "model": "BAAI/bge-small-en-v1.5",
+        "dev_log_loss": 0.151573,
+        "dev_accuracy": 0.9931,
+        "dev_macro_f1": 0.9916
+      },
+      {
+        "model": "sentence-transformers/all-MiniLM-L6-v2",
+        "dev_log_loss": 0.100246,
+        "dev_accuracy": 0.9919,
+        "dev_macro_f1": 0.991
+      }
+    ]
+  },
+  "test_metrics": {
+    "split": "test",
+    "n_samples": 3475,
+    "intent_accuracy": 0.9934,
+    "intent_f1_macro": 0.9917,
+    "intent_f1_weighted": 0.9934,
+    "intent_precision_weighted": 0.9934,
+    "intent_recall_weighted": 0.9934,
+    "category_accuracy": 0.9983,
+    "category_f1_weighted": 0.9983,
+    "avg_confidence": 0.9481,
+    "avg_margin": 0.9319,
+    "needs_clarification_pct": 0.43,
+    "avg_retrieval_score": 0.9703,
+    "self_check_pass_rate": 59.48
+  },
+  "splits": {
+    "raw_train_rows": 18810,
+    "raw_validation_rows": 4031,
+    "train_duplicates_removed": 1513,
+    "validation_leaks_removed": 528,
+    "validation_duplicates_removed": 28,
+    "final_train": 15567,
+    "final_dev": 1730,
+    "final_test": 3475,
+    "train_intents": 27,
+    "train_categories": 11,
+    "dev_intents": 27,
+    "dev_categories": 11,
+    "test_intents": 27,
+    "test_categories": 11
+  },
+  "labels": {
+    "categories": {
+      "ACCOUNT": {
+        "train": 3469,
+        "dev": 384,
+        "test": 748
+      },
+      "CANCEL": {
+        "train": 594,
+        "dev": 66,
+        "test": 141
+      },
+      "CONTACT": {
+        "train": 1242,
+        "dev": 138,
+        "test": 291
+      },
+      "DELIVERY": {
+        "train": 1056,
+        "dev": 118,
+        "test": 232
+      },
+      "FEEDBACK": {
+        "train": 1256,
+        "dev": 140,
+        "test": 300
+      },
+      "INVOICE": {
+        "train": 1155,
+        "dev": 128,
+        "test": 260
+      },
+      "ORDER": {
+        "train": 2028,
+        "dev": 226,
+        "test": 402
+      },
+      "PAYMENT": {
+        "train": 1253,
+        "dev": 140,
+        "test": 297
+      },
+      "REFUND": {
+        "train": 1659,
+        "dev": 184,
+        "test": 362
+      },
+      "SHIPPING": {
+        "train": 1229,
+        "dev": 136,
+        "test": 294
+      },
+      "SUBSCRIPTION": {
+        "train": 626,
+        "dev": 70,
+        "test": 148
+      }
+    },
+    "intents": {
+      "cancel_order": {
+        "category": "ORDER",
+        "train": 322,
+        "dev": 36,
+        "test": 41
+      },
+      "change_order": {
+        "category": "ORDER",
+        "train": 557,
+        "dev": 62,
+        "test": 112
+      },
+      "change_shipping_address": {
+        "category": "SHIPPING",
+        "train": 604,
+        "dev": 67,
+        "test": 145
+      },
+      "check_cancellation_fee": {
+        "category": "CANCEL",
+        "train": 594,
+        "dev": 66,
+        "test": 141
+      },
+      "check_invoice": {
+        "category": "INVOICE",
+        "train": 585,
+        "dev": 65,
+        "test": 137
+      },
+      "check_payment_methods": {
+        "category": "PAYMENT",
+        "train": 627,
+        "dev": 70,
+        "test": 147
+      },
+      "check_refund_policy": {
+        "category": "REFUND",
+        "train": 618,
+        "dev": 69,
+        "test": 142
+      },
+      "complaint": {
+        "category": "FEEDBACK",
+        "train": 630,
+        "dev": 70,
+        "test": 150
+      },
+      "contact_customer_service": {
+        "category": "CONTACT",
+        "train": 624,
+        "dev": 69,
+        "test": 145
+      },
+      "contact_human_agent": {
+        "category": "CONTACT",
+        "train": 618,
+        "dev": 69,
+        "test": 146
+      },
+      "create_account": {
+        "category": "ACCOUNT",
+        "train": 576,
+        "dev": 64,
+        "test": 119
+      },
+      "delete_account": {
+        "category": "ACCOUNT",
+        "train": 580,
+        "dev": 64,
+        "test": 127
+      },
+      "delivery_options": {
+        "category": "DELIVERY",
+        "train": 431,
+        "dev": 48,
+        "test": 84
+      },
+      "delivery_period": {
+        "category": "DELIVERY",
+        "train": 625,
+        "dev": 70,
+        "test": 148
+      },
+      "edit_account": {
+        "category": "ACCOUNT",
+        "train": 514,
+        "dev": 57,
+        "test": 97
+      },
+      "get_invoice": {
+        "category": "INVOICE",
+        "train": 570,
+        "dev": 63,
+        "test": 123
+      },
+      "get_refund": {
+        "category": "REFUND",
+        "train": 577,
+        "dev": 64,
+        "test": 135
+      },
+      "newsletter_subscription": {
+        "category": "SUBSCRIPTION",
+        "train": 626,
+        "dev": 70,
+        "test": 148
+      },
+      "payment_issue": {
+        "category": "PAYMENT",
+        "train": 626,
+        "dev": 70,
+        "test": 150
+      },
+      "place_order": {
+        "category": "ORDER",
+        "train": 629,
+        "dev": 70,
+        "test": 146
+      },
+      "recover_password": {
+        "category": "ACCOUNT",
+        "train": 624,
+        "dev": 69,
+        "test": 148
+      },
+      "registration_problems": {
+        "category": "ACCOUNT",
+        "train": 624,
+        "dev": 69,
+        "test": 150
+      },
+      "review": {
+        "category": "FEEDBACK",
+        "train": 626,
+        "dev": 70,
+        "test": 150
+      },
+      "set_up_shipping_address": {
+        "category": "SHIPPING",
+        "train": 625,
+        "dev": 69,
+        "test": 149
+      },
+      "switch_account": {
+        "category": "ACCOUNT",
+        "train": 551,
+        "dev": 61,
+        "test": 107
+      },
+      "track_order": {
+        "category": "ORDER",
+        "train": 520,
+        "dev": 58,
+        "test": 103
+      },
+      "track_refund": {
+        "category": "REFUND",
+        "train": 464,
+        "dev": 51,
+        "test": 85
+      }
+    }
+  }
+}
