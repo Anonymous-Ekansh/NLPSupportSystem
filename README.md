@@ -87,14 +87,38 @@ Outputs land in `outputs/{splits,models,metrics,examples}/`.
 │   ├── pipeline.py          # A1 → A2 chain
 │   ├── evaluate.py          # Metrics, reports, confusion matrix
 │   └── examples.py          # Generate end-to-end traces
+├── api/                     # FastAPI service
+│   └── main.py              # REST API (health, query, batch, metrics)
 ├── scripts/
 │   ├── run_all.py           # Master runner
 │   └── check_env.py         # Environment validator
 ├── outputs/                 # All generated artifacts
 │   ├── metrics/             # test_metrics.json, classification reports, confusion matrix
 │   └── examples/            # traces.json, traces.md
+├── render.yaml              # Render deployment config
 ├── SETUP.md                 # Living setup checklist
 └── README.md
+```
+
+## API Endpoints
+
+Start locally: `uvicorn api.main:app --reload --port 8000`
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/health` | Health check (Render, UptimeRobot) |
+| `POST` | `/query` | Full A1→A2 pipeline |
+| `POST` | `/a1/analyze` | A1 intent classification only |
+| `POST` | `/a2/respond` | A2 response retrieval (needs A1 output) |
+| `POST` | `/batch` | Batch queries (up to 50) |
+| `GET` | `/metrics` | Latest test metrics |
+| `GET` | `/examples` | Precomputed example traces |
+
+**Example:**
+```bash
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "I want to cancel my subscription"}'
 ```
 
 ## Agent Contracts
@@ -137,7 +161,7 @@ Outputs land in `outputs/{splits,models,metrics,examples}/`.
 - **A4 Escalation Agent**: routes to human when self-check fails or confidence is critically low
 - **Response generation**: move from retrieval-only to retrieval-augmented generation
 - **Supabase pgvector**: move embedding index to Postgres for persistence and scalability
-- **FastAPI service + Next.js UI**: full-stack deployment on Render + Vercel
+- **Next.js UI**: interactive chat interface deployed on Vercel
 
 ## Tech Stack
 
@@ -146,5 +170,8 @@ Outputs land in `outputs/{splits,models,metrics,examples}/`.
 | Classification | TF-IDF (1,2)-grams + Logistic Regression |
 | Embeddings | fastembed / BAAI/bge-small-en-v1.5 (384-d, ONNX, CPU) |
 | Retrieval | Cosine similarity over intent-filtered corpus |
+| API | FastAPI + Uvicorn |
+| Deployment | Render (Python API) |
 | Languages | Python 3.13 |
-| Key libraries | pandas, numpy, scikit-learn, joblib, fastembed, matplotlib |
+| Key libraries | pandas, numpy, scikit-learn, joblib, fastembed, matplotlib, fastapi |
+
