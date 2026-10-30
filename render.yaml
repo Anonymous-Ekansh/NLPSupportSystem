@@ -2,7 +2,7 @@ services:
   - type: web
     name: nlp-support-api
     runtime: python
-    plan: starter
+    plan: free
     repo: https://github.com/Anonymous-Ekansh/NLPSupportSystem
     branch: main
     buildCommand: pip install -r requirements-api.txt

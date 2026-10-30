@@ -1,0 +1,16 @@
+{
+  "raw_train_rows": 18810,
+  "raw_validation_rows": 4031,
+  "train_duplicates_removed": 1513,
+  "validation_leaks_removed": 528,
+  "validation_duplicates_removed": 28,
+  "final_train": 15567,
+  "final_dev": 1730,
+  "final_test": 3475,
+  "train_intents": 27,
+  "train_categories": 11,
+  "dev_intents": 27,
+  "dev_categories": 11,
+  "test_intents": 27,
+  "test_categories": 11
+}

@@ -1,0 +1,17 @@
+{
+  "winner": "sentence-transformers/all-MiniLM-L6-v2",
+  "results": [
+    {
+      "model": "BAAI/bge-small-en-v1.5",
+      "dev_log_loss": 0.151573,
+      "dev_accuracy": 0.9931,
+      "dev_macro_f1": 0.9916
+    },
+    {
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "dev_log_loss": 0.100246,
+      "dev_accuracy": 0.9919,
+      "dev_macro_f1": 0.991
+    }
+  ]
+}
