@@ -71,15 +71,21 @@ class A2Builder:
         self.embed_model = embed_model
 
     def build(self, sim_min_dev: Optional[float] = None) -> "ResponseSpecialist":
-        """Fit all components, choose SIM_MIN on DEV if not given."""
+        """Fit all components, reusing precomputed TRAIN embedding matrix."""
         train_df = pd.read_csv("outputs/splits/train.csv")
         train_texts = train_df["instruction"].apply(normalize).tolist()
         train_responses = train_df["response"].astype(str).tolist()
         train_intents = train_df["intent"].values
 
-        # Dense embeddings (reuse cached)
-        print("[A2] Loading / computing TRAIN embeddings …")
-        train_emb = embed_split("train", model=self.embed_model)
+        # Dense embeddings: load precomputed matrix if available to prevent Render OOM
+        emb_matrix_path = "outputs/models/a2_emb_matrix.joblib"
+        if os.path.exists(emb_matrix_path):
+            import joblib
+            print(f"[A2] Loading precomputed TRAIN embeddings from {emb_matrix_path} …")
+            train_emb = joblib.load(emb_matrix_path)
+        else:
+            print("[A2] Loading / computing TRAIN embeddings …")
+            train_emb = embed_split("train", model=self.embed_model)
 
         # Sparse TF-IDF
         print("[A2] Fitting TF-IDF …")
@@ -98,15 +104,15 @@ class A2Builder:
         X_resp = resp_tfidf_vec.fit_transform(train_responses)
         resp_clf = LogisticRegression(
             max_iter=1000, C=1.0, solver="lbfgs",
-            random_state=SEED, n_jobs=-1,
+            random_state=SEED,
         )
         resp_clf.fit(X_resp, train_intents)
         print(f"  Response→intent train acc: "
               f"{(resp_clf.predict(X_resp) == train_intents).mean():.4f}")
 
-        # Choose SIM_MIN on DEV if not provided
+        # Choose SIM_MIN on DEV if not provided (default: 0.9107 precomputed on DEV)
         if sim_min_dev is None:
-            sim_min_dev = self._choose_sim_min(train_emb, train_intents, train_df)
+            sim_min_dev = 0.9107
 
         specialist = ResponseSpecialist(
             train_df=train_df,

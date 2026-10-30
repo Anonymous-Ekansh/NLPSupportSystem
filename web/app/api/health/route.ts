@@ -1,33 +1,32 @@
 import { NextResponse } from "next/server";
-import { HealthSchema } from "@/lib/schemas";
+import { fetchUpstream, sanitizeHealth } from "@/lib/server/upstream";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const apiUrl = process.env.NLP_API_URL || "http://localhost:8000";
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
-
   try {
-    const res = await fetch(`${apiUrl}/health`, {
-      method: "GET",
-      signal: controller.signal,
-      cache: "no-store",
-    });
-    clearTimeout(timeoutId);
+    const upstream = await fetchUpstream(
+      "/health",
+      { method: "GET" },
+      { attempts: 1, timeouts: [4500] }
+    );
 
-    if (res.ok) {
-      const data = await res.json();
-      const valid = HealthSchema.safeParse(data);
-      return NextResponse.json(valid.success ? valid.data : data);
+    if (upstream.ok) {
+      const health = sanitizeHealth(await upstream.json());
+      if (health.status === "ok") return NextResponse.json(health);
+      return NextResponse.json(health, { status: 503 });
     }
   } catch {
-    clearTimeout(timeoutId);
+    // The free host is probably waking.
   }
 
   return NextResponse.json(
     {
-      status: "unreachable",
+      status: "waking",
       model_loaded: false,
-      retrieval_backend: "offline",
+      retrieval_backend: "unknown",
+      agents: ["a1", "a2"],
     },
     { status: 503 }
   );

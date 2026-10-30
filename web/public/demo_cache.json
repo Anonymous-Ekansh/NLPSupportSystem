@@ -105,23 +105,6 @@
       "confidence": 0.3629
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
-      {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
-      },
-      {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
-      }
-    ],
     "cached": true
   },
   "filing consumer claim against ur organizzation": {
@@ -230,23 +213,6 @@
       "confidence": 0.2886
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
-      {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
-      },
-      {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
-      }
-    ],
     "cached": true
   },
   "i need to check status for order {{Order Number}}": {
@@ -355,23 +321,6 @@
       "confidence": 0.2672
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
-      {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
-      },
-      {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
-      }
-    ],
     "cached": true
   },
   "it did not work": {
@@ -480,23 +429,6 @@
       "confidence": 0.2414
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
-      {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
-      },
-      {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
-      }
-    ],
     "cached": true
   },
   "what is the weather today": {
@@ -605,23 +537,6 @@
       "confidence": 0.2065
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
-      {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
-      },
-      {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
-      }
-    ],
     "cached": true
   },
   "how do I cancel my subscription?": {
@@ -730,23 +645,546 @@
       "confidence": 0.3299
     },
     "retrieval_backend": "in-memory",
-    "planned_agents": [
+    "cached": true
+  },
+  "How can I request a refund for my purchase?": {
+    "query": "How can I request a refund for my purchase?",
+    "trace": [
       {
-        "name": "Verifier",
-        "status": "planned",
-        "description": "Cross-checks A2 response against policy knowledge base"
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "How can I request a refund for my purchase?"
+        },
+        "output": {
+          "query": "How can I request a refund for my purchase?",
+          "intent": "get_refund",
+          "category": "REFUND",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "get_refund",
+              "prob": 1.0
+            },
+            {
+              "intent": "check_refund_policy",
+              "prob": 0.0
+            },
+            {
+              "intent": "cancel_order",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.8417,
+          "needs_clarification": false
+        },
+        "latency_ms": 99.0
       },
       {
-        "name": "Clarifier",
-        "status": "planned",
-        "description": "Generates follow-up questions when confidence is low"
-      },
-      {
-        "name": "Escalator",
-        "status": "planned",
-        "description": "Routes to human agents based on severity and topic"
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "How can I request a refund for my purchase?",
+          "a1_output": {
+            "query": "How can I request a refund for my purchase?",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "get_refund",
+                "prob": 1.0
+              },
+              {
+                "intent": "check_refund_policy",
+                "prob": 0.0
+              },
+              {
+                "intent": "cancel_order",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.8417,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "I comprehend that you need assistance with requesting a refund. I'm here to guide you through the process and provide you with the necessary information to make your request. To begin, could you please provide me with the details of your purchase, such as the order number or any relevant transaction information? This will help me better understand your situation and provide you with accurate guidance. Rest assured, together we will work towards resolving your issue and ensuring a satisfactory resolution.",
+          "supporting_examples": [
+            {
+              "instruction": "i need help to request a refund",
+              "response": "I comprehend that you need assistance with requesting a refund. I'm here to guide you through the process and provide you with the necessary information to make your request. To begin, could you please provide me with the details of your purchase, such as the order number or any relevant transaction information? This will help me better understand your situation and provide you with accurate guidance. Rest assured, together we will work towards resolving your issue and ensuring a satisfactory resolution.",
+              "similarity": 0.0333
+            },
+            {
+              "instruction": "I have got to request a refund",
+              "response": "I've realized that you have a request to make for a refund. I'm here to assist you with that process. To begin, could you please provide me with the necessary details, such as the order number or any relevant information regarding your purchase? With this information, I can guide you on the specific steps to follow in order to initiate your refund request smoothly. Rest assured, I'll be with you every step of the way, ensuring that you feel supported throughout the process.",
+              "similarity": 0.0328
+            },
+            {
+              "instruction": "where can I request refunds?",
+              "response": "I see what you mean your need to know where you can request refunds. To initiate the refund request process, you can visit our customer support page on our website. There, you will find a dedicated \"Refunds\" section where you can submit your request. Alternatively, you can also reach out to our customer support team directly via phone or live chat, and they will assist you in initiating the refund process. Rest assured, we are committed to making the refund request procedure as seamless and convenient as possible for you.",
+              "similarity": 0.0299
+            }
+          ],
+          "used_intents": [
+            "get_refund"
+          ],
+          "retrieval_score": 0.0333,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": true,
+            "source_similarity": 0.9267,
+            "response_intent_ok": true,
+            "response_predicted_intent": "get_refund",
+            "check_passed": true,
+            "candidates_rejected": 0
+          }
+        },
+        "latency_ms": 373.3
       }
     ],
+    "final_response": "I comprehend that you need assistance with requesting a refund. I'm here to guide you through the process and provide you with the necessary information to make your request. To begin, could you please provide me with the details of your purchase, such as the order number or any relevant transaction information? This will help me better understand your situation and provide you with accurate guidance. Rest assured, together we will work towards resolving your issue and ensuring a satisfactory resolution.",
+    "total_latency_ms": 473.7,
+    "map": {
+      "x": -1.1,
+      "y": -4.3481,
+      "confidence": 0.8848
+    },
+    "retrieval_backend": "in-memory",
+    "cached": true
+  },
+  "I want to cancel my order": {
+    "query": "I want to cancel my order",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "I want to cancel my order"
+        },
+        "output": {
+          "query": "I want to cancel my order",
+          "intent": "cancel_order",
+          "category": "ORDER",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "cancel_order",
+              "prob": 1.0
+            },
+            {
+              "intent": "get_refund",
+              "prob": 0.0
+            },
+            {
+              "intent": "delete_account",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.891,
+          "needs_clarification": false
+        },
+        "latency_ms": 100.3
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "I want to cancel my order",
+          "a1_output": {
+            "query": "I want to cancel my order",
+            "intent": "cancel_order",
+            "category": "ORDER",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "cancel_order",
+                "prob": 1.0
+              },
+              {
+                "intent": "get_refund",
+                "prob": 0.0
+              },
+              {
+                "intent": "delete_account",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.891,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "I'm fully aware of the importance of canceling purchase {{Order Number}} for you. Let's work together to make this process as smooth as possible:\n\n1. **Log into Your Account**: Start by signing in to your {{Online Company Portal Info}} using your username and password.\n2. **Access Your Order History**: Once logged in, locate the section labeled '{{Online Order Interaction}}' or '{{Online Order Interaction}}'. This is where you'll find your purchase details.\n3. **Find the Relevant Purchase**: Look for the purchase with the order number {{Order Number}}. This may be listed by date, product name, or order number.\n4. **Initiate the Cancellation**: Click on the purchase you want to cancel, and you should see an option that says '{{Online Order Interaction}}' or something similar. Just select that, and you're a step closer.\n5. **Complete the Cancellation Process**: Follow any additional instructions that appear on your screen, such as confirming the cancellation or providing feedback.\n\nIf you encounter any difficulties along the way or have any questions, our dedicated support team is just a call away. You can reach them during {{Customer Support Hours}} at {{Customer Support Phone Number}} or through the Live Chat available on our website at {{Website URL}}. Rest assured, our goal is to make sure you have a satisfying experience, even when canceling a purchase.",
+          "supporting_examples": [
+            {
+              "instruction": "I want help to cancel purchase {{Order Number}}",
+              "response": "I'm fully aware of the importance of canceling purchase {{Order Number}} for you. Let's work together to make this process as smooth as possible:\n\n1. **Log into Your Account**: Start by signing in to your {{Online Company Portal Info}} using your username and password.\n2. **Access Your Order History**: Once logged in, locate the section labeled '{{Online Order Interaction}}' or '{{Online Order Interaction}}'. This is where you'll find your purchase details.\n3. **Find the Relevant Purchase**: Look for the purchase with the order number {{Order Number}}. This may be listed by date, product name, or order number.\n4. **Initiate the Cancellation**: Click on the purchase you want to cancel, and you should see an option that says '{{Online Order Interaction}}' or something similar. Just select that, and you're a step closer.\n5. **Complete the Cancellation Process**: Follow any additional instructions that appear on your screen, such as confirming the cancellation or providing feedback.\n\nIf you encounter any difficulties along the way or have any questions, our dedicated support team is just a call away. You can reach them during {{Customer Support Hours}} at {{Customer Support Phone Number}} or through the Live Chat available on our website at {{Website URL}}. Rest assured, our goal is to make sure you have a satisfying experience, even when canceling a purchase.",
+              "similarity": 0.0282
+            },
+            {
+              "instruction": "i have to cancel purchase {{Order Number}}",
+              "response": "I'm on your side that you need to cancel your purchase associated with the order number {{Order Number}}. We apologize for any inconvenience this may have caused you. To assist you with the cancellation process, please follow these steps:\n\n1. Sign in to Your Account: Access our platform by logging into your {{Online Company Portal Info}}.\n2. Navigate to Your Orders: Once logged in, go to the '{{Online Order Interaction}}' or '{{Online Order Interaction}}' section.\n3. Locate Your Order: Look for the purchase linked to the order number {{Order Number}}. Click on it to view the details.\n4. Initiate the Cancellation: You will find an option labeled '{{Online Order Interaction}}' associated with your purchase. Please select it.\n5. Complete any Further Steps: The system might require some additional information or ask for confirmation. Follow the instructions provided.\n\nIf you encounter any difficulties or have further questions, our dedicated support team is available to assist you. You can reach us during {{Customer Support Hours}} at {{Customer Support Phone Number}} or use the Live Chat feature on our {{Website URL}}. We value your satisfaction and will do our best to resolve the cancellation promptly.",
+              "similarity": 0.0279
+            },
+            {
+              "instruction": "I need to cancel purchase {{Order Number}}",
+              "response": "I understood that you need assistance with canceling your purchase with the order number {{Order Number}}. We apologize for any inconvenience this may have caused. To initiate the cancellation process, please follow these steps:\n\n1. Sign in to your account: Visit our {{Online Company Portal Info}} and login using your credentials.\n2. Access your order history: Once logged in, navigate to the \"{{Online Order Interaction}}\" or \"{{Online Order Interaction}}\" section.\n3. Locate the purchase: Look for the order with the specific order number {{Order Number}}.\n4. Cancel the purchase: Click on the \"{{Online Order Interaction}}\" option associated with the purchase.\n5. Confirm the cancellation: Follow any further prompts or questions from the system to finalize the cancellation.\n\nIf you encounter any difficulties or have further questions, our dedicated team is available to assist you. You can reach us during {{Customer Support Hours}} at {{Customer Support Phone Number}} or through the Live Chat feature on our website {{Website URL}}. We appreciate your understanding and value your satisfaction.",
+              "similarity": 0.0276
+            }
+          ],
+          "used_intents": [
+            "cancel_order"
+          ],
+          "retrieval_score": 0.0282,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": false,
+            "source_similarity_ok": false,
+            "source_similarity": 0.9013,
+            "response_intent_ok": true,
+            "response_predicted_intent": "cancel_order",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 251.2
+      }
+    ],
+    "final_response": "I'm fully aware of the importance of canceling purchase {{Order Number}} for you. Let's work together to make this process as smooth as possible:\n\n1. **Log into Your Account**: Start by signing in to your {{Online Company Portal Info}} using your username and password.\n2. **Access Your Order History**: Once logged in, locate the section labeled '{{Online Order Interaction}}' or '{{Online Order Interaction}}'. This is where you'll find your purchase details.\n3. **Find the Relevant Purchase**: Look for the purchase with the order number {{Order Number}}. This may be listed by date, product name, or order number.\n4. **Initiate the Cancellation**: Click on the purchase you want to cancel, and you should see an option that says '{{Online Order Interaction}}' or something similar. Just select that, and you're a step closer.\n5. **Complete the Cancellation Process**: Follow any additional instructions that appear on your screen, such as confirming the cancellation or providing feedback.\n\nIf you encounter any difficulties along the way or have any questions, our dedicated support team is just a call away. You can reach them during {{Customer Support Hours}} at {{Customer Support Phone Number}} or through the Live Chat available on our website at {{Website URL}}. Rest assured, our goal is to make sure you have a satisfying experience, even when canceling a purchase.",
+    "total_latency_ms": 351.5,
+    "map": {
+      "x": 3.0957,
+      "y": 6.7158,
+      "confidence": 0.9041
+    },
+    "retrieval_backend": "in-memory",
+    "cached": true
+  },
+  "Where is my parcel? How long will delivery take?": {
+    "query": "Where is my parcel? How long will delivery take?",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "Where is my parcel? How long will delivery take?"
+        },
+        "output": {
+          "query": "Where is my parcel? How long will delivery take?",
+          "intent": "delivery_period",
+          "category": "DELIVERY",
+          "confidence": 0.9997,
+          "margin": 0.9994,
+          "top3": [
+            {
+              "intent": "delivery_period",
+              "prob": 0.9997
+            },
+            {
+              "intent": "delivery_options",
+              "prob": 0.0003
+            },
+            {
+              "intent": "set_up_shipping_address",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.8693,
+          "needs_clarification": false
+        },
+        "latency_ms": 98.4
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "Where is my parcel? How long will delivery take?",
+          "a1_output": {
+            "query": "Where is my parcel? How long will delivery take?",
+            "intent": "delivery_period",
+            "category": "DELIVERY",
+            "confidence": 0.9997,
+            "margin": 0.9994,
+            "top3": [
+              {
+                "intent": "delivery_period",
+                "prob": 0.9997
+              },
+              {
+                "intent": "delivery_options",
+                "prob": 0.0003
+              },
+              {
+                "intent": "set_up_shipping_address",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.8693,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "We know how important it is for you to have a clear idea of when your parcel will be delivered. Could you please provide us with the {{Tracking Number}} or {{Order Number}}? With this information, we will be able to provide you with an accurate estimate of the delivery time. Your patience is greatly appreciated as we work together to ensure your package arrives on time.",
+          "supporting_examples": [
+            {
+              "instruction": "show me how long it takes for my parcel to arrive",
+              "response": "We know how important it is for you to have a clear idea of when your parcel will be delivered. Could you please provide us with the {{Tracking Number}} or {{Order Number}}? With this information, we will be able to provide you with an accurate estimate of the delivery time. Your patience is greatly appreciated as we work together to ensure your package arrives on time.",
+              "similarity": 0.0321
+            },
+            {
+              "instruction": "where to see when will my parcel arrive",
+              "response": "We understand your curiosity about the estimated arrival time of your parcel. To provide you with the most accurate information, could you please provide us with the {{Tracking Number}} or {{Order Number}}? With the tracking details at hand, you can access the delivery updates through our website or mobile app. This will allow you to track the progress of your parcel and get an estimate on when it will arrive. Thank you for your cooperation!",
+              "similarity": 0.0318
+            },
+            {
+              "instruction": "how can I check how long it takes for my parcel to arrive?",
+              "response": "We understand your curiosity regarding the estimated arrival time of your parcel. To provide you with the most accurate information, we kindly request that you provide us with your {{Tracking Number}} or {{Order Number}}. With this essential information, we can promptly assist you and provide you with the specific details about the expected delivery date. Your patience is greatly appreciated as we work together to ensure your satisfaction.",
+              "similarity": 0.0311
+            }
+          ],
+          "used_intents": [
+            "delivery_period"
+          ],
+          "retrieval_score": 0.0321,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": false,
+            "source_similarity_ok": true,
+            "source_similarity": 0.924,
+            "response_intent_ok": true,
+            "response_predicted_intent": "delivery_period",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 129.4
+      }
+    ],
+    "final_response": "We know how important it is for you to have a clear idea of when your parcel will be delivered. Could you please provide us with the {{Tracking Number}} or {{Order Number}}? With this information, we will be able to provide you with an accurate estimate of the delivery time. Your patience is greatly appreciated as we work together to ensure your package arrives on time.",
+    "total_latency_ms": 227.8,
+    "map": {
+      "x": -6.6459,
+      "y": -0.3764,
+      "confidence": 0.8813
+    },
+    "retrieval_backend": "in-memory",
+    "cached": true
+  },
+  "I forgot my password and can't log in": {
+    "query": "I forgot my password and can't log in",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "I forgot my password and can't log in"
+        },
+        "output": {
+          "query": "I forgot my password and can't log in",
+          "intent": "recover_password",
+          "category": "ACCOUNT",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "recover_password",
+              "prob": 1.0
+            },
+            {
+              "intent": "registration_problems",
+              "prob": 0.0
+            },
+            {
+              "intent": "delete_account",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.8212,
+          "needs_clarification": false
+        },
+        "latency_ms": 119.6
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "I forgot my password and can't log in",
+          "a1_output": {
+            "query": "I forgot my password and can't log in",
+            "intent": "recover_password",
+            "category": "ACCOUNT",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "recover_password",
+                "prob": 1.0
+              },
+              {
+                "intent": "registration_problems",
+                "prob": 0.0
+              },
+              {
+                "intent": "delete_account",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.8212,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "Absolutely! I can understand how frustrating it can be to lose access to your password. Don't worry, we're here to assist you in recovering it and getting you back into your account. Follow these simple steps:\n\n1. Head over to the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. Enter the email address associated with your account when prompted.\n4. A password reset link will be sent to your email address.\n5. Check your inbox (and don't forget to check your spam or junk folders, just in case) for the password reset email.\n6. Click on the link provided in the email to create a new password for your account.\n\nIf you encounter any issues during the process or need further assistance, feel free to reach out to our support team. We're here to help you every step of the way. Remember, we value your security and privacy, so please make sure to choose a strong, unique password for your account.",
+          "supporting_examples": [
+            {
+              "instruction": "I lost my password, I need help recovering it",
+              "response": "Absolutely! I can understand how frustrating it can be to lose access to your password. Don't worry, we're here to assist you in recovering it and getting you back into your account. Follow these simple steps:\n\n1. Head over to the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. Enter the email address associated with your account when prompted.\n4. A password reset link will be sent to your email address.\n5. Check your inbox (and don't forget to check your spam or junk folders, just in case) for the password reset email.\n6. Click on the link provided in the email to create a new password for your account.\n\nIf you encounter any issues during the process or need further assistance, feel free to reach out to our support team. We're here to help you every step of the way. Remember, we value your security and privacy, so please make sure to choose a strong, unique password for your account.",
+              "similarity": 0.0295
+            },
+            {
+              "instruction": "I can't retrieve the password of my user account",
+              "response": "I'm sorry to hear that you're having trouble retrieving the password for your user account. Don't worry, though, we'll work together to get this sorted out. \n\nFirst, let's make sure we're on the same page. Are you trying to recover the password for your account on our platform? If so, I can guide you through the necessary steps to regain access to your account.",
+              "similarity": 0.0242
+            },
+            {
+              "instruction": "I forgot my user password, help me to reset it",
+              "response": "Definitely! I understand your predicament of forgetting your user password and the urgency to reset it. No worries, my friend, I'm here to lend a helping hand!\n\nTo reset your password and regain access to your user account, follow these simple steps:\n\n1. Head over to our platform's login page by navigating to \"{{Login Page URL}}\".\n2. Look for the option labeled \"{{Forgot Password}}\" and click on it. It's like unraveling the secret pathway to a treasure chest!\n3. On the password reset page, provide the email address associated with your user account.\n4. Now, here comes the exciting part! You'll receive a comprehensive email shortly, containing detailed instructions on how to reset your password securely.\n5. Don't forget to check your spam or junk folder, just in case that mischief-maker, the spam filter, decided to play a prank on you.\n\nPlease ensure that you create a strong password that combines uppercase and lowercase letters, numbers, and special characters. This will help protect your account from any attempts of unauthorized access.\n\nRemember, if you encounter any issues or have further questions during the password reset process, I'm here 24/7 to assist you! Just reach out and together, we'll unlock the door to your user account.",
+              "similarity": 0.0323
+            }
+          ],
+          "used_intents": [
+            "recover_password"
+          ],
+          "retrieval_score": 0.0295,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": false,
+            "source_similarity": 0.8716,
+            "response_intent_ok": true,
+            "response_predicted_intent": "recover_password",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 80.3
+      }
+    ],
+    "final_response": "Absolutely! I can understand how frustrating it can be to lose access to your password. Don't worry, we're here to assist you in recovering it and getting you back into your account. Follow these simple steps:\n\n1. Head over to the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. Enter the email address associated with your account when prompted.\n4. A password reset link will be sent to your email address.\n5. Check your inbox (and don't forget to check your spam or junk folders, just in case) for the password reset email.\n6. Click on the link provided in the email to create a new password for your account.\n\nIf you encounter any issues during the process or need further assistance, feel free to reach out to our support team. We're here to help you every step of the way. Remember, we value your security and privacy, so please make sure to choose a strong, unique password for your account.",
+    "total_latency_ms": 200.0,
+    "map": {
+      "x": 13.9431,
+      "y": 15.7321,
+      "confidence": 0.8471
+    },
+    "retrieval_backend": "in-memory",
+    "cached": true
+  },
+  "What is the weather in Paris?": {
+    "query": "What is the weather in Paris?",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "What is the weather in Paris?"
+        },
+        "output": {
+          "query": "What is the weather in Paris?",
+          "intent": "delivery_period",
+          "category": "DELIVERY",
+          "confidence": 0.5096,
+          "margin": 0.0875,
+          "top3": [
+            {
+              "intent": "delivery_period",
+              "prob": 0.5096
+            },
+            {
+              "intent": "contact_human_agent",
+              "prob": 0.4221
+            },
+            {
+              "intent": "delivery_options",
+              "prob": 0.0534
+            }
+          ],
+          "top1_similarity": 0.2571,
+          "needs_clarification": true
+        },
+        "latency_ms": 112.7
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "What is the weather in Paris?",
+          "a1_output": {
+            "query": "What is the weather in Paris?",
+            "intent": "delivery_period",
+            "category": "DELIVERY",
+            "confidence": 0.5096,
+            "margin": 0.0875,
+            "top3": [
+              {
+                "intent": "delivery_period",
+                "prob": 0.5096
+              },
+              {
+                "intent": "contact_human_agent",
+                "prob": 0.4221
+              },
+              {
+                "intent": "delivery_options",
+                "prob": 0.0534
+              }
+            ],
+            "top1_similarity": 0.2571,
+            "needs_clarification": true
+          }
+        },
+        "output": {
+          "response": "We understand your eagerness to know when you can expect your order to arrive. To provide you with an accurate estimate, may we please have the order number or tracking number? With that information, we will be able to give you the most up-to-date delivery details. We appreciate your patience and understanding.",
+          "supporting_examples": [
+            {
+              "instruction": "help to see how soon can i expect the goddamn roder",
+              "response": "We understand your eagerness to know when you can expect your order to arrive. To provide you with an accurate estimate, may we please have the order number or tracking number? With that information, we will be able to give you the most up-to-date delivery details. We appreciate your patience and understanding.",
+              "similarity": 0.0092
+            },
+            {
+              "instruction": "what do i have to do to see when my order is gonna arrive",
+              "response": "To track the delivery status of your order and see when it will arrive, you can visit our website and log into your account. Once you are logged in, navigate to the \"Order History\" or \"Track My Order\" section, where you should be able to find detailed information about the estimated delivery date or a tracking number that you can use to track the parcel through the shipping carrier's website. If you are unable to locate this information or have any other questions, our customer support team is available to assist you. Simply reach out to them via live chat on our website or give them a call at our customer support hotline. They will be more than happy to provide you with the necessary information to keep you informed about the arrival of your order. We appreciate your patience and understanding throughout this process.",
+              "similarity": 0.0091
+            },
+            {
+              "instruction": "give me information about the shippong periods",
+              "response": "We understand that you would like to learn about the shipping periods. Shipping periods typically depend on various factors such as the shipping method chosen, the destination, and any potential delays. To provide you with accurate information, could you please provide us with the specific details of your order? This can include the order number or the item you are referring to. Once we have this information, we will be able to provide you with the most up-to-date shipping periods. Thank you for your understanding and cooperation.",
+              "similarity": 0.0088
+            }
+          ],
+          "used_intents": [
+            "delivery_period"
+          ],
+          "retrieval_score": 0.0092,
+          "low_confidence": true,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": false,
+            "source_similarity": 0.5339,
+            "response_intent_ok": true,
+            "response_predicted_intent": "delivery_period",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 84.1
+      }
+    ],
+    "final_response": "We understand your eagerness to know when you can expect your order to arrive. To provide you with an accurate estimate, may we please have the order number or tracking number? With that information, we will be able to give you the most up-to-date delivery details. We appreciate your patience and understanding.",
+    "total_latency_ms": 196.8,
+    "map": {
+      "x": -9.1594,
+      "y": 1.3126,
+      "confidence": 0.4899
+    },
+    "retrieval_backend": "in-memory",
     "cached": true
   }
 }

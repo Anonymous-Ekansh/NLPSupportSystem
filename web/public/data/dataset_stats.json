@@ -1,0 +1,238 @@
+{
+  "total_examples": 20772,
+  "intents": 27,
+  "categories": 11,
+  "splits": {
+    "train": 15567,
+    "dev": 1730,
+    "test": 3475
+  },
+  "cleaning": {
+    "raw_train_rows": 18810,
+    "raw_validation_rows": 4031,
+    "duplicates_removed": 1513,
+    "leaked_rows_removed": 528,
+    "seed": 42
+  },
+  "category_counts": [
+    {
+      "category": "ACCOUNT",
+      "count": 4601
+    },
+    {
+      "category": "ORDER",
+      "count": 2656
+    },
+    {
+      "category": "REFUND",
+      "count": 2205
+    },
+    {
+      "category": "FEEDBACK",
+      "count": 1696
+    },
+    {
+      "category": "PAYMENT",
+      "count": 1690
+    },
+    {
+      "category": "CONTACT",
+      "count": 1671
+    },
+    {
+      "category": "SHIPPING",
+      "count": 1659
+    },
+    {
+      "category": "INVOICE",
+      "count": 1543
+    },
+    {
+      "category": "DELIVERY",
+      "count": 1406
+    },
+    {
+      "category": "SUBSCRIPTION",
+      "count": 844
+    },
+    {
+      "category": "CANCEL",
+      "count": 801
+    }
+  ],
+  "class_balance": [
+    {
+      "intent": "complaint",
+      "category": "FEEDBACK",
+      "count": 850
+    },
+    {
+      "intent": "review",
+      "category": "FEEDBACK",
+      "count": 846
+    },
+    {
+      "intent": "payment_issue",
+      "category": "PAYMENT",
+      "count": 846
+    },
+    {
+      "intent": "place_order",
+      "category": "ORDER",
+      "count": 845
+    },
+    {
+      "intent": "newsletter_subscription",
+      "category": "SUBSCRIPTION",
+      "count": 844
+    },
+    {
+      "intent": "check_payment_methods",
+      "category": "PAYMENT",
+      "count": 844
+    },
+    {
+      "intent": "set_up_shipping_address",
+      "category": "SHIPPING",
+      "count": 843
+    },
+    {
+      "intent": "registration_problems",
+      "category": "ACCOUNT",
+      "count": 843
+    },
+    {
+      "intent": "delivery_period",
+      "category": "DELIVERY",
+      "count": 843
+    },
+    {
+      "intent": "recover_password",
+      "category": "ACCOUNT",
+      "count": 841
+    },
+    {
+      "intent": "contact_customer_service",
+      "category": "CONTACT",
+      "count": 838
+    },
+    {
+      "intent": "contact_human_agent",
+      "category": "CONTACT",
+      "count": 833
+    },
+    {
+      "intent": "check_refund_policy",
+      "category": "REFUND",
+      "count": 829
+    },
+    {
+      "intent": "change_shipping_address",
+      "category": "SHIPPING",
+      "count": 816
+    },
+    {
+      "intent": "check_cancellation_fee",
+      "category": "CANCEL",
+      "count": 801
+    },
+    {
+      "intent": "check_invoice",
+      "category": "INVOICE",
+      "count": 787
+    },
+    {
+      "intent": "get_refund",
+      "category": "REFUND",
+      "count": 776
+    },
+    {
+      "intent": "delete_account",
+      "category": "ACCOUNT",
+      "count": 771
+    },
+    {
+      "intent": "create_account",
+      "category": "ACCOUNT",
+      "count": 759
+    },
+    {
+      "intent": "get_invoice",
+      "category": "INVOICE",
+      "count": 756
+    },
+    {
+      "intent": "change_order",
+      "category": "ORDER",
+      "count": 731
+    },
+    {
+      "intent": "switch_account",
+      "category": "ACCOUNT",
+      "count": 719
+    },
+    {
+      "intent": "track_order",
+      "category": "ORDER",
+      "count": 681
+    },
+    {
+      "intent": "edit_account",
+      "category": "ACCOUNT",
+      "count": 668
+    },
+    {
+      "intent": "track_refund",
+      "category": "REFUND",
+      "count": 600
+    },
+    {
+      "intent": "delivery_options",
+      "category": "DELIVERY",
+      "count": 563
+    },
+    {
+      "intent": "cancel_order",
+      "category": "ORDER",
+      "count": 399
+    }
+  ],
+  "class_balance_ratio": {
+    "min": 399,
+    "max": 850,
+    "ratio": 2.13
+  },
+  "styles": [
+    {
+      "style": "Colloquial",
+      "count": 2679,
+      "pct": 0.129
+    },
+    {
+      "style": "Interrogative",
+      "count": 2832,
+      "pct": 0.1363
+    },
+    {
+      "style": "Noisy / misspelled",
+      "count": 3782,
+      "pct": 0.1821
+    },
+    {
+      "style": "Morphological",
+      "count": 3268,
+      "pct": 0.1573
+    },
+    {
+      "style": "Polite",
+      "count": 1080,
+      "pct": 0.052
+    },
+    {
+      "style": "Other",
+      "count": 7131,
+      "pct": 0.3433
+    }
+  ],
+  "style_note": "One primary style per example; the raw flag letters can overlap."
+}

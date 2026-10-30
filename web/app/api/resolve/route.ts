@@ -1,105 +1,124 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import fs from "fs";
-import path from "path";
-import { ResolveResultSchema } from "@/lib/schemas";
+import {
+  fetchUpstream,
+  readDemoResult,
+  sanitizeResolve,
+} from "@/lib/server/upstream";
 
-const RequestSchema = z.object({
-  query: z
-    .string()
-    .trim()
-    .min(1, "Query must not be empty")
-    .max(500, "Query must be ≤ 500 characters"),
-});
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
-// Load fallback demo cache from web/public/demo_cache.json
-function getDemoCache(): Record<string, unknown> {
+const MAX_QUERY_LENGTH = 500;
+
+export async function POST(request: NextRequest) {
+  let body: unknown;
   try {
-    const filePath = path.join(process.cwd(), "public", "demo_cache.json");
-    if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    }
-  } catch (err) {
-    console.error("Failed to read demo_cache.json:", err);
-  }
-  return {};
-}
-
-function findInDemoCache(query: string) {
-  const cache = getDemoCache();
-  const qClean = query.trim().toLowerCase();
-
-  for (const [key, value] of Object.entries(cache)) {
-    if (key.trim().toLowerCase() === qClean) {
-      return value;
-    }
-  }
-  return null;
-}
-
-export async function POST(req: NextRequest) {
-  let bodyJson: unknown;
-  try {
-    bodyJson = await req.json();
+    body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-  }
-
-  const parsed = RequestSchema.safeParse(bodyJson);
-  if (!parsed.success) {
     return NextResponse.json(
-      { error: parsed.error.issues[0]?.message || "Invalid input" },
+      { error: "Please send a question in the request body.", code: "bad_request" },
       { status: 400 }
     );
   }
 
-  const query = parsed.data.query;
-  const apiUrl = process.env.NLP_API_URL || "http://localhost:8000";
+  const query = (body as { query?: unknown })?.query;
+  if (typeof query !== "string" || query.trim().length === 0) {
+    return NextResponse.json(
+      { error: "Please type a question first.", code: "empty_query" },
+      { status: 422 }
+    );
+  }
 
-  // Try proxying to backend with 8s timeout
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  const trimmed = query.trim();
+  if (trimmed.length > MAX_QUERY_LENGTH) {
+    return NextResponse.json(
+      {
+        error: `Questions are limited to ${MAX_QUERY_LENGTH} characters.`,
+        code: "too_long",
+        limit: MAX_QUERY_LENGTH,
+      },
+      { status: 422 }
+    );
+  }
 
   try {
-    const upstreamRes = await fetch(`${apiUrl}/resolve`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
-      signal: controller.signal,
-    });
-    clearTimeout(timeoutId);
-
-    if (upstreamRes.ok) {
-      const data = await upstreamRes.json();
-      const valid = ResolveResultSchema.safeParse(data);
-      if (valid.success) {
-        return NextResponse.json(valid.data);
+    const upstream = await fetchUpstream(
+      "/resolve",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: trimmed }),
+      },
+      {
+        attempts: 3,
+        timeouts: [30000, 15000, 10000],
+        backoffs: [500, 1500],
       }
-      console.warn("Backend response did not strictly match schema:", valid.error);
-      return NextResponse.json(data);
+    );
+
+    if (upstream.status === 429) {
+      return NextResponse.json(
+        {
+          error: "You're moving a little fast. Please wait a moment and try again.",
+          code: "rate_limited",
+        },
+        { status: 429 }
+      );
     }
 
-  } catch (err: unknown) {
-    clearTimeout(timeoutId);
-    const msg = err instanceof Error ? err.message : String(err);
-    console.warn("Fetch to NLP backend failed or timed out:", msg);
-  }
+    if (upstream.status === 422) {
+      return NextResponse.json(
+        {
+          error: `Questions are limited to ${MAX_QUERY_LENGTH} characters.`,
+          code: "too_long",
+          limit: MAX_QUERY_LENGTH,
+        },
+        { status: 422 }
+      );
+    }
 
-  // Fallback to demo cache if available
-  const cached = findInDemoCache(query);
-  if (cached) {
-    const result = {
-      ...cached,
-      cached: true,
-    };
+    if (!upstream.ok) {
+      const fallback = readDemoResult(trimmed);
+      if (fallback) return NextResponse.json(fallback);
+
+      return NextResponse.json(
+        {
+          error: "The assistant couldn't answer that just now. Please try again.",
+          code: "unavailable",
+        },
+        { status: 502 }
+      );
+    }
+
+    const raw = await upstream.json();
+    const result = sanitizeResolve(raw);
+
+    if (!result.final_response && result.trace.length === 0) {
+      const fallback = readDemoResult(trimmed);
+      if (fallback) return NextResponse.json(fallback);
+
+      return NextResponse.json(
+        {
+          error: "The assistant returned an empty answer. Please try again.",
+          code: "empty_response",
+        },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json(result);
-  }
+  } catch {
+    const fallback = readDemoResult(trimmed);
+    if (fallback) return NextResponse.json(fallback);
 
-  return NextResponse.json(
-    {
-      error:
-        "NLP backend is unreachable or timed out, and query is not in demo cache. Please wake the service or try one of the 6 sample queries.",
-    },
-    { status: 502 }
-  );
+    return NextResponse.json(
+      {
+        error:
+          "The assistant is taking longer than usual. It may still be waking up — please try again in a moment.",
+        code: "unavailable",
+      },
+      { status: 503 }
+    );
+  }
 }

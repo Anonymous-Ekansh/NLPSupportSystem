@@ -1,0 +1,40 @@
+{
+  "rows": [
+    {
+      "level": "L0",
+      "name": "Majority class",
+      "macro_f1": 0.0031,
+      "ci_lo": 0.0026,
+      "ci_hi": 0.0035,
+      "accuracy": 0.0432,
+      "served": false
+    },
+    {
+      "level": "L1",
+      "name": "TF-IDF word + char",
+      "macro_f1": 0.9988,
+      "ci_lo": 0.9973,
+      "ci_hi": 1.0,
+      "accuracy": 0.9991,
+      "served": false
+    },
+    {
+      "level": "L2",
+      "name": "Embedding LogReg",
+      "macro_f1": 0.9952,
+      "ci_lo": 0.9927,
+      "ci_hi": 0.9974,
+      "accuracy": 0.9954,
+      "served": true
+    },
+    {
+      "level": "L3",
+      "name": "kNN check",
+      "macro_f1": 0.9913,
+      "ci_lo": 0.9873,
+      "ci_hi": 0.9947,
+      "accuracy": 0.9928,
+      "served": false
+    }
+  ]
+}

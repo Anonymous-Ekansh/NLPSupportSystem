@@ -85,7 +85,7 @@ async def startup():
     log.info("A2 loaded")
 
     _state["pipeline_agents"] = [A1Agent(a1), A2Agent(a2)]
-    _state["train_emb"] = embed_split("train")
+    _state["train_emb"] = a2.train_emb
 
     # Try Supabase connection
     url = os.environ.get("SUPABASE_URL")

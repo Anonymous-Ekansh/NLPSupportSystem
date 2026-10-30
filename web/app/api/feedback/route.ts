@@ -1,38 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
-import { FeedbackSchema } from "@/lib/schemas";
+import { fetchUpstream } from "@/lib/server/upstream";
 
-export async function POST(req: NextRequest) {
-  let bodyJson: unknown;
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
+  let body: unknown;
   try {
-    bodyJson = await req.json();
+    body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  const parsed = FeedbackSchema.safeParse(bodyJson);
-  if (!parsed.success) {
     return NextResponse.json(
-      { error: parsed.error.issues[0]?.message || "Invalid feedback" },
+      { error: "Invalid feedback payload.", code: "bad_request" },
       { status: 400 }
     );
   }
 
-  const apiUrl = process.env.NLP_API_URL || "http://localhost:8000";
-  try {
-    const upstreamRes = await fetch(`${apiUrl}/feedback`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(parsed.data),
-    });
-    if (upstreamRes.ok) {
-      const data = await upstreamRes.json();
-      return NextResponse.json(data);
-    }
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.warn("Feedback proxy to backend failed:", msg);
+  const data = (body ?? {}) as Record<string, unknown>;
+  const query = typeof data.query === "string" ? data.query.trim() : "";
+  const rating = Number(data.rating);
+  const note = typeof data.note === "string" ? data.note.slice(0, 1000) : undefined;
+
+  if (
+    !query ||
+    query.length > 500 ||
+    !Number.isInteger(rating) ||
+    rating < 1 ||
+    rating > 5
+  ) {
+    return NextResponse.json(
+      { error: "Feedback needs a question and a rating from 1 to 5.", code: "bad_request" },
+      { status: 422 }
+    );
   }
 
-  // Graceful response even if backend database is offline
-  return NextResponse.json({ status: "saved_locally", note: "Feedback noted" });
+  try {
+    const upstream = await fetchUpstream(
+      "/feedback",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, rating, note }),
+      },
+      { attempts: 2, timeouts: [6000, 4000], backoffs: [300] }
+    );
+
+    if (upstream.ok) {
+      return NextResponse.json(await upstream.json().catch(() => ({ status: "saved" })));
+    }
+
+    if (upstream.status === 422) {
+      return NextResponse.json(
+        { error: "That feedback could not be saved.", code: "bad_request" },
+        { status: 422 }
+      );
+    }
+  } catch {
+    // Feedback is best-effort: thank the customer even when storage is cold.
+  }
+
+  return NextResponse.json({ status: "accepted" });
 }

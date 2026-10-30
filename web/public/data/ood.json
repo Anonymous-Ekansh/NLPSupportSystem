@@ -1,0 +1,8 @@
+{
+  "auroc_maxprob": 0.9643,
+  "auroc_top1sim": 0.9962,
+  "flagged_pct_in_domain": 0.0283,
+  "flagged_pct_ood": 0.9667,
+  "threshold_s_min": 0.770013,
+  "n_ood": 30
+}

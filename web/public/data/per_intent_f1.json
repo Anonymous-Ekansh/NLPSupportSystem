@@ -1,0 +1,220 @@
+{
+  "metrics": [
+    {
+      "intent": "cancel_order",
+      "category": "ORDER",
+      "f1": 0.9877,
+      "precision": 1.0,
+      "recall": 0.9756,
+      "support": 41
+    },
+    {
+      "intent": "change_order",
+      "category": "ORDER",
+      "f1": 0.9955,
+      "precision": 1.0,
+      "recall": 0.9911,
+      "support": 112
+    },
+    {
+      "intent": "change_shipping_address",
+      "category": "SHIPPING",
+      "f1": 0.9896,
+      "precision": 0.9931,
+      "recall": 0.9862,
+      "support": 145
+    },
+    {
+      "intent": "check_cancellation_fee",
+      "category": "CANCEL",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 141
+    },
+    {
+      "intent": "check_invoice",
+      "category": "INVOICE",
+      "f1": 0.9963,
+      "precision": 1.0,
+      "recall": 0.9927,
+      "support": 137
+    },
+    {
+      "intent": "check_payment_methods",
+      "category": "PAYMENT",
+      "f1": 0.9966,
+      "precision": 0.9932,
+      "recall": 1.0,
+      "support": 147
+    },
+    {
+      "intent": "check_refund_policy",
+      "category": "REFUND",
+      "f1": 0.993,
+      "precision": 0.9861,
+      "recall": 1.0,
+      "support": 142
+    },
+    {
+      "intent": "complaint",
+      "category": "FEEDBACK",
+      "f1": 0.9933,
+      "precision": 0.9933,
+      "recall": 0.9933,
+      "support": 150
+    },
+    {
+      "intent": "contact_customer_service",
+      "category": "CONTACT",
+      "f1": 0.9965,
+      "precision": 1.0,
+      "recall": 0.9931,
+      "support": 145
+    },
+    {
+      "intent": "contact_human_agent",
+      "category": "CONTACT",
+      "f1": 0.9966,
+      "precision": 0.9932,
+      "recall": 1.0,
+      "support": 146
+    },
+    {
+      "intent": "create_account",
+      "category": "ACCOUNT",
+      "f1": 0.9917,
+      "precision": 0.9835,
+      "recall": 1.0,
+      "support": 119
+    },
+    {
+      "intent": "delete_account",
+      "category": "ACCOUNT",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 127
+    },
+    {
+      "intent": "delivery_options",
+      "category": "DELIVERY",
+      "f1": 0.9882,
+      "precision": 0.9767,
+      "recall": 1.0,
+      "support": 84
+    },
+    {
+      "intent": "delivery_period",
+      "category": "DELIVERY",
+      "f1": 0.9966,
+      "precision": 1.0,
+      "recall": 0.9932,
+      "support": 148
+    },
+    {
+      "intent": "edit_account",
+      "category": "ACCOUNT",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 97
+    },
+    {
+      "intent": "get_invoice",
+      "category": "INVOICE",
+      "f1": 0.996,
+      "precision": 0.9919,
+      "recall": 1.0,
+      "support": 123
+    },
+    {
+      "intent": "get_refund",
+      "category": "REFUND",
+      "f1": 0.9851,
+      "precision": 0.9925,
+      "recall": 0.9778,
+      "support": 135
+    },
+    {
+      "intent": "newsletter_subscription",
+      "category": "SUBSCRIPTION",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 148
+    },
+    {
+      "intent": "payment_issue",
+      "category": "PAYMENT",
+      "f1": 0.9933,
+      "precision": 1.0,
+      "recall": 0.9867,
+      "support": 150
+    },
+    {
+      "intent": "place_order",
+      "category": "ORDER",
+      "f1": 0.9966,
+      "precision": 0.9932,
+      "recall": 1.0,
+      "support": 146
+    },
+    {
+      "intent": "recover_password",
+      "category": "ACCOUNT",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 148
+    },
+    {
+      "intent": "registration_problems",
+      "category": "ACCOUNT",
+      "f1": 0.9933,
+      "precision": 0.9933,
+      "recall": 0.9933,
+      "support": 150
+    },
+    {
+      "intent": "review",
+      "category": "FEEDBACK",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 150
+    },
+    {
+      "intent": "set_up_shipping_address",
+      "category": "SHIPPING",
+      "f1": 0.9933,
+      "precision": 0.9933,
+      "recall": 0.9933,
+      "support": 149
+    },
+    {
+      "intent": "switch_account",
+      "category": "ACCOUNT",
+      "f1": 0.9953,
+      "precision": 1.0,
+      "recall": 0.9907,
+      "support": 107
+    },
+    {
+      "intent": "track_order",
+      "category": "ORDER",
+      "f1": 0.9952,
+      "precision": 0.9904,
+      "recall": 1.0,
+      "support": 103
+    },
+    {
+      "intent": "track_refund",
+      "category": "REFUND",
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 85
+    }
+  ]
+}

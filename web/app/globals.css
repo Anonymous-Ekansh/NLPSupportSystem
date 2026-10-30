@@ -1,96 +1,92 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card-bg: #ffffff;
-  --card-border: #e2e8f0;
-  --card-hover: #f1f5f9;
-  --muted-text: #64748b;
-  --a1-border: #6366f1; /* Indigo */
-  --a1-bg: #eef2ff;
-  --a2-border: #0d9488; /* Teal */
-  --a2-bg: #f0fdfa;
-  --teal-primary: #0d9488;
-  --teal-primary-hover: #0f766e;
-  --amber-status: #d97706;
-  --green-status: #16a34a;
+  color-scheme: light;
+  --canvas: #fbfbfa;
 }
 
-.dark {
-  --background: #090d16;
-  --foreground: #f1f5f9;
-  --card-bg: #111827;
-  --card-border: #1f2937;
-  --card-hover: #1e293b;
-  --muted-text: #94a3b8;
-  --a1-border: #818cf8; /* Indigo */
-  --a1-bg: #1e1b4b;
-  --a2-border: #14b8a6; /* Teal */
-  --a2-bg: #042f2e;
-  --teal-primary: #14b8a6;
-  --teal-primary-hover: #0d9488;
-  --amber-status: #f59e0b;
-  --green-status: #22c55e;
+* {
+  border-color: #ecebe8;
 }
 
-html, body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-size: 18px;
-  line-height: 1.6;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  min-height: 100vh;
-  transition: background-color 0.2s ease, color 0.2s ease;
+html {
+  background-color: #fbfbfa;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1, .h1 {
-  font-size: 1.9rem; /* 34px+ */
-  font-weight: 700;
-  line-height: 1.25;
+body {
+  min-height: 100dvh;
+  background-color: #fbfbfa;
+  color: #18181b;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 21px;
 }
 
-h2, .h2 {
-  font-size: 1.55rem; /* 28px+ */
-  font-weight: 600;
-  line-height: 1.3;
+::selection {
+  background: #e0e7ff;
+  color: #18181b;
 }
 
-h3, .h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
+:where(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
 }
 
-/* Custom utility classes */
-.border-a1 {
-  border-color: var(--a1-border);
-}
-
-.border-a2 {
-  border-color: var(--a2-border);
-}
-
-.btn-teal {
-  background-color: var(--teal-primary);
-  color: #ffffff;
-}
-
-.btn-teal:hover:not(:disabled) {
-  background-color: var(--teal-primary-hover);
-}
-
-/* Scrollbar polish */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
+::-webkit-scrollbar-thumb {
+  background: #e4e4e1;
+  border-radius: 999px;
+}
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
-  background: var(--card-border);
-  border-radius: 4px;
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-text);
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 999px;
+  background: #18181b;
+  color: #ffffff;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -1,0 +1,75 @@
+{
+  "modes": [
+    {
+      "key": "sparse",
+      "mode": "Sparse",
+      "cosine_sim": 0.8131,
+      "rouge_l_f1": 0.3285,
+      "intent_consistency": 0.9963,
+      "check_passed_rate": 0.6547,
+      "served": false
+    },
+    {
+      "key": "dense",
+      "mode": "Dense",
+      "cosine_sim": 0.8292,
+      "rouge_l_f1": 0.3373,
+      "intent_consistency": 0.996,
+      "check_passed_rate": 0.7085,
+      "served": true
+    },
+    {
+      "key": "hybrid",
+      "mode": "Hybrid",
+      "cosine_sim": 0.8242,
+      "rouge_l_f1": 0.3318,
+      "intent_consistency": 0.996,
+      "check_passed_rate": 0.6967,
+      "served": false
+    }
+  ],
+  "routing": {
+    "with_a1": [
+      {
+        "mode": "Sparse",
+        "key": "sparse",
+        "cosine_sim": 0.8131,
+        "intent_consistency": 0.9963
+      },
+      {
+        "mode": "Dense",
+        "key": "dense",
+        "cosine_sim": 0.8292,
+        "intent_consistency": 0.996
+      },
+      {
+        "mode": "Hybrid",
+        "key": "hybrid",
+        "cosine_sim": 0.8242,
+        "intent_consistency": 0.996
+      }
+    ],
+    "without_a1": [
+      {
+        "mode": "Sparse",
+        "key": "sparse",
+        "cosine_sim": 0.806,
+        "intent_consistency": 0.996
+      },
+      {
+        "mode": "Dense",
+        "key": "dense",
+        "cosine_sim": 0.8394,
+        "intent_consistency": 0.9983
+      },
+      {
+        "mode": "Hybrid",
+        "key": "hybrid",
+        "cosine_sim": 0.8366,
+        "intent_consistency": 0.9994
+      }
+    ]
+  },
+  "served_mode": "dense",
+  "note": "Answer relevance is cosine similarity against the held-out reference reply."
+}

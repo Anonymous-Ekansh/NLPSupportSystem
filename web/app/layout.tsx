@@ -1,13 +1,27 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
 import "./globals.css";
-import { AppProvider } from "@/lib/store";
-import { VoiceProvider } from "@/lib/voice";
-import { Navbar } from "@/components/Navbar";
+import { Sidebar } from "@/components/shell/Sidebar";
+import { MobileTabBar } from "@/components/shell/MobileTabBar";
 
 export const metadata: Metadata = {
-  title: "NLP Support System — Two-Agent Customer Support Orchestrator",
+  title: {
+    default: "ResolveIQ — Two-agent customer support",
+    template: "%s · ResolveIQ",
+  },
   description:
-    "Autonomous Level-1 two-agent customer support architecture featuring Agent A1 Intent Analyst and Agent A2 Response Specialist with self-checking and pgvector retrieval.",
+    "ResolveIQ understands a customer question, finds the right help answer, and checks it before replying. A1 Intent Analyst → A2 Response Specialist.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FBFBFA",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -16,14 +30,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark h-full antialiased" data-theme="dark">
-      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
-        <AppProvider>
-          <VoiceProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-          </VoiceProvider>
-        </AppProvider>
+    <html lang="en">
+      <body className="min-h-dvh bg-canvas font-sans text-sm text-ink antialiased">
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Sidebar />
+        <main id="main" className="min-h-dvh md:pl-[200px]">
+          <div className="mx-auto w-full max-w-content px-4 pb-28 pt-6 sm:px-6 md:py-8 md:pb-10 lg:px-8">
+            {children}
+          </div>
+        </main>
+        <MobileTabBar />
       </body>
     </html>
   );

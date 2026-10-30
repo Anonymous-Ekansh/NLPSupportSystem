@@ -221,9 +221,22 @@ npx cloudflared tunnel --url http://localhost:3000
 2. In Project Settings:
    - **Root Directory**: `web`
    - **Framework Preset**: `Next.js`
+   - **Build Command**: `npm run build`
+   - **Install Command**: `npm install`
 3. Environment Variables:
-   - `NLP_API_URL`: `https://<your-service>.onrender.com` (or local fallback)
-4. Deploy! Next.js automatically proxies requests and uses `demo_cache.json` if the backend is cold.
+   - `NLP_API_URL`: `https://<your-service>.onrender.com`
+   - Leave it unset only if you are running the backend on `http://localhost:8000`.
+4. Deploy. All browser requests go through the app's own `/api/*` route
+   handlers, which proxy to `NLP_API_URL` with retries and a waking message, so
+   the backend URL is never exposed to the client.
+
+The static, measured numbers on the Data and Results pages come from the JSON
+files in `web/public/data/`. They are committed, so the pages render even while
+the free backend is cold. Regenerate them with:
+
+```bash
+.venv/bin/python scripts/build_web_data.py
+```
 
 ### C. Keep-Alive Configuration
 
