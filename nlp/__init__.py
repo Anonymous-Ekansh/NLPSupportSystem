@@ -1,1 +1,1 @@
-"""NLP Support System – core NLP package."""
+"""NLP Support System – core package."""

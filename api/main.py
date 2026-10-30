@@ -43,11 +43,11 @@ async def lifespan(app: FastAPI):
     """Load models once at startup."""
     global _a1, _a2
     print("[api] Loading A1 (Intent Analyst) …")
-    from nlp.agent_a1 import IntentAnalyst
+    from nlp.a1 import IntentAnalyst
     _a1 = IntentAnalyst()
     print("[api] Loading A2 (Response Specialist) …")
-    from nlp.agent_a2 import ResponseSpecialist
-    _a2 = ResponseSpecialist()
+    from nlp.a2 import A2Builder
+    _a2 = A2Builder(embed_model=_a1._embed_model).build()
     print("[api] Ready.")
     yield
     print("[api] Shutting down.")

@@ -19,6 +19,8 @@ outputs/splits/
 outputs/cache/
 outputs/evidence/
 outputs/figures/
+outputs/metrics/
+outputs/examples/
 
 # IDE
 .vscode/

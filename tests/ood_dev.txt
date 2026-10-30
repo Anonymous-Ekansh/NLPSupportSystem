@@ -1,0 +1,37 @@
+# Out-of-domain / ambiguous queries for OOD detection evaluation.
+# 20 clearly out-of-scope, 10 ambiguous support-like.
+# Hand-written — not copied from any dataset row.
+
+# === CLEARLY OUT-OF-SCOPE (1-20) ===
+What is the weather forecast for Paris next week?
+Can you help me write a poem about autumn leaves?
+Who won the FIFA World Cup in 2022?
+How many calories are in a slice of pepperoni pizza?
+Translate this sentence to French: the cat sat on the mat
+What time is it in Tokyo right now?
+Tell me a joke about programmers
+What is the square root of 144?
+Can you recommend a good science fiction novel?
+How do I fix a leaking kitchen faucet?
+What are the symptoms of the common cold?
+Who painted the Mona Lisa?
+How far is the Moon from Earth?
+Can you explain quantum computing in simple terms?
+What is the recipe for chocolate chip cookies?
+Who is the current president of Brazil?
+How do I train my dog to sit on command?
+What programming language should I learn first?
+Can you summarize the plot of Romeo and Juliet?
+How does photosynthesis work?
+
+# === AMBIGUOUS / SUPPORT-LIKE BUT NOT OUR DOMAIN (21-30) ===
+I need to update my billing address for my electricity provider
+My flight got cancelled, can I get a refund?
+How do I return a damaged book I bought at the bookstore?
+Can I change the size of the shirt I ordered from that other website?
+I forgot the password to my email account
+The food delivery app keeps crashing when I try to order
+I want to complain about the noise from the construction next door
+How do I unsubscribe from all those marketing emails I keep getting?
+My gym membership renewal is not going through
+I need to cancel my hotel reservation for next month
