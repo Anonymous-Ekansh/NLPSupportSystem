@@ -1,0 +1,16 @@
+{
+  "split": "test",
+  "n_samples": 3475,
+  "intent_accuracy": 0.9934,
+  "intent_f1_macro": 0.9917,
+  "intent_f1_weighted": 0.9934,
+  "intent_precision_weighted": 0.9934,
+  "intent_recall_weighted": 0.9934,
+  "category_accuracy": 0.9983,
+  "category_f1_weighted": 0.9983,
+  "avg_confidence": 0.9481,
+  "avg_margin": 0.9319,
+  "needs_clarification_pct": 0.43,
+  "avg_retrieval_score": 0.9703,
+  "self_check_pass_rate": 59.48
+}

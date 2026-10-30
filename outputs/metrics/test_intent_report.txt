@@ -1,0 +1,33 @@
+                          precision    recall  f1-score   support
+
+            cancel_order       0.95      0.93      0.94        41
+            change_order       0.96      0.96      0.96       112
+ change_shipping_address       0.99      1.00      1.00       145
+  check_cancellation_fee       0.99      1.00      1.00       141
+           check_invoice       0.99      0.99      0.99       137
+   check_payment_methods       1.00      0.99      1.00       147
+     check_refund_policy       1.00      1.00      1.00       142
+               complaint       1.00      1.00      1.00       150
+contact_customer_service       1.00      0.99      1.00       145
+     contact_human_agent       0.99      0.99      0.99       146
+          create_account       0.98      0.98      0.98       119
+          delete_account       0.98      1.00      0.99       127
+        delivery_options       1.00      1.00      1.00        84
+         delivery_period       1.00      1.00      1.00       148
+            edit_account       0.98      1.00      0.99        97
+             get_invoice       0.99      0.99      0.99       123
+              get_refund       1.00      1.00      1.00       135
+ newsletter_subscription       1.00      1.00      1.00       148
+           payment_issue       1.00      0.99      0.99       150
+             place_order       0.98      0.99      0.99       146
+        recover_password       1.00      1.00      1.00       148
+   registration_problems       0.99      0.99      0.99       150
+                  review       1.00      1.00      1.00       150
+ set_up_shipping_address       1.00      0.99      1.00       149
+          switch_account       1.00      0.98      0.99       107
+             track_order       1.00      0.98      0.99       103
+            track_refund       1.00      1.00      1.00        85
+
+                accuracy                           0.99      3475
+               macro avg       0.99      0.99      0.99      3475
+            weighted avg       0.99      0.99      0.99      3475
