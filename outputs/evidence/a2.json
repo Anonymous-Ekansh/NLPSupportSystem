@@ -1,0 +1,154 @@
+{
+  "served_mode": "dense",
+  "dev_rouge_scores": {
+    "sparse": 0.3315,
+    "dense": 0.3364,
+    "hybrid": 0.3358
+  },
+  "test_results": {
+    "sparse_routed": {
+      "cosine_sim": 0.8131,
+      "rouge_l_f1": 0.3285,
+      "intent_consistency": 0.9963,
+      "placeholder_safe_rate": 0.777,
+      "check_rejection_rate": 0.4532,
+      "check_passed_rate": 0.6547,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.5943,
+          "rouge_l_f1": 0.1909,
+          "intent_consistency": 0.1875
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.7407,
+          "rouge_l_f1": 0.3062,
+          "intent_consistency": 0.9603
+        }
+      }
+    },
+    "sparse_global": {
+      "cosine_sim": 0.806,
+      "rouge_l_f1": 0.3368,
+      "intent_consistency": 0.996,
+      "placeholder_safe_rate": 0.5819,
+      "check_rejection_rate": 0.0,
+      "check_passed_rate": 1.0,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.7229,
+          "rouge_l_f1": 0.3178,
+          "intent_consistency": 0.9375
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.7283,
+          "rouge_l_f1": 0.3149,
+          "intent_consistency": 0.9762
+        }
+      }
+    },
+    "dense_routed": {
+      "cosine_sim": 0.8292,
+      "rouge_l_f1": 0.3373,
+      "intent_consistency": 0.996,
+      "placeholder_safe_rate": 0.7721,
+      "check_rejection_rate": 0.299,
+      "check_passed_rate": 0.7085,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.5612,
+          "rouge_l_f1": 0.1845,
+          "intent_consistency": 0.125
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.7485,
+          "rouge_l_f1": 0.305,
+          "intent_consistency": 0.9524
+        }
+      }
+    },
+    "dense_global": {
+      "cosine_sim": 0.8394,
+      "rouge_l_f1": 0.3499,
+      "intent_consistency": 0.9983,
+      "placeholder_safe_rate": 0.5833,
+      "check_rejection_rate": 0.0,
+      "check_passed_rate": 1.0,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.6805,
+          "rouge_l_f1": 0.2793,
+          "intent_consistency": 0.8125
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.75,
+          "rouge_l_f1": 0.3094,
+          "intent_consistency": 0.9603
+        }
+      }
+    },
+    "hybrid_routed": {
+      "cosine_sim": 0.8242,
+      "rouge_l_f1": 0.3318,
+      "intent_consistency": 0.996,
+      "placeholder_safe_rate": 0.7758,
+      "check_rejection_rate": 0.3312,
+      "check_passed_rate": 0.6967,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.5963,
+          "rouge_l_f1": 0.1886,
+          "intent_consistency": 0.125
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.7486,
+          "rouge_l_f1": 0.3043,
+          "intent_consistency": 0.9524
+        }
+      }
+    },
+    "hybrid_global": {
+      "cosine_sim": 0.8366,
+      "rouge_l_f1": 0.3449,
+      "intent_consistency": 0.9994,
+      "placeholder_safe_rate": 0.5862,
+      "check_rejection_rate": 0.0,
+      "check_passed_rate": 1.0,
+      "slices": {
+        "a1_misclassified": {
+          "n": 16,
+          "cosine_sim": 0.6889,
+          "rouge_l_f1": 0.2898,
+          "intent_consistency": 0.9375
+        },
+        "low_confidence": {
+          "n": 126,
+          "cosine_sim": 0.7554,
+          "rouge_l_f1": 0.3118,
+          "intent_consistency": 0.9921
+        }
+      }
+    },
+    "random_routed": {
+      "cosine_sim": 0.6769,
+      "rouge_l_f1": 0.2876,
+      "intent_consistency": 1.0,
+      "placeholder_safe_rate": 0.5799,
+      "check_rejection_rate": 0.0,
+      "check_passed_rate": 1.0,
+      "slices": {}
+    }
+  },
+  "n_test": 3475,
+  "a1_accuracy_on_test": 0.9954,
+  "a1_low_conf_rate": 0.0363
+}

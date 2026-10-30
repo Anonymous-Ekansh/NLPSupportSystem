@@ -1,0 +1,752 @@
+{
+  "How can I get a refund for my purchase?": {
+    "query": "How can I get a refund for my purchase?",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "How can I get a refund for my purchase?"
+        },
+        "output": {
+          "query": "How can I get a refund for my purchase?",
+          "intent": "get_refund",
+          "category": "REFUND",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "get_refund",
+              "prob": 1.0
+            },
+            {
+              "intent": "check_refund_policy",
+              "prob": 0.0
+            },
+            {
+              "intent": "get_invoice",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.864,
+          "needs_clarification": false
+        },
+        "latency_ms": 1180.0
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "How can I get a refund for my purchase?",
+          "a1_output": {
+            "query": "How can I get a refund for my purchase?",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "get_refund",
+                "prob": 1.0
+              },
+              {
+                "intent": "check_refund_policy",
+                "prob": 0.0
+              },
+              {
+                "intent": "get_invoice",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.864,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "I can sense that you require assistance regarding how to get a refund. Rest assured, I'm here to guide you through the process and ensure a smooth resolution. To help you more effectively, could you please provide me with some additional details about your refund request? This will enable me to provide you with tailored advice and the necessary steps to initiate the refund process. Your satisfaction is our top priority, and I'm committed to ensuring that you receive the support you need.",
+          "supporting_examples": [
+            {
+              "instruction": "I need help  to get a refund",
+              "response": "I can sense that you require assistance regarding how to get a refund. Rest assured, I'm here to guide you through the process and ensure a smooth resolution. To help you more effectively, could you please provide me with some additional details about your refund request? This will enable me to provide you with tailored advice and the necessary steps to initiate the refund process. Your satisfaction is our top priority, and I'm committed to ensuring that you receive the support you need.",
+              "similarity": 0.0325
+            },
+            {
+              "instruction": "get refund",
+              "response": "I've grasped that you're seeking assistance with getting a refund. I'm here to help guide you through the process and make sure you receive the appropriate resolution. To start, could you please provide me with more details about your situation? This will allow me to tailor my advice to your specific circumstances and provide you with the most effective steps to take. Rest assured, I'm fully committed to ensuring your satisfaction and will do my best to support you in obtaining a refund.",
+              "similarity": 0.0323
+            },
+            {
+              "instruction": "ho do i get a refund",
+              "response": "I see what you mean your frustration about not receiving a refund for your purchase. To initiate the refund process, I recommend reaching out to our customer support team. They will be able to assist you and guide you through the necessary steps to request a refund successfully. They are available [Customer Support Hours] at [Customer Support Phone Number] or through the Live Chat on our website at [Company Website URL]. Rest assured, they will do their best to address your concerns and provide a satisfactory resolution.",
+              "similarity": 0.0303
+            }
+          ],
+          "used_intents": [
+            "get_refund"
+          ],
+          "retrieval_score": 0.0325,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": true,
+            "source_similarity": 0.9148,
+            "response_intent_ok": true,
+            "response_predicted_intent": "get_refund",
+            "check_passed": true,
+            "candidates_rejected": 0
+          }
+        },
+        "latency_ms": 795.8
+      }
+    ],
+    "final_response": "I can sense that you require assistance regarding how to get a refund. Rest assured, I'm here to guide you through the process and ensure a smooth resolution. To help you more effectively, could you please provide me with some additional details about your refund request? This will enable me to provide you with tailored advice and the necessary steps to initiate the refund process. Your satisfaction is our top priority, and I'm committed to ensuring that you receive the support you need.",
+    "total_latency_ms": 1976.1,
+    "map": {
+      "x": 0.8598,
+      "y": -4.4206,
+      "confidence": 0.3629
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  },
+  "filing consumer claim against ur organizzation": {
+    "query": "filing consumer claim against ur organizzation",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "filing consumer claim against ur organizzation"
+        },
+        "output": {
+          "query": "filing consumer claim against ur organizzation",
+          "intent": "complaint",
+          "category": "FEEDBACK",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "complaint",
+              "prob": 1.0
+            },
+            {
+              "intent": "check_refund_policy",
+              "prob": 0.0
+            },
+            {
+              "intent": "track_refund",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.7139,
+          "needs_clarification": true
+        },
+        "latency_ms": 275.7
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "filing consumer claim against ur organizzation",
+          "a1_output": {
+            "query": "filing consumer claim against ur organizzation",
+            "intent": "complaint",
+            "category": "FEEDBACK",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "complaint",
+                "prob": 1.0
+              },
+              {
+                "intent": "check_refund_policy",
+                "prob": 0.0
+              },
+              {
+                "intent": "track_refund",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.7139,
+            "needs_clarification": true
+          }
+        },
+        "output": {
+          "response": "I'm sorry to hear that you need assistance filing a consumer claim against our organization. I understand how frustrating it can be when you encounter issues and concerns. Please provide me with the details of your claim so that I can assist you in the best possible way. Our company takes consumer feedback seriously, and we are committed to resolving any concerns you may have. Your satisfaction is our top priority, and I'm here to ensure that we address your claim promptly and effectively. Let's work together to find a resolution that meets your needs.",
+          "supporting_examples": [
+            {
+              "instruction": "assistance filing a consumer claim against your organization",
+              "response": "I'm sorry to hear that you need assistance filing a consumer claim against our organization. I understand how frustrating it can be when you encounter issues and concerns. Please provide me with the details of your claim so that I can assist you in the best possible way. Our company takes consumer feedback seriously, and we are committed to resolving any concerns you may have. Your satisfaction is our top priority, and I'm here to ensure that we address your claim promptly and effectively. Let's work together to find a resolution that meets your needs.",
+              "similarity": 0.0312
+            },
+            {
+              "instruction": "I'm trying to file a consumer claim against ur business",
+              "response": "I'm sincerely sorry to hear that you're facing an issue and need to file a consumer claim against our business. Your feedback is important to us, and we take complaints seriously. To ensure an effective resolution, could you kindly provide more details about the nature of your claim? This will help us expedite the process and address your concerns promptly. Thank you for reaching out, and rest assured, we are committed to resolving this matter to your satisfaction.",
+              "similarity": 0.0311
+            },
+            {
+              "instruction": "i want help to file a consumer claim against ur organization",
+              "response": "I'm sorry to hear that you are facing a situation where you need to file a consumer claim against our organization. I understand that this can be a frustrating experience, and I'm here to assist you throughout the process. To proceed with your claim, please provide me with the necessary details such as the nature of the issue, any relevant documentation, and your contact information. Our team will thoroughly review your claim and work towards a resolution. Rest assured that we take consumer concerns seriously, and we are committed to addressing your claim promptly and in a fair manner. Thank you for bringing this to our attention, and I'll do everything I can to support you in resolving this matter.",
+              "similarity": 0.0304
+            }
+          ],
+          "used_intents": [
+            "complaint"
+          ],
+          "retrieval_score": 0.0312,
+          "low_confidence": true,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": false,
+            "source_similarity": 0.8829,
+            "response_intent_ok": true,
+            "response_predicted_intent": "complaint",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 228.7
+      }
+    ],
+    "final_response": "I'm sorry to hear that you need assistance filing a consumer claim against our organization. I understand how frustrating it can be when you encounter issues and concerns. Please provide me with the details of your claim so that I can assist you in the best possible way. Our company takes consumer feedback seriously, and we are committed to resolving any concerns you may have. Your satisfaction is our top priority, and I'm here to ensure that we address your claim promptly and effectively. Let's work together to find a resolution that meets your needs.",
+    "total_latency_ms": 504.4,
+    "map": {
+      "x": 3.0842,
+      "y": -1.4678,
+      "confidence": 0.2886
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  },
+  "i need to check status for order {{Order Number}}": {
+    "query": "i need to check status for order {{Order Number}}",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "i need to check status for order {{Order Number}}"
+        },
+        "output": {
+          "query": "i need to check status for order {{Order Number}}",
+          "intent": "track_order",
+          "category": "ORDER",
+          "confidence": 1.0,
+          "margin": 1.0,
+          "top3": [
+            {
+              "intent": "track_order",
+              "prob": 1.0
+            },
+            {
+              "intent": "cancel_order",
+              "prob": 0.0
+            },
+            {
+              "intent": "check_invoice",
+              "prob": 0.0
+            }
+          ],
+          "top1_similarity": 0.9761,
+          "needs_clarification": false
+        },
+        "latency_ms": 276.0
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "i need to check status for order {{Order Number}}",
+          "a1_output": {
+            "query": "i need to check status for order {{Order Number}}",
+            "intent": "track_order",
+            "category": "ORDER",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "track_order",
+                "prob": 1.0
+              },
+              {
+                "intent": "cancel_order",
+                "prob": 0.0
+              },
+              {
+                "intent": "check_invoice",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.9761,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "Thank you for reaching out! I'm here to assist you with checking the status of your order with the order number {{Order Number}}. To provide you with the most accurate information, could you please confirm if this is the correct order number? Once verified, I will be able to check the status and provide you with the details.",
+          "supporting_examples": [
+            {
+              "instruction": "i want help to check order {{Order Number}} status",
+              "response": "Thank you for reaching out! I'm here to assist you with checking the status of your order with the order number {{Order Number}}. To provide you with the most accurate information, could you please confirm if this is the correct order number? Once verified, I will be able to check the status and provide you with the details.",
+              "similarity": 0.0321
+            },
+            {
+              "instruction": "i need assistance to check the status of order {{Order Number}}",
+              "response": "Thank you for trusting us! I'm fully aware of you need assistance in checking the current status of your order with the order number {{Order Number}}. To get the most up-to-date information, I recommend visiting our website and navigating to the \"Order History\" section. There, you will be able to see the status of your order and any relevant updates. If you have any further questions or need additional guidance, please don't hesitate to let me know. I'm here to help you every step of the way!",
+              "similarity": 0.0299
+            },
+            {
+              "instruction": "check status of order {{Order Number}}",
+              "response": "Thank you for reaching out! I'm here to assist you with checking the current status of your order with the order number {{Order Number}}. To provide you with the most accurate and up-to-date information, I kindly request you to provide additional details such as your name or email address associated with the order. This will allow me to access your order details and provide you with the status. Your privacy and security are of utmost importance to us, and I assure you that any information shared will be handled with strict confidentiality. Once you provide the required details, I will promptly update you on the status of your order.",
+              "similarity": 0.0298
+            }
+          ],
+          "used_intents": [
+            "track_order"
+          ],
+          "retrieval_score": 0.0321,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": false,
+            "source_similarity_ok": true,
+            "source_similarity": 0.9901,
+            "response_intent_ok": true,
+            "response_predicted_intent": "track_order",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 100.5
+      }
+    ],
+    "final_response": "Thank you for reaching out! I'm here to assist you with checking the status of your order with the order number {{Order Number}}. To provide you with the most accurate information, could you please confirm if this is the correct order number? Once verified, I will be able to check the status and provide you with the details.",
+    "total_latency_ms": 376.5,
+    "map": {
+      "x": 6.3187,
+      "y": 0.0042,
+      "confidence": 0.2672
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  },
+  "it did not work": {
+    "query": "it did not work",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "it did not work"
+        },
+        "output": {
+          "query": "it did not work",
+          "intent": "switch_account",
+          "category": "ACCOUNT",
+          "confidence": 0.6335,
+          "margin": 0.4743,
+          "top3": [
+            {
+              "intent": "switch_account",
+              "prob": 0.6335
+            },
+            {
+              "intent": "newsletter_subscription",
+              "prob": 0.1592
+            },
+            {
+              "intent": "get_invoice",
+              "prob": 0.097
+            }
+          ],
+          "top1_similarity": 0.4211,
+          "needs_clarification": true
+        },
+        "latency_ms": 234.5
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "it did not work",
+          "a1_output": {
+            "query": "it did not work",
+            "intent": "switch_account",
+            "category": "ACCOUNT",
+            "confidence": 0.6335,
+            "margin": 0.4743,
+            "top3": [
+              {
+                "intent": "switch_account",
+                "prob": 0.6335
+              },
+              {
+                "intent": "newsletter_subscription",
+                "prob": 0.1592
+              },
+              {
+                "intent": "get_invoice",
+                "prob": 0.097
+              }
+            ],
+            "top1_similarity": 0.4211,
+            "needs_clarification": true
+          }
+        },
+        "output": {
+          "response": "No worries at all! I'm here to guide you step by step on how to switch to our premium account:\n\n1. Access the website or application and log in to your account.\n2. Navigate to the \"Account Settings\" or \"Profile\" section.\n3. Look for an option labeled \"Upgrade\" or \"Switch Account Type\".\n4. Within the available options, select \"{{Account Category}} Account\".\n5. Follow the on-screen prompts to complete the switch.\n\nIf you encounter any difficulties during the process or have any additional questions, don't hesitate to reach out to our customer support team. We're available {{Customer Support Hours}} through {{Customer Support Phone Number}} or the Live Chat on our website at {{Website URL}}. We value your decision to upgrade, and we're here to ensure a smooth experience as you enjoy all the incredible benefits of our premium account.",
+          "supporting_examples": [
+            {
+              "instruction": "i do not know what to do to swtch to the premium account",
+              "response": "No worries at all! I'm here to guide you step by step on how to switch to our premium account:\n\n1. Access the website or application and log in to your account.\n2. Navigate to the \"Account Settings\" or \"Profile\" section.\n3. Look for an option labeled \"Upgrade\" or \"Switch Account Type\".\n4. Within the available options, select \"{{Account Category}} Account\".\n5. Follow the on-screen prompts to complete the switch.\n\nIf you encounter any difficulties during the process or have any additional questions, don't hesitate to reach out to our customer support team. We're available {{Customer Support Hours}} through {{Customer Support Phone Number}} or the Live Chat on our website at {{Website URL}}. We value your decision to upgrade, and we're here to ensure a smooth experience as you enjoy all the incredible benefits of our premium account.",
+              "similarity": 0.0107
+            },
+            {
+              "instruction": "I do not know how to change to the standard account",
+              "response": "Not a problem at all! I'm here to guide you through the process of switching to the {{Account Type}} account, making it simple and hassle-free:\n\n1. Log in: Start by accessing your account on our platform.\n2. Navigate to Account Settings: Once logged in, locate the '{{Settings}}' section, usually located in the top right corner.\n3. Find the Upgrade Option: Within the Account Settings, look for an option that says '{{Upgrade Account}}' or '{{Account Change}}'.\n4. Select {{Account Type}} Account: Choose the '{{Account Type}}' option from the available choices.\n5. Follow the Instructions: Follow the on-screen instructions to complete the process.\n\nShould you encounter any difficulties or have further queries, feel free to reach out. I'm here to ensure a smooth transition to the {{Account Type}} account.",
+              "similarity": 0.0099
+            },
+            {
+              "instruction": "I do not know how to change to the {{Account Category}} account",
+              "response": "I'll make it happen! I can understand that changing to a new account type might seem a bit challenging at first. Allow me to assist you in the process of switching to our remarkable {{Account Category}} account:\n\n1. Access Your Account: Start by logging into our platform using your current account credentials.\n2. Account Settings: Once you're logged in, navigate to your account settings. It's usually located in the top-right corner of the screen or in a drop-down menu.\n3. Upgrade Options: In the account settings menu, look for an option labeled \"Upgrade\" or \"Account Type.\" Click on that option to proceed.\n4. {{Account Category}} Account: Look for the \"{{Account Category}}\" account option in the list of available choices. Click on it to select it as your new account type.\n5. Confirmation: After selecting the {{Account Category}} account, you may be prompted to confirm your choice. Follow any on-screen instructions to finalize the switch.\n\nIf you encounter any difficulties during the process or have any further questions, please do not hesitate to reach out. We are here to make sure your transition to the {{Account Category}} account goes smoothly and that you can enjoy all the incredible benefits it offers.",
+              "similarity": 0.0088
+            }
+          ],
+          "used_intents": [
+            "switch_account"
+          ],
+          "retrieval_score": 0.0107,
+          "low_confidence": true,
+          "self_check": {
+            "placeholder_safe": false,
+            "source_similarity_ok": false,
+            "source_similarity": 0.5674,
+            "response_intent_ok": true,
+            "response_predicted_intent": "switch_account",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 110.5
+      }
+    ],
+    "final_response": "No worries at all! I'm here to guide you step by step on how to switch to our premium account:\n\n1. Access the website or application and log in to your account.\n2. Navigate to the \"Account Settings\" or \"Profile\" section.\n3. Look for an option labeled \"Upgrade\" or \"Switch Account Type\".\n4. Within the available options, select \"{{Account Category}} Account\".\n5. Follow the on-screen prompts to complete the switch.\n\nIf you encounter any difficulties during the process or have any additional questions, don't hesitate to reach out to our customer support team. We're available {{Customer Support Hours}} through {{Customer Support Phone Number}} or the Live Chat on our website at {{Website URL}}. We value your decision to upgrade, and we're here to ensure a smooth experience as you enjoy all the incredible benefits of our premium account.",
+    "total_latency_ms": 345.0,
+    "map": {
+      "x": 6.4729,
+      "y": -0.5809,
+      "confidence": 0.2414
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  },
+  "what is the weather today": {
+    "query": "what is the weather today",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "what is the weather today"
+        },
+        "output": {
+          "query": "what is the weather today",
+          "intent": "newsletter_subscription",
+          "category": "SUBSCRIPTION",
+          "confidence": 0.584,
+          "margin": 0.3985,
+          "top3": [
+            {
+              "intent": "newsletter_subscription",
+              "prob": 0.584
+            },
+            {
+              "intent": "get_invoice",
+              "prob": 0.1855
+            },
+            {
+              "intent": "change_shipping_address",
+              "prob": 0.0603
+            }
+          ],
+          "top1_similarity": 0.2319,
+          "needs_clarification": true
+        },
+        "latency_ms": 264.2
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "what is the weather today",
+          "a1_output": {
+            "query": "what is the weather today",
+            "intent": "newsletter_subscription",
+            "category": "SUBSCRIPTION",
+            "confidence": 0.584,
+            "margin": 0.3985,
+            "top3": [
+              {
+                "intent": "newsletter_subscription",
+                "prob": 0.584
+              },
+              {
+                "intent": "get_invoice",
+                "prob": 0.1855
+              },
+              {
+                "intent": "change_shipping_address",
+                "prob": 0.0603
+              }
+            ],
+            "top1_similarity": 0.2319,
+            "needs_clarification": true
+          }
+        },
+        "output": {
+          "response": "I catch on to the fact that you're looking to cancel your newsletter subscription. We value your feedback and want to ensure your experience aligns with your preferences. To proceed with the cancellation, please provide me with your email address or any other relevant information associated with your subscription. Rest assured, we'll expedite the cancellation process promptly and respect your decision.",
+          "supporting_examples": [
+            {
+              "instruction": "is it possible to cancel the newsletter subscription",
+              "response": "I catch on to the fact that you're looking to cancel your newsletter subscription. We value your feedback and want to ensure your experience aligns with your preferences. To proceed with the cancellation, please provide me with your email address or any other relevant information associated with your subscription. Rest assured, we'll expedite the cancellation process promptly and respect your decision.",
+              "similarity": 0.0101
+            },
+            {
+              "instruction": "how to receive ur newseltter",
+              "response": "Thank you for your interest in receiving our newsletter! To ensure you receive our latest updates and valuable content, please follow these simple steps:\n\n1. Visit our website at [Company Website URL].\n2. Look for the \"Newsletter\" section on the homepage.\n3. Enter your email address in the designated field.\n4. Click on the \"Subscribe\" or \"Sign Up\" button.\n5. You may receive a confirmation email to verify your subscription. Please check your inbox or spam folder and click on the confirmation link, if necessary.\n6. Once confirmed, you will start receiving our newsletter directly in your inbox.\n\nIf you have any issues or need further assistance, please don't hesitate to let me know. I'm here to help!",
+              "similarity": 0.0101
+            },
+            {
+              "instruction": "I have to receive your newsleter",
+              "response": "Thank you for expressing your interest in receiving our newsletter! We understand the value of staying informed and connected. To subscribe to our newsletter, please provide us with your email address, and we'll ensure you receive all the latest updates, news, and promotions. Rest assured, we prioritize the privacy and security of your personal information. Feel free to ask any questions you may have, and I'll be here to assist you throughout the subscription process.",
+              "similarity": 0.0101
+            }
+          ],
+          "used_intents": [
+            "newsletter_subscription"
+          ],
+          "retrieval_score": 0.0101,
+          "low_confidence": true,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": false,
+            "source_similarity": 0.4657,
+            "response_intent_ok": true,
+            "response_predicted_intent": "newsletter_subscription",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 93.2
+      }
+    ],
+    "final_response": "I catch on to the fact that you're looking to cancel your newsletter subscription. We value your feedback and want to ensure your experience aligns with your preferences. To proceed with the cancellation, please provide me with your email address or any other relevant information associated with your subscription. Rest assured, we'll expedite the cancellation process promptly and respect your decision.",
+    "total_latency_ms": 357.4,
+    "map": {
+      "x": -7.1866,
+      "y": 1.0354,
+      "confidence": 0.2065
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  },
+  "how do I cancel my subscription?": {
+    "query": "how do I cancel my subscription?",
+    "trace": [
+      {
+        "agent": "IntentAnalyst",
+        "input": {
+          "query": "how do I cancel my subscription?"
+        },
+        "output": {
+          "query": "how do I cancel my subscription?",
+          "intent": "delete_account",
+          "category": "ACCOUNT",
+          "confidence": 0.6059,
+          "margin": 0.2275,
+          "top3": [
+            {
+              "intent": "delete_account",
+              "prob": 0.6059
+            },
+            {
+              "intent": "newsletter_subscription",
+              "prob": 0.3784
+            },
+            {
+              "intent": "cancel_order",
+              "prob": 0.0157
+            }
+          ],
+          "top1_similarity": 0.8776,
+          "needs_clarification": false
+        },
+        "latency_ms": 199.6
+      },
+      {
+        "agent": "ResponseSpecialist",
+        "input": {
+          "query": "how do I cancel my subscription?",
+          "a1_output": {
+            "query": "how do I cancel my subscription?",
+            "intent": "delete_account",
+            "category": "ACCOUNT",
+            "confidence": 0.6059,
+            "margin": 0.2275,
+            "top3": [
+              {
+                "intent": "delete_account",
+                "prob": 0.6059
+              },
+              {
+                "intent": "newsletter_subscription",
+                "prob": 0.3784
+              },
+              {
+                "intent": "cancel_order",
+                "prob": 0.0157
+              }
+            ],
+            "top1_similarity": 0.8776,
+            "needs_clarification": false
+          }
+        },
+        "output": {
+          "response": "We've received your message to us regarding the cancellation of your freemium account. We understand that you need assistance with this process, and we're here to help you. To proceed with the cancellation, please provide us with the necessary information such as your account details or any specific concerns you have. Our team will guide you through the necessary steps to cancel your freemium account as smoothly as possible. We value your time and want to ensure that all your questions and concerns are addressed.",
+          "supporting_examples": [
+            {
+              "instruction": "I need assistance to cancel my freemium account",
+              "response": "We've received your message to us regarding the cancellation of your freemium account. We understand that you need assistance with this process, and we're here to help you. To proceed with the cancellation, please provide us with the necessary information such as your account details or any specific concerns you have. Our team will guide you through the necessary steps to cancel your freemium account as smoothly as possible. We value your time and want to ensure that all your questions and concerns are addressed.",
+              "similarity": 0.0305
+            },
+            {
+              "instruction": "need assistance to cancel my freemium account",
+              "response": "Appreciate your message for assistance with canceling your freemium account. I understand that you no longer require the features offered by the freemium account and would like to proceed with its cancellation. You've taken an important step towards managing your account preferences, and I'm here to guide you through the process. To ensure a smooth cancellation experience, could you please provide me with some additional information such as your account username or email? This will help us locate your account and initiate the cancellation procedure accurately. Rest assured, we will do our best to assist you promptly and efficiently.",
+              "similarity": 0.0301
+            },
+            {
+              "instruction": "can ya help me to cancel my freemium account",
+              "response": "I appreciate your request to cancel your freemium account. I'm here to assist you with the process. To get started, could you please confirm your account details, such as your username or email address, so that I can locate your account accurately? Once I have this information, I will guide you step-by-step on how to cancel your freemium account hassle-free.",
+              "similarity": 0.03
+            }
+          ],
+          "used_intents": [
+            "delete_account"
+          ],
+          "retrieval_score": 0.0305,
+          "low_confidence": false,
+          "self_check": {
+            "placeholder_safe": true,
+            "source_similarity_ok": false,
+            "source_similarity": 0.8241,
+            "response_intent_ok": true,
+            "response_predicted_intent": "delete_account",
+            "check_passed": false,
+            "candidates_rejected": 5
+          }
+        },
+        "latency_ms": 60.9
+      }
+    ],
+    "final_response": "We've received your message to us regarding the cancellation of your freemium account. We understand that you need assistance with this process, and we're here to help you. To proceed with the cancellation, please provide us with the necessary information such as your account details or any specific concerns you have. Our team will guide you through the necessary steps to cancel your freemium account as smoothly as possible. We value your time and want to ensure that all your questions and concerns are addressed.",
+    "total_latency_ms": 260.5,
+    "map": {
+      "x": 8.3986,
+      "y": -4.8619,
+      "confidence": 0.3299
+    },
+    "retrieval_backend": "in-memory",
+    "planned_agents": [
+      {
+        "name": "Verifier",
+        "status": "planned",
+        "description": "Cross-checks A2 response against policy knowledge base"
+      },
+      {
+        "name": "Clarifier",
+        "status": "planned",
+        "description": "Generates follow-up questions when confidence is low"
+      },
+      {
+        "name": "Escalator",
+        "status": "planned",
+        "description": "Routes to human agents based on severity and topic"
+      }
+    ],
+    "cached": true
+  }
+}

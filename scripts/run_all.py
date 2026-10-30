@@ -1,46 +1,62 @@
-"""Master runner – split, train, evaluate, generate examples.
+#!/usr/bin/env python3
+"""Master pipeline runner — train, evaluate, map, and sync evidence.
 
-Usage:  python scripts/run_all.py
+Regenerates every artifact in outputs/ from data/ and syncs to web/public:
+1. scripts/train_a1.py    -> outputs/a1_model.joblib
+2. scripts/eval_a1.py     -> outputs/evidence/a1.json, a1_errors.csv
+3. scripts/eval_a2.py     -> outputs/evidence/a2.json, a2_results.md, a2_samples.csv
+4. scripts/build_map.py   -> outputs/map_points.json
+5. scripts/sync_evidence.py -> web/public/evidence/* & web/public/map_points.json
+
+Usage:
+    python3 scripts/run_all.py
 """
 
-import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import subprocess
+import sys
+import time
+from pathlib import Path
 
-from nlp.split_data import run_split
-from nlp.agent_a1 import train_a1
-from nlp.agent_a2 import build_a2_index
-from nlp.evaluate import evaluate
-from nlp.examples import generate_examples
+ROOT = Path(__file__).resolve().parent.parent
 
 
-def main() -> None:
-    print("=" * 60)
-    print("STEP 1 / 5 – Data split")
-    print("=" * 60)
-    run_split()
+def run_step(step_num: int, total_steps: int, title: str, script_name: str, args: list[str] = None):
+    print("\n" + "=" * 70)
+    print(f"STEP {step_num}/{total_steps}: {title} ({script_name})")
+    print("=" * 70)
+    t0 = time.time()
+    cmd = [sys.executable, str(ROOT / "scripts" / script_name)] + (args or [])
+    res = subprocess.run(cmd, cwd=str(ROOT))
+    elapsed = time.time() - t0
+    if res.returncode != 0:
+        print(f"❌ Error in {script_name} (exit code {res.returncode})")
+        sys.exit(res.returncode)
+    print(f"✓ Step {step_num} completed in {elapsed:.1f}s")
 
-    print("\n" + "=" * 60)
-    print("STEP 2 / 5 – Train A1 (Intent Analyst)")
-    print("=" * 60)
-    train_a1()
 
-    print("\n" + "=" * 60)
-    print("STEP 3 / 5 – Build A2 index (Response Specialist)")
-    print("=" * 60)
-    build_a2_index()
+def main():
+    total_start = time.time()
+    print("=" * 70)
+    print("🚀 NLP SUPPORT SYSTEM — COMPLETE PIPELINE REGENERATION")
+    print("=" * 70)
 
-    print("\n" + "=" * 60)
-    print("STEP 4 / 5 – Evaluate on TEST")
-    print("=" * 60)
-    evaluate("test")
+    steps = [
+        ("Train Agent A1 (IntentAnalyst Classifier)", "train_a1.py", []),
+        ("Evaluate Agent A1 on TEST Split", "eval_a1.py", []),
+        ("Evaluate Agent A2 (ResponseSynthesizer) on TEST Split", "eval_a2.py", []),
+        ("Generate 2D Projection Map (UMAP/t-SNE)", "build_map.py", []),
+        ("Sync Evidence to Next.js Frontend", "sync_evidence.py", []),
+    ]
 
-    print("\n" + "=" * 60)
-    print("STEP 5 / 5 – Generate example traces")
-    print("=" * 60)
-    generate_examples()
+    for idx, (title, script, args) in enumerate(steps, 1):
+        run_step(idx, len(steps), title, script, args)
 
-    print("\n✅  All done.  Outputs in outputs/")
+    total_elapsed = time.time() - total_start
+    print("\n" + "=" * 70)
+    print(f"🎉 All pipeline stages successfully completed in {total_elapsed:.1f}s!")
+    print("Artifacts generated in outputs/ and synced to web/public/")
+    print("=" * 70)
 
 
 if __name__ == "__main__":

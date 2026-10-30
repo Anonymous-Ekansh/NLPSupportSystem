@@ -1,0 +1,145 @@
+{
+  "served_level": "L2",
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "temperature": 0.482836,
+  "tau": 0.441705,
+  "s_min": 0.770013,
+  "n_test": 3475,
+  "level_metrics": {
+    "L0": {
+      "accuracy": 0.0432,
+      "macro_f1": 0.0031,
+      "macro_f1_ci_lo": 0.0026,
+      "macro_f1_ci_hi": 0.0035,
+      "category_accuracy": 0.0863
+    },
+    "L1": {
+      "accuracy": 0.9991,
+      "macro_f1": 0.9988,
+      "macro_f1_ci_lo": 0.9973,
+      "macro_f1_ci_hi": 1.0,
+      "category_accuracy": 1.0
+    },
+    "L2": {
+      "accuracy": 0.9954,
+      "macro_f1": 0.9952,
+      "macro_f1_ci_lo": 0.9927,
+      "macro_f1_ci_hi": 0.9974,
+      "category_accuracy": 0.9983
+    },
+    "L3": {
+      "accuracy": 0.9928,
+      "macro_f1": 0.9913,
+      "macro_f1_ci_lo": 0.9873,
+      "macro_f1_ci_hi": 0.9947,
+      "category_accuracy": 0.9991
+    }
+  },
+  "paired_bootstrap_served_vs_l1": {
+    "ci_lo": -0.0061,
+    "ci_hi": -0.0015,
+    "includes_zero": false
+  },
+  "per_intent_f1": {
+    "cancel_order": 0.9877,
+    "change_order": 0.9955,
+    "change_shipping_address": 0.9896,
+    "check_cancellation_fee": 1.0,
+    "check_invoice": 0.9963,
+    "check_payment_methods": 0.9966,
+    "check_refund_policy": 0.993,
+    "complaint": 0.9933,
+    "contact_customer_service": 0.9965,
+    "contact_human_agent": 0.9966,
+    "create_account": 0.9917,
+    "delete_account": 1.0,
+    "delivery_options": 0.9882,
+    "delivery_period": 0.9966,
+    "edit_account": 1.0,
+    "get_invoice": 0.996,
+    "get_refund": 0.9851,
+    "newsletter_subscription": 1.0,
+    "payment_issue": 0.9933,
+    "place_order": 0.9966,
+    "recover_password": 1.0,
+    "registration_problems": 0.9933,
+    "review": 1.0,
+    "set_up_shipping_address": 0.9933,
+    "switch_account": 0.9953,
+    "track_order": 0.9952,
+    "track_refund": 1.0
+  },
+  "top10_confusions": [
+    {
+      "true": "get_refund",
+      "pred": "check_refund_policy",
+      "count": 2
+    },
+    {
+      "true": "switch_account",
+      "pred": "create_account",
+      "count": 1
+    },
+    {
+      "true": "set_up_shipping_address",
+      "pred": "change_shipping_address",
+      "count": 1
+    },
+    {
+      "true": "registration_problems",
+      "pred": "create_account",
+      "count": 1
+    },
+    {
+      "true": "payment_issue",
+      "pred": "registration_problems",
+      "count": 1
+    },
+    {
+      "true": "payment_issue",
+      "pred": "get_refund",
+      "count": 1
+    },
+    {
+      "true": "get_refund",
+      "pred": "check_payment_methods",
+      "count": 1
+    },
+    {
+      "true": "delivery_period",
+      "pred": "delivery_options",
+      "count": 1
+    },
+    {
+      "true": "contact_customer_service",
+      "pred": "contact_human_agent",
+      "count": 1
+    },
+    {
+      "true": "complaint",
+      "pred": "place_order",
+      "count": 1
+    }
+  ],
+  "flag_f1": {
+    "B": 0.9952,
+    "C": 0.9928,
+    "E": 0.9935,
+    "I": 0.9928,
+    "K": 0.997,
+    "L": 0.9952,
+    "M": 0.8911,
+    "N": 1.0,
+    "P": 0.99,
+    "Q": 0.9933,
+    "S": 1.0,
+    "V": 1.0,
+    "W": 0.9856,
+    "Z": 0.9707
+  },
+  "ece_before": 0.0082,
+  "ece_after": 0.0027,
+  "ood_auroc_maxprob": 0.9643,
+  "ood_auroc_top1sim": 0.9962,
+  "n_errors": 16
+}

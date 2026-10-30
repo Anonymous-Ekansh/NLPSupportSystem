@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780" style="background:#090d16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="gradIndigo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#312e81" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="gradTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#115e59" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#075985" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Title & Header -->
+  <text x="50" y="45" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="-0.5">NLP Support System — End-to-End System Architecture</text>
+  <text x="50" y="70" fill="#94a3b8" font-size="14">FastAPI Microservice (Render) • Next.js Frontend (Vercel) • Supabase pgvector • 2-Agent Sequential Orchestration</text>
+
+  <!-- 1. Offline Pipeline Box (Left Top) -->
+  <g transform="translate(50, 95)">
+    <rect width="280" height="290" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <rect width="280" height="38" rx="12" fill="#334155" />
+    <text x="15" y="24" fill="#38bdf8" font-size="14" font-weight="600">1. OFFLINE NLP PIPELINE</text>
+    
+    <rect x="15" y="50" width="250" height="42" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="68" fill="#e2e8f0" font-size="12" font-weight="600">Bitext Customer Support Dataset</text>
+    <text x="25" y="83" fill="#64748b" font-size="11">27 Intents • 11 Categories • 26,872 Rows</text>
+
+    <path d="M 140 92 L 140 106" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="15" y="108" width="250" height="50" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="126" fill="#e2e8f0" font-size="12" font-weight="600">fastembed (bge-small-en-v1.5)</text>
+    <text x="25" y="141" fill="#64748b" font-size="11">384-d dense embeddings (CPU/ONNX)</text>
+    <text x="25" y="153" fill="#64748b" font-size="10">UMAP 2D Projection (build_map.py)</text>
+
+    <path d="M 140 158 L 140 172" stroke="#64748b" stroke-width="2" />
+
+    <rect x="15" y="174" width="250" height="50" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="192" fill="#e2e8f0" font-size="12" font-weight="600">Model Training &amp; Calibration</text>
+    <text x="25" y="207" fill="#64748b" font-size="11">LogisticRegression + Platt scaling</text>
+    <text x="25" y="219" fill="#10b981" font-size="10" font-weight="600">Saved: outputs/a1_model.joblib</text>
+
+    <path d="M 140 224 L 140 238" stroke="#64748b" stroke-width="2" />
+
+    <rect x="15" y="240" width="250" height="38" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="256" fill="#e2e8f0" font-size="11" font-weight="600">outputs/evidence/*.json &amp; map_points</text>
+    <text x="25" y="270" fill="#a855f7" font-size="10">Synced to web/public via sync_evidence.py</text>
+  </g>
+
+  <!-- 2. Web UI Box (Middle Top) -->
+  <g transform="translate(360, 95)">
+    <rect width="250" height="290" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <rect width="250" height="38" rx="12" fill="#334155" />
+    <text x="15" y="24" fill="#60a5fa" font-size="14" font-weight="600">2. NEXT.JS WEB APP (Vercel)</text>
+    
+    <rect x="15" y="50" width="220" height="48" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="69" fill="#e2e8f0" font-size="12" font-weight="600">Chat / Voice Interface</text>
+    <text x="25" y="84" fill="#94a3b8" font-size="11">Voice input placeholder (Sarvam)</text>
+
+    <path d="M 125 98 L 125 112" stroke="#64748b" stroke-width="2" />
+
+    <rect x="15" y="114" width="220" height="52" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="133" fill="#e2e8f0" font-size="12" font-weight="600">Next.js API Proxy Route</text>
+    <text x="25" y="148" fill="#cbd5e1" font-size="11">/api/proxy -> NLP_API_URL</text>
+    <text x="25" y="160" fill="#f59e0b" font-size="10">Fallback: demo_cache.json</text>
+
+    <path d="M 125 166 L 125 180" stroke="#64748b" stroke-width="2" />
+
+    <rect x="15" y="182" width="220" height="44" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="200" fill="#e2e8f0" font-size="12" font-weight="600">Two-Column Live Dashboard</text>
+    <text x="25" y="215" fill="#94a3b8" font-size="11">Timeline, A1/A2 Cards, Latency</text>
+
+    <path d="M 125 226 L 125 240" stroke="#64748b" stroke-width="2" />
+
+    <rect x="15" y="242" width="220" height="38" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="25" y="258" fill="#e2e8f0" font-size="11" font-weight="600">/evidence &amp; Intent Map</text>
+    <text x="25" y="271" fill="#94a3b8" font-size="10">Interactive Recharts + UMAP scatter</text>
+  </g>
+
+  <!-- Arrow from Web App to Backend -->
+  <path d="M 610 180 L 650 180" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4 4" />
+  <text x="618" y="172" fill="#38bdf8" font-size="11" font-weight="600">HTTP</text>
+
+  <!-- 3. FastAPI Service Box (Right Top & Down) -->
+  <g transform="translate(660, 95)">
+    <rect width="490" height="420" rx="12" fill="#0f172a" stroke="#475569" stroke-width="2" />
+    <rect width="490" height="38" rx="12" fill="#1e293b" />
+    <text x="20" y="24" fill="#38bdf8" font-size="15" font-weight="700">3. FASTAPI ORCHESTRATOR SERVICE (Render)</text>
+    <text x="360" y="24" fill="#10b981" font-size="12">Port 8000 | /resolve</text>
+
+    <!-- Agent 1 Card -->
+    <g transform="translate(20, 52)">
+      <rect width="450" height="105" rx="8" fill="url(#gradIndigo)" stroke="#6366f1" stroke-width="2" />
+      <text x="15" y="24" fill="#818cf8" font-size="14" font-weight="700">AGENT A1 — IntentAnalyst</text>
+      <text x="340" y="24" fill="#c7d2fe" font-size="11">Latency: ~20-50ms</text>
+      <text x="15" y="48" fill="#e2e8f0" font-size="12">• BAAI/bge-small-en-v1.5 384-d Dense Embedding</text>
+      <text x="15" y="68" fill="#e2e8f0" font-size="12">• Logistic Regression (L2) with Platt Scaling Calibration</text>
+      <text x="15" y="88" fill="#c7d2fe" font-size="11" font-weight="600">Output: {intent, category, confidence, margin, top3, top1_sim}</text>
+    </g>
+
+    <!-- Handoff Arrow -->
+    <path d="M 245 160 L 245 180" stroke="#6366f1" stroke-width="2.5" />
+    <rect x="180" y="165" width="130" height="18" rx="4" fill="#312e81" />
+    <text x="188" y="178" fill="#e0e7ff" font-size="10" font-weight="600">Structured JSON Handoff</text>
+
+    <!-- Agent 2 Card -->
+    <g transform="translate(20, 185)">
+      <rect width="450" height="120" rx="8" fill="url(#gradTeal)" stroke="#14b8a6" stroke-width="2" />
+      <text x="15" y="24" fill="#2dd4bf" font-size="14" font-weight="700">AGENT A2 — ResponseSynthesizer</text>
+      <text x="335" y="24" fill="#99f6e4" font-size="11">Latency: ~40-120ms</text>
+      <text x="15" y="46" fill="#e2e8f0" font-size="12">• Category-Routed Retrieval (Supabase pgvector / In-Memory)</text>
+      <text x="15" y="66" fill="#e2e8f0" font-size="12">• Hybrid Cosine + Lexical Re-ranking with Distance Thresholding</text>
+      <text x="15" y="86" fill="#e2e8f0" font-size="12">• Self-Check Hallucination Guard (Intent &amp; Category Consistency)</text>
+      <text x="15" y="104" fill="#99f6e4" font-size="11" font-weight="600">Output: {response, source_examples, score, confidence}</text>
+    </g>
+
+    <!-- Trace & Response -->
+    <g transform="translate(20, 318)">
+      <rect width="450" height="85" rx="8" fill="#1e293b" stroke="#334155" />
+      <text x="15" y="22" fill="#f8fafc" font-size="13" font-weight="600">Sequential Execution Trace &amp; Response Packet</text>
+      <text x="15" y="44" fill="#94a3b8" font-size="11">• query, final_response, total_latency_ms, retrieval_backend</text>
+      <text x="15" y="60" fill="#94a3b8" font-size="11">• trace: [{agent: "IntentAnalyst", ...}, {agent: "ResponseSynthesizer", ...}]</text>
+      <text x="15" y="76" fill="#94a3b8" font-size="11">• planned_agents: [{name: "Verifier"}, {name: "Clarifier"}, {name: "Escalator"}]</text>
+    </g>
+  </g>
+
+  <!-- 4. Supabase Database Box (Bottom Left) -->
+  <g transform="translate(50, 420)">
+    <rect width="560" height="150" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <rect width="560" height="38" rx="12" fill="#334155" />
+    <text x="15" y="24" fill="#34d399" font-size="14" font-weight="600">4. SUPABASE CLOUD (PostgreSQL + pgvector)</text>
+    
+    <!-- Table: examples -->
+    <rect x="15" y="50" width="255" height="85" rx="6" fill="#0f172a" stroke="#10b981" />
+    <text x="25" y="70" fill="#34d399" font-size="13" font-weight="700">Table: examples</text>
+    <text x="25" y="88" fill="#cbd5e1" font-size="11">id, instruction, response, intent, category</text>
+    <text x="25" y="104" fill="#cbd5e1" font-size="11">embedding: vector(384)</text>
+    <text x="25" y="120" fill="#a7f3d0" font-size="10">Index: ivfflat (cosine ops) / RPC: match_examples</text>
+
+    <!-- Table: logs & metrics -->
+    <rect x="290" y="50" width="255" height="85" rx="6" fill="#0f172a" stroke="#475569" />
+    <text x="300" y="70" fill="#e2e8f0" font-size="13" font-weight="700">Tables: audit_log &amp; metrics</text>
+    <text x="300" y="88" fill="#94a3b8" font-size="11">audit_log: query, trace, latency_ms, ts</text>
+    <text x="300" y="104" fill="#94a3b8" font-size="11">metrics: a1_accuracy, a2_relevance</text>
+    <text x="300" y="120" fill="#64748b" font-size="10">Automatic telemetry on each /resolve</text>
+  </g>
+
+  <!-- Connect Supabase to Agent 2 -->
+  <path d="M 575 490 L 690 490 L 690 320 L 730 320" stroke="#34d399" stroke-width="2" stroke-dasharray="3 3" fill="none" />
+  <text x="610" y="482" fill="#34d399" font-size="11">RPC match_examples</text>
+
+  <!-- 5. Level 2 Extension (Dashed Box - Bottom Full Width) -->
+  <g transform="translate(50, 600)">
+    <rect width="1100" height="150" rx="12" fill="#0f172a" stroke="#eab308" stroke-width="2" stroke-dasharray="8 6" />
+    <rect width="320" height="30" rx="6" fill="#ca8a04" transform="translate(15, -15)" />
+    <text x="30" y="5" fill="#fef08a" font-size="13" font-weight="700">LEVEL 2 PLANNED EXTENSIONS (Roadmap)</text>
+
+    <g transform="translate(25, 30)">
+      <!-- Verifier -->
+      <rect x="0" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
+      <text x="15" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Verifier</text>
+      <text x="15" y="44" fill="#cbd5e1" font-size="11">• Policy &amp; SLA compliance check</text>
+      <text x="15" y="60" fill="#cbd5e1" font-size="11">• Hallucination &amp; tone scoring</text>
+      <text x="15" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
+
+      <!-- Clarifier -->
+      <rect x="365" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
+      <text x="380" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Clarifier</text>
+      <text x="380" y="44" fill="#cbd5e1" font-size="11">• Ambiguity detector (margin &lt; 0.15)</text>
+      <text x="380" y="60" fill="#cbd5e1" font-size="11">• Targeted follow-up question generation</text>
+      <text x="380" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
+
+      <!-- Escalator -->
+      <rect x="730" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
+      <text x="745" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Escalator</text>
+      <text x="745" y="44" fill="#cbd5e1" font-size="11">• Sentiment &amp; confidence thresholding</text>
+      <text x="745" y="60" fill="#cbd5e1" font-size="11">• Human agent routing &amp; ticket creation</text>
+      <text x="745" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
+    </g>
+  </g>
+</svg>
