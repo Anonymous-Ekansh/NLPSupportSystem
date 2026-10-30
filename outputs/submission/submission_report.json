@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-10-31T02:49:09",
+  "split": "test",
+  "seed": 13,
+  "n": 300,
+  "mode": "l2",
+  "intent_accuracy": 0.9933,
+  "category_accuracy": 1.0,
+  "intent_accuracy_on_answered": 0.9964,
+  "decisions": {
+    "ANSWER": 278,
+    "CLARIFY": 20,
+    "ESCALATE": 2
+  },
+  "latency_ms": {
+    "p50": 302.8,
+    "p95": 656.2,
+    "total_s": 111.0
+  },
+  "files": {
+    "queries": "outputs/submission/queries.csv",
+    "gold": "outputs/submission/gold.csv",
+    "predictions": "outputs/submission/predictions.csv",
+    "responses": "outputs/submission/responses.jsonl",
+    "traces": "outputs/submission/traces.jsonl"
+  }
+}

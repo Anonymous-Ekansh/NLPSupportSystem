@@ -118,6 +118,29 @@ def find_sensitive_terms(query: str, policy: Optional[dict] = None) -> list[str]
 
 # ── Clarify helpers ─────────────────────────────────────────────────────
 
+_INFORMATIONAL_RE = re.compile(
+    r"^(?:how (?:can|do|does|would|should) (?:i|we|you)\b|how to\b|"
+    r"is it possible to\b|"
+    r"can (?:i|we) (?:get|request|receive|have|check|find|track|see|cancel|"
+    r"change|claim)\b|"
+    r"what (?:is|are) the\b)",
+    re.IGNORECASE,
+)
+
+
+def is_informational(query: str) -> bool:
+    """How-to / eligibility phrasing asks for the procedure, not a value.
+
+    "How can I request a refund?" must be answered with the process even
+    though `get_refund` nominally requires an order number: explaining a
+    procedure cannot claim that any action happened.  An explicit absence
+    phrase ("I cannot find my order number") is checked separately by the
+    caller and still forces the clarify path — that is the Level-2 contract
+    from the problem statement.
+    """
+    return bool(_INFORMATIONAL_RE.match((query or "").strip()))
+
+
 def _intent_question(intent: str, category: str = "") -> str:
     label = intent.replace("_", " ")
     if category:
@@ -241,7 +264,17 @@ class RoutePlanner:
         # 4. missing required information ────────────────────────────────
         if pget(policy, "routing.clarify_on_missing_slot", True) and intent:
             missing = missing_slots(query, intent, policy)
-            if missing:
+            if (missing and is_informational(query)
+                    and not has_absence_phrase(query, policy)):
+                # How-to/eligibility question: explain the procedure, do not
+                # demand a value the user never claimed to have.
+                reasons.append(
+                    f"The query asks how to handle '{intent}' rather than "
+                    f"requesting it now, so it can be answered with the "
+                    f"procedure without {_describe_missing(missing)}; "
+                    f"explaining a process claims no action.")
+                codes.append("informational_question")
+            elif missing:
                 reasons.append(
                     f"The intent '{intent}' needs {_describe_missing(missing)} "
                     f"before an answer can be given; asking for it prevents a "
@@ -255,10 +288,16 @@ class RoutePlanner:
                         f"so the reply must request it explicitly rather than "
                         f"assume a value.")
                     codes.append("user_lacks_slot")
+                # Very short / underspecified queries also carry the two
+                # competing intents, so A5 can ask "X or Y?" alongside the
+                # missing item (a bare "refund" is ambiguous in practice).
+                options = (_clarify_options(a1_output, 2)
+                           if len(_tokens(query)) <= 4 else None)
                 return plan_route(
                     "clarify",
                     RetrievalSettings(mode=mode, k=k,
                                       intents=[intent] if intent else []),
+                    clarify_options=options,
                     missing=missing,
                 )
 
@@ -338,5 +377,5 @@ def route_to_decision(route: str) -> str:
 
 __all__ = [
     "RoutePlanner", "is_empty", "is_gibberish", "find_sensitive_terms",
-    "route_to_decision",
+    "is_informational", "route_to_decision",
 ]

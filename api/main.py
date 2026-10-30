@@ -1,10 +1,18 @@
-"""FastAPI service exposing the two-agent NLP pipeline.
+"""FastAPI service exposing the Level-2 support pipeline.
 
 Endpoints:
-    GET  /health     → model loaded, Supabase reachable, retrieval backend
-    GET  /meta       → model names, thresholds, planned agents, headline #s
-    POST /resolve    → full A1→A2 pipeline (pydantic, rate-limited)
-    POST /feedback   → user feedback
+    GET  /health          → model loaded, Supabase reachable, retrieval backend
+    GET  /meta            → model names, thresholds, agents, headline #s
+    POST /resolve         → A1→A3→A2→A4→A5, returns decision + trace
+                            (`baseline: true` restores the Day-1 A1→A2 path;
+                             `answer: "..."` is a clarification follow-up)
+    POST /resolve/batch   → bounded batch (≤ 32 queries)
+    POST /feedback        → user feedback
+
+Every /resolve response keeps the Day-1 keys (`query`, `trace`,
+`final_response`, `total_latency_ms`, `map`, `retrieval_backend`,
+`planned_agents`) and adds the Level-2 ones (`decision`, `predicted_intent`,
+`predicted_category`, `a1`..`a5`, `agent_trace`, `reason_codes`).
 
 Retrieval:
     pgvector via Supabase RPC first (2 s timeout) → automatic fallback to
@@ -60,6 +68,7 @@ app.add_middleware(
 _state = {
     "a1": None,
     "a2": None,
+    "l2": None,
     "pipeline_agents": None,
     "train_emb": None,
     "supabase": None,
@@ -73,7 +82,7 @@ async def startup():
     log.info("Loading models …")
     from nlp.a1 import IntentAnalyst
     from nlp.a2 import A2Builder
-    from nlp.pipeline import A1Agent, A2Agent
+    from nlp.pipeline import A1Agent, A2Agent, Level2Pipeline
     from nlp.embed import embed_split
 
     a1 = IntentAnalyst()
@@ -86,6 +95,10 @@ async def startup():
 
     _state["pipeline_agents"] = [A1Agent(a1), A2Agent(a2)]
     _state["train_emb"] = a2.train_emb
+
+    # Level 2: reuse the loaded models so no extra weights are held in memory.
+    _state["l2"] = Level2Pipeline(a1=a1, a2=a2)
+    log.info("Level-2 pipeline ready (A1 -> A3 -> A2 -> A4 -> A5)")
 
     # Try Supabase connection
     url = os.environ.get("SUPABASE_URL")
@@ -187,6 +200,7 @@ def _pgvector_respond(query: str, a1_output: dict, timeout_s: float = 2.0) -> Op
 
 _rate_store: dict[str, list[float]] = defaultdict(list)
 RATE_LIMIT = 30       # requests
+BATCH_LIMIT = 32
 RATE_WINDOW = 60.0    # seconds
 
 
@@ -206,6 +220,11 @@ def _check_rate_limit(ip: str):
 
 class ResolveRequest(BaseModel):
     query: str
+    # Optional answer to a clarification question.  Stateless: the pipeline is
+    # re-run on the original query plus this answer, nothing is remembered.
+    answer: Optional[str] = None
+    # Day-1 compatibility: run only A1 -> A2.
+    baseline: bool = False
 
     @field_validator("query")
     @classmethod
@@ -216,6 +235,37 @@ class ResolveRequest(BaseModel):
         if len(v) > 500:
             raise ValueError("Query must be ≤ 500 characters")
         return v
+
+    @field_validator("answer")
+    @classmethod
+    def validate_answer(cls, v):
+        if v is None:
+            return v
+        v = v.strip()
+        if not v:
+            return None
+        if len(v) > 500:
+            raise ValueError("Answer must be ≤ 500 characters")
+        return v
+
+
+class BatchResolveRequest(BaseModel):
+    queries: list[str]
+    baseline: bool = False
+
+    @field_validator("queries")
+    @classmethod
+    def validate_queries(cls, v):
+        if not v:
+            raise ValueError("queries must not be empty")
+        if len(v) > BATCH_LIMIT:
+            raise ValueError(f"At most {BATCH_LIMIT} queries per request")
+        cleaned = [q.strip() for q in v]
+        if any(not q for q in cleaned):
+            raise ValueError("Queries must not be empty")
+        if any(len(q) > 500 for q in cleaned):
+            raise ValueError("Queries must be ≤ 500 characters")
+        return cleaned
 
 
 class FeedbackRequest(BaseModel):
@@ -239,7 +289,9 @@ class FeedbackRequest(BaseModel):
 async def health():
     return {
         "status": "ok",
-        "agents": ["a1", "a2"],
+        "agents": ["a1", "a3", "a2", "a4", "a5"],
+        "decisions": ["ANSWER", "CLARIFY", "ESCALATE"],
+        "level2": _state["l2"] is not None,
         "model_loaded": _state["a1"] is not None,
         "supabase_reachable": _state["supabase_ok"],
         "retrieval_backend": _state["retrieval_backend"],
@@ -261,6 +313,11 @@ async def meta():
         },
         "retrieval_backend": _state["retrieval_backend"],
         "planned_agents": planned_agents,
+        "level2": {
+            "agents": ["A1", "A3", "A2", "A4", "A5"],
+            "decisions": ["ANSWER", "CLARIFY", "ESCALATE"],
+            "policy": "config/l2_policy.json",
+        },
     }
 
     # Load headline numbers from evidence files
@@ -274,20 +331,17 @@ async def meta():
     return meta_info
 
 
-@app.post("/resolve")
-async def resolve(req: ResolveRequest, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
-    _check_rate_limit(client_ip)
-
+def _resolve_day1(query: str) -> dict:
+    """The original Day-1 A1 -> A2 path, unchanged (used by `baseline`)."""
     from nlp.pipeline import run_pipeline
 
     # Try pgvector first, fallback to in-memory
     backend = "in-memory"
-    a1_output = _state["a1"].analyze(req.query)
+    a1_output = _state["a1"].analyze(query)
 
     pgvec_result = None
     if _state["supabase_ok"]:
-        pgvec_result = _pgvector_respond(req.query, a1_output, timeout_s=2.0)
+        pgvec_result = _pgvector_respond(query, a1_output, timeout_s=2.0)
         if pgvec_result is not None:
             backend = "pgvector"
 
@@ -298,15 +352,15 @@ async def resolve(req: ResolveRequest, request: Request):
         from nlp.embed import embed
         from nlp.normalize import normalize
 
-        q_emb = embed([normalize(req.query)])[0]
+        q_emb = embed([normalize(query)])[0]
         map_pos = compute_map_position(q_emb, _state["train_emb"]) if _state["train_emb"] is not None else {"x": None, "y": None, "confidence": 0.0}
         total_ms = round((time.perf_counter() - t0) * 1000, 1)
 
         result = {
-            "query": req.query,
+            "query": query,
             "trace": [
-                {"agent": "IntentAnalyst", "input": {"query": req.query}, "output": a1_output, "latency_ms": 0},
-                {"agent": "ResponseSpecialist", "input": {"query": req.query, "a1_output": a1_output}, "output": pgvec_result, "latency_ms": 0},
+                {"agent": "IntentAnalyst", "input": {"query": query}, "output": a1_output, "latency_ms": 0},
+                {"agent": "ResponseSpecialist", "input": {"query": query, "a1_output": a1_output}, "output": pgvec_result, "latency_ms": 0},
             ],
             "final_response": pgvec_result["response"],
             "total_latency_ms": total_ms,
@@ -316,26 +370,84 @@ async def resolve(req: ResolveRequest, request: Request):
         }
     else:
         result = run_pipeline(
-            req.query,
+            query,
             _state["pipeline_agents"],
             train_emb=_state["train_emb"],
             retrieval_backend="in-memory",
         )
 
-    # Log to Supabase runs (best effort — never fail the request)
+    result["decision"] = None
+    result["predicted_intent"] = result["trace"][0]["output"].get("intent")
+    result["predicted_category"] = result["trace"][0]["output"].get("category")
+    result["mode"] = "baseline"
+    return result
+
+
+def _log_run(query: str, result: dict) -> None:
+    """Best-effort persistence of a run — never fails the request."""
     try:
         sb = _state.get("supabase")
         if sb:
-            # Serialize numpy/non-JSON-safe values
             trace_json = json.loads(json.dumps(result["trace"], default=str))
             sb.table("runs").insert({
-                "query": req.query,
+                "query": query,
                 "trace": trace_json,
             }).execute()
     except Exception as e:
         log.warning("Failed to log run: %s", e)
 
+
+@app.post("/resolve")
+async def resolve(req: ResolveRequest, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    _check_rate_limit(client_ip)
+
+    l2 = _state.get("l2")
+
+    # ── Day-1 compatibility path ──────────────────────────────────────
+    if req.baseline or l2 is None:
+        result = _resolve_day1(req.query)
+        if req.answer:
+            # The Day-1 path has no clarification mechanism; surface the
+            # merged text so callers can see what was actually classified.
+            result["original_query"] = req.query
+            result["followup_answer"] = req.answer
+    else:
+        # ── Level 2: A1 -> A3 -> A2 -> A4 -> A5 ────────────────
+        if req.answer:
+            result = l2.resolve_with_followup(
+                req.query, req.answer,
+                retrieval_backend=_state["retrieval_backend"])
+        else:
+            result = l2.resolve(
+                req.query, retrieval_backend=_state["retrieval_backend"])
+
+    _log_run(req.query, result)
     return result
+
+
+@app.post("/resolve/batch")
+async def resolve_batch(req: BatchResolveRequest, request: Request):
+    """Bounded batch (≤ 32). Rate-limited like /resolve."""
+    client_ip = request.client.host if request.client else "unknown"
+    _check_rate_limit(client_ip)
+
+    l2 = _state.get("l2")
+    results = []
+    for query in req.queries:
+        if req.baseline or l2 is None:
+            results.append(_resolve_day1(query))
+        else:
+            results.append(l2.resolve(
+                query, retrieval_backend=_state["retrieval_backend"],
+                with_map=False))
+
+    counted: dict[str, int] = {}
+    for res in results:
+        key = res.get("decision") or "BASELINE"
+        counted[key] = counted.get(key, 0) + 1
+
+    return {"count": len(results), "decisions": counted, "results": results}
 
 
 @app.post("/feedback")
