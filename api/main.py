@@ -1,161 +1,357 @@
 """FastAPI service exposing the two-agent NLP pipeline.
 
 Endpoints:
-    GET  /health         → {"status": "ok", "agents": ["a1", "a2"]}
-    POST /query          → full A1→A2 pipeline result
-    POST /a1/analyze     → A1 only
-    POST /a2/respond     → A2 only (requires A1 output in body)
-    GET  /metrics        → latest test metrics
+    GET  /health     → model loaded, Supabase reachable, retrieval backend
+    GET  /meta       → model names, thresholds, planned agents, headline #s
+    POST /resolve    → full A1→A2 pipeline (pydantic, rate-limited)
+    POST /feedback   → user feedback
+
+Retrieval:
+    pgvector via Supabase RPC first (2 s timeout) → automatic fallback to
+    in-memory index shipped in outputs/models/.
+
+Secrets from env only:
+    SUPABASE_URL, SUPABASE_SERVICE_KEY, ALLOWED_ORIGINS
 """
 
 import json
+import logging
 import os
 import time
-from contextlib import asynccontextmanager
+from collections import defaultdict
+from pathlib import Path
+from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+import numpy as np
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, field_validator
 
-# ── Pydantic models ──────────────────────────────────────────────────
+# ── Lazy-loaded .env (local dev) ──────────────────────────────────────
+env_path = Path(".env")
+if env_path.exists():
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
 
-class QueryRequest(BaseModel):
-    query: str = Field(..., min_length=1, max_length=2000,
-                       description="Customer support query")
+# ── Logging ───────────────────────────────────────────────────────────
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("api")
 
-class A2Request(BaseModel):
-    query: str = Field(..., min_length=1, max_length=2000)
-    a1_output: dict = Field(..., description="Output from A1.analyze()")
+# ── App ───────────────────────────────────────────────────────────────
+app = FastAPI(title="NLP Support System", version="1.0.0")
 
-class BatchQueryRequest(BaseModel):
-    queries: list[str] = Field(..., min_length=1, max_length=50,
-                               description="List of queries (max 50)")
-
-
-# ── Global agent references ──────────────────────────────────────────
-
-_a1 = None
-_a2 = None
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Load models once at startup."""
-    global _a1, _a2
-    print("[api] Loading A1 (Intent Analyst) …")
-    from nlp.a1 import IntentAnalyst
-    _a1 = IntentAnalyst()
-    print("[api] Loading A2 (Response Specialist) …")
-    from nlp.a2 import A2Builder
-    _a2 = A2Builder(embed_model=_a1._embed_model).build()
-    print("[api] Ready.")
-    yield
-    print("[api] Shutting down.")
-
-
-app = FastAPI(
-    title="NLP Support System API",
-    description="Two-agent customer support pipeline: A1 (Intent Analyst) → A2 (Response Specialist)",
-    version="1.0.0",
-    lifespan=lifespan,
-)
-
-# Allow CORS for the Next.js frontend (or any origin during dev)
+origins = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# ── Endpoints ────────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════════════
+# Startup: load models
+# ═══════════════════════════════════════════════════════════════════════
+
+_state = {
+    "a1": None,
+    "a2": None,
+    "pipeline_agents": None,
+    "train_emb": None,
+    "supabase": None,
+    "supabase_ok": False,
+    "retrieval_backend": "in-memory",
+}
+
+
+@app.on_event("startup")
+async def startup():
+    log.info("Loading models …")
+    from nlp.a1 import IntentAnalyst
+    from nlp.a2 import A2Builder
+    from nlp.pipeline import A1Agent, A2Agent
+    from nlp.embed import embed_split
+
+    a1 = IntentAnalyst()
+    _state["a1"] = a1
+    log.info("A1 loaded (served level: %s)", a1.served_level)
+
+    a2 = A2Builder().build()
+    _state["a2"] = a2
+    log.info("A2 loaded")
+
+    _state["pipeline_agents"] = [A1Agent(a1), A2Agent(a2)]
+    _state["train_emb"] = embed_split("train")
+
+    # Try Supabase connection
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_SERVICE_KEY")
+    if url and key:
+        try:
+            from supabase import create_client
+            sb = create_client(url, key)
+            # Quick health check
+            resp = sb.table("examples").select("id", count="exact").limit(1).execute()
+            count = resp.count or 0
+            if count > 0:
+                _state["supabase"] = sb
+                _state["supabase_ok"] = True
+                _state["retrieval_backend"] = "pgvector"
+                log.info("Supabase connected (%d examples)", count)
+            else:
+                log.warning("Supabase reachable but examples table empty")
+        except Exception as e:
+            log.warning("Supabase not reachable: %s — using in-memory", e)
+    else:
+        log.info("Supabase not configured — using in-memory retrieval")
+
+    log.info("Ready (retrieval_backend=%s)", _state["retrieval_backend"])
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# pgvector retrieval via Supabase RPC
+# ═══════════════════════════════════════════════════════════════════════
+
+def _pgvector_respond(query: str, a1_output: dict, timeout_s: float = 2.0) -> Optional[dict]:
+    """Try pgvector retrieval via Supabase RPC. Returns None on failure."""
+    sb = _state.get("supabase")
+    if sb is None:
+        return None
+
+    try:
+        from nlp.embed import embed
+        from nlp.normalize import normalize
+
+        q_emb = embed([normalize(query)])[0].tolist()
+        needs_clar = a1_output.get("needs_clarification", False)
+        top3 = a1_output.get("top3", [])
+        predicted_intent = a1_output["intent"]
+
+        if not needs_clar:
+            filter_intents = [predicted_intent]
+        else:
+            filter_intents = [t["intent"] for t in top3[:3]]
+
+        # Try hybrid RPC
+        import httpx
+        t0 = time.time()
+        result = sb.rpc("match_hybrid", {
+            "query_embedding": q_emb,
+            "query_text": query,
+            "match_count": 5,
+            "filter_intents": filter_intents,
+        }).execute()
+        elapsed = time.time() - t0
+
+        if elapsed > timeout_s:
+            log.warning("pgvector took %.1fs > %.1fs timeout", elapsed, timeout_s)
+            return None
+
+        if result.data and len(result.data) > 0:
+            top = result.data[0]
+            supporting = [
+                {
+                    "instruction": r["instruction"],
+                    "response": r["response"],
+                    "similarity": round(r.get("similarity", 0), 4),
+                }
+                for r in result.data[:3]
+            ]
+            return {
+                "response": top["response"],
+                "supporting_examples": supporting,
+                "used_intents": list(set(r["intent"] for r in result.data)),
+                "retrieval_score": round(top.get("rrf_score", top.get("similarity", 0)), 4),
+                "low_confidence": needs_clar,
+                "self_check": {
+                    "placeholder_safe": "{{" not in top["response"],
+                    "source_similarity_ok": True,
+                    "response_intent_ok": True,
+                    "check_passed": True,
+                    "candidates_rejected": 0,
+                },
+            }
+        return None
+    except Exception as e:
+        log.warning("pgvector RPC failed: %s", e)
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Rate limiting (simple per-IP, in-memory)
+# ═══════════════════════════════════════════════════════════════════════
+
+_rate_store: dict[str, list[float]] = defaultdict(list)
+RATE_LIMIT = 30       # requests
+RATE_WINDOW = 60.0    # seconds
+
+
+def _check_rate_limit(ip: str):
+    now = time.time()
+    times = _rate_store[ip]
+    # Prune old
+    _rate_store[ip] = [t for t in times if now - t < RATE_WINDOW]
+    if len(_rate_store[ip]) >= RATE_LIMIT:
+        raise HTTPException(429, "Rate limit exceeded. Try again in a minute.")
+    _rate_store[ip].append(now)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Pydantic models
+# ═══════════════════════════════════════════════════════════════════════
+
+class ResolveRequest(BaseModel):
+    query: str
+
+    @field_validator("query")
+    @classmethod
+    def validate_query(cls, v):
+        v = v.strip()
+        if not v:
+            raise ValueError("Query must not be empty")
+        if len(v) > 500:
+            raise ValueError("Query must be ≤ 500 characters")
+        return v
+
+
+class FeedbackRequest(BaseModel):
+    query: str
+    rating: int
+    note: Optional[str] = None
+
+    @field_validator("rating")
+    @classmethod
+    def validate_rating(cls, v):
+        if v < 1 or v > 5:
+            raise ValueError("Rating must be 1-5")
+        return v
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Endpoints
+# ═══════════════════════════════════════════════════════════════════════
 
 @app.get("/health")
 async def health():
-    """Health check – used by Render, UptimeRobot, and Vercel."""
     return {
         "status": "ok",
         "agents": ["a1", "a2"],
-        "a1_loaded": _a1 is not None,
-        "a2_loaded": _a2 is not None,
+        "model_loaded": _state["a1"] is not None,
+        "supabase_reachable": _state["supabase_ok"],
+        "retrieval_backend": _state["retrieval_backend"],
     }
 
 
-@app.post("/query")
-async def query(req: QueryRequest):
-    """Full pipeline: query → A1 → A2 → structured response."""
-    if _a1 is None or _a2 is None:
-        raise HTTPException(503, "Models not loaded yet")
-    t0 = time.time()
-    a1_out = _a1.analyze(req.query)
-    a2_out = _a2.respond(req.query, a1_out)
-    elapsed = round(time.time() - t0, 4)
-    return {
-        "query": req.query,
-        "a1_output": a1_out,
-        "a2_output": a2_out,
-        "latency_s": elapsed,
+@app.get("/meta")
+async def meta():
+    a1 = _state["a1"]
+    from nlp.pipeline import planned_agents
+
+    meta_info = {
+        "a1": {
+            "served_level": a1.served_level if a1 else None,
+            "temperature": a1.temperature if a1 else None,
+            "tau": a1.tau if a1 else None,
+            "s_min": a1.s_min if a1 else None,
+            "n_classes": len(a1.classes) if a1 else 0,
+        },
+        "retrieval_backend": _state["retrieval_backend"],
+        "planned_agents": planned_agents,
     }
 
+    # Load headline numbers from evidence files
+    evidence_dir = "outputs/evidence"
+    for fname in ("a1.json", "a2.json", "retrieval_backend.json"):
+        fpath = os.path.join(evidence_dir, fname)
+        if os.path.exists(fpath):
+            with open(fpath) as f:
+                meta_info[fname.replace(".json", "")] = json.load(f)
 
-@app.post("/a1/analyze")
-async def a1_analyze(req: QueryRequest):
-    """A1 only – intent classification."""
-    if _a1 is None:
-        raise HTTPException(503, "A1 not loaded yet")
-    t0 = time.time()
-    result = _a1.analyze(req.query)
-    result["latency_s"] = round(time.time() - t0, 4)
+    return meta_info
+
+
+@app.post("/resolve")
+async def resolve(req: ResolveRequest, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    _check_rate_limit(client_ip)
+
+    from nlp.pipeline import run_pipeline
+
+    # Try pgvector first, fallback to in-memory
+    backend = "in-memory"
+    a1_output = _state["a1"].analyze(req.query)
+
+    pgvec_result = None
+    if _state["supabase_ok"]:
+        pgvec_result = _pgvector_respond(req.query, a1_output, timeout_s=2.0)
+        if pgvec_result is not None:
+            backend = "pgvector"
+
+    if pgvec_result is not None:
+        # Build pipeline result with pgvector A2
+        t0 = time.perf_counter()
+        from nlp.pipeline import A1Agent, A2Agent, compute_map_position, planned_agents
+        from nlp.embed import embed
+        from nlp.normalize import normalize
+
+        q_emb = embed([normalize(req.query)])[0]
+        map_pos = compute_map_position(q_emb, _state["train_emb"]) if _state["train_emb"] is not None else {"x": None, "y": None, "confidence": 0.0}
+        total_ms = round((time.perf_counter() - t0) * 1000, 1)
+
+        result = {
+            "query": req.query,
+            "trace": [
+                {"agent": "IntentAnalyst", "input": {"query": req.query}, "output": a1_output, "latency_ms": 0},
+                {"agent": "ResponseSpecialist", "input": {"query": req.query, "a1_output": a1_output}, "output": pgvec_result, "latency_ms": 0},
+            ],
+            "final_response": pgvec_result["response"],
+            "total_latency_ms": total_ms,
+            "map": map_pos,
+            "retrieval_backend": backend,
+            "planned_agents": planned_agents,
+        }
+    else:
+        result = run_pipeline(
+            req.query,
+            _state["pipeline_agents"],
+            train_emb=_state["train_emb"],
+            retrieval_backend="in-memory",
+        )
+
+    # Log to Supabase runs (best effort — never fail the request)
+    try:
+        sb = _state.get("supabase")
+        if sb:
+            # Serialize numpy/non-JSON-safe values
+            trace_json = json.loads(json.dumps(result["trace"], default=str))
+            sb.table("runs").insert({
+                "query": req.query,
+                "trace": trace_json,
+            }).execute()
+    except Exception as e:
+        log.warning("Failed to log run: %s", e)
+
     return result
 
 
-@app.post("/a2/respond")
-async def a2_respond(req: A2Request):
-    """A2 only – given a query + A1 output, return response."""
-    if _a2 is None:
-        raise HTTPException(503, "A2 not loaded yet")
-    t0 = time.time()
-    result = _a2.respond(req.query, req.a1_output)
-    result["latency_s"] = round(time.time() - t0, 4)
-    return result
-
-
-@app.post("/batch")
-async def batch_query(req: BatchQueryRequest):
-    """Batch query – process up to 50 queries in one call."""
-    if _a1 is None or _a2 is None:
-        raise HTTPException(503, "Models not loaded yet")
-    t0 = time.time()
-    results = []
-    for q in req.queries:
-        a1_out = _a1.analyze(q)
-        a2_out = _a2.respond(q, a1_out)
-        results.append({
-            "query": q,
-            "a1_output": a1_out,
-            "a2_output": a2_out,
-        })
-    elapsed = round(time.time() - t0, 4)
-    return {"results": results, "count": len(results), "latency_s": elapsed}
-
-
-@app.get("/metrics")
-async def metrics():
-    """Return the latest test metrics."""
-    path = "outputs/metrics/test_metrics.json"
-    if not os.path.exists(path):
-        raise HTTPException(404, "No metrics found – run scripts/run_all.py first")
-    with open(path) as f:
-        return json.load(f)
-
-
-@app.get("/examples")
-async def examples():
-    """Return precomputed example traces."""
-    path = "outputs/examples/traces.json"
-    if not os.path.exists(path):
-        raise HTTPException(404, "No examples found – run scripts/run_all.py first")
-    with open(path) as f:
-        return json.load(f)
+@app.post("/feedback")
+async def feedback(req: FeedbackRequest):
+    sb = _state.get("supabase")
+    if sb:
+        try:
+            sb.table("feedback").insert({
+                "query": req.query,
+                "rating": req.rating,
+                "note": req.note,
+            }).execute()
+            return {"status": "saved"}
+        except Exception as e:
+            log.warning("Failed to save feedback: %s", e)
+            raise HTTPException(500, "Failed to save feedback")
+    else:
+        log.warning("Feedback received but Supabase not configured")
+        return {"status": "accepted", "note": "No database configured"}

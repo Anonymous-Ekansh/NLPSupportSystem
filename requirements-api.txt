@@ -1,0 +1,11 @@
+# API service requirements (no torch!)
+fastembed>=0.3
+numpy>=1.24
+fastapi>=0.110
+uvicorn>=0.27
+pydantic>=2.0
+supabase>=2.0
+httpx>=0.27
+pandas>=2.0
+scipy>=1.11
+scikit-learn>=1.4
