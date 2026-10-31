@@ -30,6 +30,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const rawAnswer = (body as { answer?: unknown })?.answer;
+  const answer =
+    typeof rawAnswer === "string" && rawAnswer.trim().length > 0
+      ? rawAnswer.trim().slice(0, MAX_QUERY_LENGTH)
+      : null;
+
   const trimmed = query.trim();
   if (trimmed.length > MAX_QUERY_LENGTH) {
     return NextResponse.json(
@@ -48,7 +54,7 @@ export async function POST(request: NextRequest) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: trimmed }),
+        body: JSON.stringify(answer ? { query: trimmed, answer } : { query: trimmed }),
       },
       {
         attempts: 3,
@@ -79,7 +85,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (!upstream.ok) {
-      const fallback = readDemoResult(trimmed);
+      // A follow-up reply cannot be answered from the cache: the cached run is
+      // the *clarification*, not the resolved follow-up.
+      const fallback = answer ? null : readDemoResult(trimmed);
       if (fallback) return NextResponse.json(fallback);
 
       return NextResponse.json(
@@ -95,7 +103,7 @@ export async function POST(request: NextRequest) {
     const result = sanitizeResolve(raw);
 
     if (!result.final_response && result.trace.length === 0) {
-      const fallback = readDemoResult(trimmed);
+      const fallback = answer ? null : readDemoResult(trimmed);
       if (fallback) return NextResponse.json(fallback);
 
       return NextResponse.json(
@@ -109,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch {
-    const fallback = readDemoResult(trimmed);
+    const fallback = answer ? null : readDemoResult(trimmed);
     if (fallback) return NextResponse.json(fallback);
 
     return NextResponse.json(

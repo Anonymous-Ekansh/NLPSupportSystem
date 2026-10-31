@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  CloudSun,
-  KeyRound,
+  Gavel,
+  HelpCircle,
+  Keyboard,
+  Languages,
   PackageSearch,
   Plus,
   RotateCcw,
-  XCircle,
+  Sparkles,
 } from "lucide-react";
 import {
   ApiRequestError,
@@ -35,23 +37,38 @@ import { SessionCard } from "@/components/demo/SessionCard";
 const EXAMPLE_QUERIES = [
   {
     label: "How can I request a refund for my purchase?",
+    hint: "Answer",
     icon: RotateCcw,
   },
   {
-    label: "I want to cancel my order",
-    icon: XCircle,
-  },
-  {
-    label: "Where is my parcel? How long will delivery take?",
+    label: "I need a refund but cannot find my order number",
+    hint: "Clarify · missing detail",
     icon: PackageSearch,
   },
   {
-    label: "I forgot my password and can't log in",
-    icon: KeyRound,
+    label: "refund",
+    hint: "Clarify · ambiguous",
+    icon: HelpCircle,
   },
   {
-    label: "What is the weather in Paris?",
-    icon: CloudSun,
+    label: "i wanna cancel my order pls its been a week",
+    hint: "Typo & slang",
+    icon: Keyboard,
+  },
+  {
+    label: "bhai mera refund kab aayega please jaldi batao",
+    hint: "Hinglish",
+    icon: Languages,
+  },
+  {
+    label: "asdkjhqwoieu 🎉🎉",
+    hint: "Gibberish",
+    icon: Sparkles,
+  },
+  {
+    label: "I will sue you over this charge",
+    hint: "Escalate · legal",
+    icon: Gavel,
   },
 ];
 
@@ -128,7 +145,7 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
     }
   };
 
-  const send = async (raw: string, appendUser = true) => {
+  const send = async (raw: string, appendUser = true, answer?: string) => {
     const query = raw.trim();
     if (!query || loading) return;
 
@@ -138,7 +155,7 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
         {
           id: messageId("user"),
           role: "user",
-          text: query,
+          text: answer ? answer : query,
           createdAt: Date.now(),
         },
       ]);
@@ -152,7 +169,9 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
     slowTimer.current = window.setTimeout(() => setSlow(true), 2500);
 
     try {
-      const result = await resolveQuestion(query);
+      // A clarification reply is sent with the original question so the
+      // server can re-run the whole exchange (nothing is stored server-side).
+      const result = await resolveQuestion(query, { answer });
       const sMin = metaRef.current?.a1?.s_min ?? null;
       const withheld = isOutOfScope(result, sMin);
       const unsure = isUnsure(result) && !withheld;
@@ -191,6 +210,11 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
       setSlow(false);
       clearSlowTimer();
     }
+  };
+
+  const replyToClarify = (originalQuery: string, answer: string) => {
+    // The customer's reply is its own bubble; the request carries both texts.
+    void send(originalQuery, true, answer);
   };
 
   const startNewChat = () => {
@@ -252,12 +276,27 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
         <div className="flex flex-wrap items-center gap-1.5 text-xs text-ink-secondary">
           <span className="inline-flex items-center gap-1">
             <Dot tone="a1" />
-            A1 Intent Analyst
+            A1
+          </span>
+          <ArrowRight size={12} aria-hidden="true" className="text-ink-faint" />
+          <span className="inline-flex items-center gap-1">
+            <Dot tone="brand" />
+            A3
           </span>
           <ArrowRight size={12} aria-hidden="true" className="text-ink-faint" />
           <span className="inline-flex items-center gap-1">
             <Dot tone="a2" />
-            A2 Response Specialist
+            A2
+          </span>
+          <ArrowRight size={12} aria-hidden="true" className="text-ink-faint" />
+          <span className="inline-flex items-center gap-1">
+            <Dot tone="success" />
+            A4
+          </span>
+          <ArrowRight size={12} aria-hidden="true" className="text-ink-faint" />
+          <span className="inline-flex items-center gap-1">
+            <Dot tone="brand" />
+            A5
           </span>
         </div>
       </div>
@@ -282,7 +321,7 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
             />
           </div>
 
-          <div className="mt-4 flex max-w-[880px] flex-wrap justify-center gap-2">
+          <div className="mt-4 grid max-w-[880px] grid-cols-1 gap-2 sm:grid-cols-2">
             {EXAMPLE_QUERIES.map((example) => {
               const Icon = example.icon;
               return (
@@ -290,15 +329,22 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
                   key={example.label}
                   type="button"
                   onClick={() => void send(example.label)}
-                  className="inline-flex items-center gap-2 rounded-pill border border-line bg-card px-3.5 py-2 text-sm text-ink-secondary transition-colors hover:border-brand/20 hover:bg-brand/[0.04] hover:text-ink"
+                  className="flex items-start gap-2 rounded-[12px] border border-line bg-card px-3 py-2 text-left transition-colors hover:border-brand/20 hover:bg-brand/[0.04]"
                 >
                   <Icon
-                    size={14}
+                    size={15}
                     strokeWidth={1.8}
                     aria-hidden="true"
-                    className="text-ink-faint"
+                    className="mt-0.5 shrink-0 text-ink-faint"
                   />
-                  {example.label}
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm text-ink">
+                      {example.label}
+                    </span>
+                    <span className="block font-mono text-[11px] uppercase tracking-[0.06em] text-ink-faint">
+                      {example.hint}
+                    </span>
+                  </span>
                 </button>
               );
             })}
@@ -306,9 +352,9 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
 
           <p className="mt-5 inline-flex items-center gap-1.5 text-xs text-ink-faint">
             <Dot tone="a1" />
-            Two agents
+            Five agents
             <span aria-hidden="true">·</span>
-            every answer is checked
+            every answer is checked before it is sent
             <Dot tone="a2" />
           </p>
         </div>
@@ -319,7 +365,7 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
               <div className="min-w-0">
                 <h2 className="text-base font-semibold text-ink">Chat</h2>
                 <p className="text-xs text-ink-secondary">
-                  A1 passes the topic to A2, then checks the answer.
+                  A1 → A3 → A2 → A4 → A5. Every step is traceable.
                 </p>
               </div>
               <button
@@ -348,6 +394,8 @@ export function LiveDemo({ mapPoints, initialMeta }: LiveDemoProps) {
                   onFollowup={(query) => void send(query)}
                   onRetry={(query) => void send(query, false)}
                   onOpenTrace={openTrace}
+                  onClarifyReply={replyToClarify}
+                  clarifyLoading={loading}
                 />
               ))}
               {loading ? <TypingIndicator slow={slow} /> : null}

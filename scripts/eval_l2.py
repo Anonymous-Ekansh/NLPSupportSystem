@@ -281,12 +281,28 @@ def build_weak_evidence(df: pd.DataFrame, results: list[dict],
     } for i, (res, row) in enumerate(weak[:n])]
 
 
-CONTRADICTION_QUERY = "I need a refund for my order"
-CONTRADICTION_EVIDENCE = (
-    ("can i get a refund please", "You can request a refund within 30 days of purchase.", "get_refund"),
-    ("how do i recover my password", "Click reset password and follow the link we send you.", "recover_password"),
-    ("cancel my order", "Orders can be cancelled before they ship.", "cancel_order"),
+CONTRADICTION_CANDIDATES = (
+    "How can I request a refund for my purchase?",
+    "how do I recover my password",
+    "how can I cancel my order",
+    "can I get a refund please",
 )
+
+# Pool of realistic evidence rows keyed by their dataset intent.  The probe
+# keeps the row that matches the prediction and mixes in two that do not, so
+# neighbour agreement is 1/3 — well under the policy's 0.60 floor.
+CONTRADICTION_EVIDENCE = {
+    "get_refund": ("can i get a refund please",
+                   "You can request a refund within 30 days of purchase."),
+    "recover_password": ("how do i recover my password",
+                         "Click reset password and follow the link we send you."),
+    "cancel_order": ("cancel my order",
+                     "Orders can be cancelled before they ship."),
+    "track_order": ("where is my order",
+                    "You can follow your order from Orders in your account."),
+    "check_invoice": ("i need my invoice",
+                      "Your invoice is available under Documents in your account."),
+}
 
 
 def build_contradictory(pipe: Level2Pipeline) -> list[dict]:
@@ -300,19 +316,35 @@ def build_contradictory(pipe: Level2Pipeline) -> list[dict]:
     from nlp.a5 import coordinate
     from nlp.l2.a4 import audit
 
+    # A4/A5 only run on the answer route, so the probe needs a query A3 would
+    # answer; picking a clarify-route query would silently test nothing.
+    query, a1, plan = None, None, None
+    for candidate in CONTRADICTION_CANDIDATES:
+        cand_a1 = pipe.a1.analyze(candidate)
+        cand_plan = pipe.planner.plan(candidate, cand_a1)
+        if cand_plan.route == "answer":
+            query, a1, plan = candidate, cand_a1, cand_plan
+            break
+    if query is None:
+        return []
+
+    predicted = a1.get("intent") or ""
+    keep = predicted if predicted in CONTRADICTION_EVIDENCE else "get_refund"
+    others = [k for k in CONTRADICTION_EVIDENCE if k != keep][:2]
+    evidence = [keep] + others
+
     cases = []
-    for i, keep in enumerate((0, 1)):
-        query = CONTRADICTION_QUERY
-        a1 = pipe.a1.analyze(query)
-        plan = pipe.planner.plan(query, a1)
+    for i, lead in enumerate((keep, others[0])):
+        ins, resp = CONTRADICTION_EVIDENCE[lead]
         a2 = {
-            "response": CONTRADICTION_EVIDENCE[keep][1],
+            "response": resp,
             "supporting_examples": [
-                {"instruction": ins, "response": resp, "similarity": 0.9,
-                 "intent": tag}
-                for ins, resp, tag in CONTRADICTION_EVIDENCE
+                {"instruction": CONTRADICTION_EVIDENCE[tag][0],
+                 "response": CONTRADICTION_EVIDENCE[tag][1],
+                 "similarity": 0.9, "intent": tag}
+                for tag in evidence
             ],
-            "used_intents": [tag for _, _, tag in CONTRADICTION_EVIDENCE],
+            "used_intents": list(evidence),
             "retrieval_score": 0.9, "low_confidence": False,
             "self_check": {"check_passed": True},
         }
@@ -323,6 +355,7 @@ def build_contradictory(pipe: Level2Pipeline) -> list[dict]:
             "query": query,
             "probe": "constructed contradictory evidence",
             "expected": ["ESCALATE"],
+            "evidence_intents": list(evidence),
             "a1": a1, "a3": plan.to_dict(),
             "a4": audit_result.to_dict(),
             "decision": decision.decision,
@@ -474,8 +507,9 @@ def main(argv=None) -> int:
     ap.add_argument("--split", default="test")
     ap.add_argument("--n", type=int, default=500,
                     help="clean TEST rows (0 = whole split)")
-    ap.add_argument("--n-pert", dest="n_pert", type=int, default=60,
-                    help="rows per synthetic perturbation kind")
+    ap.add_argument("--n-pert", dest="n_pert", type=int, default=100,
+                    help="rows per synthetic perturbation kind (only rows the "
+                         "transform actually changes are used)")
     ap.add_argument("--n-weak", dest="n_weak", type=int, default=25,
                     help="weak-evidence cases")
     ap.add_argument("--n-ambiguous", dest="n_ambiguous", type=int, default=25)

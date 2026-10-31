@@ -1,0 +1,1336 @@
+{
+  "meta": {
+    "generated_at": "2026-10-31T03:23:57",
+    "split": "test",
+    "n_split": 3475,
+    "seed": 13,
+    "clean_sample_n": 400,
+    "perturb_sample_n": 60,
+    "low_sample_threshold": 30,
+    "policy": {
+      "version": 1,
+      "path": "config/l2_policy.json",
+      "tuned_on": "DEV (validation)"
+    },
+    "thresholds": {
+      "confidence_high": 0.65,
+      "confidence_low": 0.6,
+      "top2_margin_min": 0.05,
+      "ood_similarity_min": 0.55,
+      "similarity_min": 0.7,
+      "neighbor_agreement_min": 0.6
+    },
+    "runtime_s": 286.1,
+    "synthetic_note": "Synthetic rows come from nlp/perturb.py (seeded, deterministic). Their labels are inherited from the original TEST row; expectations for stress sets are stated in 'expected' and are our own definition, not dataset truth."
+  },
+  "overall": {
+    "n": 400,
+    "low_sample": false,
+    "intent_accuracy": 0.9925,
+    "intent_macro_f1": 0.9932,
+    "category_accuracy": 0.9975,
+    "decisions": {
+      "ANSWER": 366,
+      "CLARIFY": 33,
+      "ESCALATE": 1
+    },
+    "decision_shares": {
+      "ANSWER": 0.915,
+      "CLARIFY": 0.0825,
+      "ESCALATE": 0.0025
+    },
+    "day1_reference": {
+      "n_samples": 3475,
+      "intent_accuracy": 0.9934,
+      "intent_f1_macro": 0.9917,
+      "category_accuracy": 0.9983
+    },
+    "day1_note": "Day-1 figures are computed over the full 3475-row TEST split by nlp/evaluate.py; these are over the seeded sample, so small differences are sampling noise. Run with --n 0 to compare exactly.",
+    "intent_accuracy_delta_vs_day1": -0.0009,
+    "matches_day1_within_0.01": true
+  },
+  "by_flag": [
+    {
+      "group": "L",
+      "label": "semantic",
+      "meaning": "semantic variation (synonyms, hyphenation, compounding)",
+      "multi_label": true,
+      "n": 371,
+      "low_sample": false,
+      "intent_accuracy": 0.9919,
+      "intent_macro_f1": 0.9925,
+      "category_accuracy": 0.9973,
+      "decisions": {
+        "ANSWER": 339,
+        "CLARIFY": 31,
+        "ESCALATE": 1
+      },
+      "decision_shares": {
+        "ANSWER": 0.9137,
+        "CLARIFY": 0.0836,
+        "ESCALATE": 0.0027
+      }
+    },
+    {
+      "group": "Q",
+      "label": "colloquial",
+      "meaning": "colloquial variation",
+      "multi_label": true,
+      "n": 130,
+      "low_sample": false,
+      "intent_accuracy": 0.9846,
+      "intent_macro_f1": 0.9832,
+      "category_accuracy": 0.9923,
+      "decisions": {
+        "ANSWER": 116,
+        "CLARIFY": 13,
+        "ESCALATE": 1
+      },
+      "decision_shares": {
+        "ANSWER": 0.8923,
+        "CLARIFY": 0.1,
+        "ESCALATE": 0.0077
+      }
+    },
+    {
+      "group": "I",
+      "label": "interrogative",
+      "meaning": "interrogative structure",
+      "multi_label": true,
+      "n": 107,
+      "low_sample": false,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 101,
+        "CLARIFY": 6,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.9439,
+        "CLARIFY": 0.0561,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "M",
+      "label": "morphological",
+      "meaning": "morphological variation",
+      "multi_label": true,
+      "n": 77,
+      "low_sample": false,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 65,
+        "CLARIFY": 12,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.8442,
+        "CLARIFY": 0.1558,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "Z",
+      "label": "typos/errors",
+      "meaning": "errors and typos",
+      "multi_label": true,
+      "n": 73,
+      "low_sample": false,
+      "intent_accuracy": 0.9726,
+      "intent_macro_f1": 0.9672,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 69,
+        "CLARIFY": 4,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.9452,
+        "CLARIFY": 0.0548,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "C",
+      "label": "coordinated",
+      "meaning": "coordinated syntactic structure",
+      "multi_label": true,
+      "n": 39,
+      "low_sample": false,
+      "intent_accuracy": 0.9744,
+      "intent_macro_f1": 0.9398,
+      "category_accuracy": 0.9744,
+      "decisions": {
+        "ANSWER": 34,
+        "CLARIFY": 4,
+        "ESCALATE": 1
+      },
+      "decision_shares": {
+        "ANSWER": 0.8718,
+        "CLARIFY": 0.1026,
+        "ESCALATE": 0.0256
+      }
+    },
+    {
+      "group": "E",
+      "label": "abbreviation",
+      "meaning": "abbreviations (I'm / I am)",
+      "multi_label": true,
+      "n": 27,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 26,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.963,
+        "CLARIFY": 0.037,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "K",
+      "label": "keyword",
+      "meaning": "keyword mode (no sentence structure)",
+      "multi_label": true,
+      "n": 24,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 22,
+        "CLARIFY": 2,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.9167,
+        "CLARIFY": 0.0833,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "W",
+      "label": "offensive",
+      "meaning": "offensive language",
+      "multi_label": true,
+      "n": 23,
+      "low_sample": true,
+      "intent_accuracy": 0.9565,
+      "intent_macro_f1": 0.9306,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 20,
+        "CLARIFY": 3,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.8696,
+        "CLARIFY": 0.1304,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "P",
+      "label": "polite",
+      "meaning": "politeness variation",
+      "multi_label": true,
+      "n": 21,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 18,
+        "CLARIFY": 3,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.8571,
+        "CLARIFY": 0.1429,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "N",
+      "label": "negation",
+      "meaning": "negation",
+      "multi_label": true,
+      "n": 5,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 4,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.8,
+        "CLARIFY": 0.2,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "V",
+      "label": "undocumented-V",
+      "meaning": "undocumented in the Bitext legend (REFUND/get_refund + ACCOUNT/recover_password)",
+      "multi_label": true,
+      "n": 1,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 0,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.0,
+        "CLARIFY": 1.0,
+        "ESCALATE": 0.0
+      }
+    }
+  ],
+  "by_perturbation": [
+    {
+      "group": "typo",
+      "synthetic": true,
+      "transform_coverage": 1.0,
+      "note": "labels inherited from the original TEST row",
+      "n": 60,
+      "low_sample": false,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 47,
+        "CLARIFY": 11,
+        "ESCALATE": 2
+      },
+      "decision_shares": {
+        "ANSWER": 0.7833,
+        "CLARIFY": 0.1833,
+        "ESCALATE": 0.0333
+      }
+    },
+    {
+      "group": "char_swap",
+      "synthetic": true,
+      "transform_coverage": 1.0,
+      "note": "labels inherited from the original TEST row",
+      "n": 60,
+      "low_sample": false,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 45,
+        "CLARIFY": 14,
+        "ESCALATE": 1
+      },
+      "decision_shares": {
+        "ANSWER": 0.75,
+        "CLARIFY": 0.2333,
+        "ESCALATE": 0.0167
+      }
+    },
+    {
+      "group": "abbrev",
+      "synthetic": true,
+      "transform_coverage": 0.322,
+      "note": "labels inherited from the original TEST row",
+      "n": 21,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 13,
+        "CLARIFY": 8,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.619,
+        "CLARIFY": 0.381,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "slang",
+      "synthetic": true,
+      "transform_coverage": 0.1353,
+      "note": "labels inherited from the original TEST row",
+      "n": 7,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 6,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.8571,
+        "CLARIFY": 0.1429,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "upper",
+      "synthetic": true,
+      "transform_coverage": 1.0,
+      "note": "labels inherited from the original TEST row",
+      "n": 60,
+      "low_sample": false,
+      "intent_accuracy": 0.9667,
+      "intent_macro_f1": 0.9746,
+      "category_accuracy": 0.9833,
+      "decisions": {
+        "ANSWER": 52,
+        "CLARIFY": 7,
+        "ESCALATE": 1
+      },
+      "decision_shares": {
+        "ANSWER": 0.8667,
+        "CLARIFY": 0.1167,
+        "ESCALATE": 0.0167
+      }
+    },
+    {
+      "group": "no_punct",
+      "synthetic": true,
+      "transform_coverage": 0.4109,
+      "note": "labels inherited from the original TEST row",
+      "n": 22,
+      "low_sample": true,
+      "intent_accuracy": 1.0,
+      "intent_macro_f1": 1.0,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 15,
+        "CLARIFY": 7,
+        "ESCALATE": 0
+      },
+      "decision_shares": {
+        "ANSWER": 0.6818,
+        "CLARIFY": 0.3182,
+        "ESCALATE": 0.0
+      }
+    },
+    {
+      "group": "hinglish",
+      "synthetic": true,
+      "transform_coverage": 1.0,
+      "note": "labels inherited from the original TEST row",
+      "n": 60,
+      "low_sample": false,
+      "intent_accuracy": 0.9667,
+      "intent_macro_f1": 0.9675,
+      "category_accuracy": 1.0,
+      "decisions": {
+        "ANSWER": 49,
+        "CLARIFY": 8,
+        "ESCALATE": 3
+      },
+      "decision_shares": {
+        "ANSWER": 0.8167,
+        "CLARIFY": 0.1333,
+        "ESCALATE": 0.05
+      }
+    }
+  ],
+  "selective_prediction": {
+    "coverage": 0.915,
+    "n_answered": 366,
+    "accuracy_on_answered": 0.9945,
+    "answered_with_correct_intent": 364,
+    "accuracy_if_all_answered": 0.9925,
+    "risk_coverage_curve": [
+      {
+        "coverage": 0.05,
+        "accuracy": 1.0,
+        "n_answered": 20,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.1,
+        "accuracy": 1.0,
+        "n_answered": 40,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.15,
+        "accuracy": 1.0,
+        "n_answered": 60,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.2,
+        "accuracy": 1.0,
+        "n_answered": 80,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.25,
+        "accuracy": 1.0,
+        "n_answered": 100,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.3,
+        "accuracy": 1.0,
+        "n_answered": 120,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.35,
+        "accuracy": 1.0,
+        "n_answered": 140,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.4,
+        "accuracy": 1.0,
+        "n_answered": 160,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.45,
+        "accuracy": 1.0,
+        "n_answered": 180,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.5,
+        "accuracy": 1.0,
+        "n_answered": 200,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.55,
+        "accuracy": 1.0,
+        "n_answered": 220,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.6,
+        "accuracy": 1.0,
+        "n_answered": 240,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.65,
+        "accuracy": 1.0,
+        "n_answered": 260,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.7,
+        "accuracy": 1.0,
+        "n_answered": 280,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.75,
+        "accuracy": 1.0,
+        "n_answered": 300,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.8,
+        "accuracy": 1.0,
+        "n_answered": 320,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.85,
+        "accuracy": 1.0,
+        "n_answered": 340,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.9,
+        "accuracy": 1.0,
+        "n_answered": 360,
+        "confidence_floor": 0.9999
+      },
+      {
+        "coverage": 0.95,
+        "accuracy": 1.0,
+        "n_answered": 380,
+        "confidence_floor": 0.9995
+      },
+      {
+        "coverage": 1.0,
+        "accuracy": 0.9925,
+        "n_answered": 400,
+        "confidence_floor": 0.5709
+      }
+    ]
+  },
+  "stress_sets": {
+    "ambiguous": {
+      "n": 25,
+      "low_sample": true,
+      "correctly_routed": 4,
+      "correctly_routed_share": 0.16,
+      "wrongly_answered": 21,
+      "wrongly_answered_share": 0.84,
+      "decisions": {
+        "ANSWER": 21,
+        "CLARIFY": 4
+      },
+      "cases": [
+        {
+          "id": "AMB01",
+          "query": "I need assistance to switch to a new account, and i have made a mistake i need help changing purchase {{Order Number}}",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB02",
+          "query": "I want to correct purchase {{Order Number}}, and i do not know what I need to do to report payment problems",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB03",
+          "query": "I am trying to see when will my purchase arrive, and could i delete a item from purchase {{Order Number}}",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB04",
+          "query": "want assistance demanding compensations fo money, and can ya help me purchase several items",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB05",
+          "query": "need sasistance seeing what payment options are accepted, and i want help to give a quick look at the invoice #85632",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB06",
+          "query": "i have to see the ETA of order {{Order Number}} can ya help me, and see ur reimbursement policy",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB07",
+          "query": "need to update my user data how can i do it, and wannasee in what situations can i ask to be refunded",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB08",
+          "query": "want assistance notifying of an error with payments, and where do I check what damn shipment options are available?",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB09",
+          "query": "I don't know how to make a consumer reclamation, and i do not know how to recover the PIN code of my user account",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB10",
+          "query": "get invoice #37777, and wanna check uf refund policy",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB11",
+          "query": "where do i earn several articles, and check the available options for shipping",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB12",
+          "query": "I need to earn several articles, and how do i submit my feedback for ur products",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB13",
+          "query": "updating freemium account, and help me make a complaint against ur business",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB14",
+          "query": "I have to see in whzt cases can I request to be reimbursed, and i have got to earn some products",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB15",
+          "query": "want help updating the address, and can you help me seeing the invoice from {{Person Name}}?",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB16",
+          "query": "I don't know how I can check the ETA of order732201349959, and help to leave feedback for a product",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB17",
+          "query": "I don't know what I need to do to check the invoice #37777, and check in which cases can I ask for a fucking reimbursement",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB18",
+          "query": "can you help me check bill #12588, and where can I notify of problems with payent?",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB19",
+          "query": "i want help to check my bill fom {{Person Name}}, and i have to notify of a sign-up error",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB20",
+          "query": "assistance informing of problems with registrations, and i am trying to see the current status of the compensation",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB21",
+          "query": "modify info on pro account, and how do i do  a purchase",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB22",
+          "query": "modify details on pro account, and wanna cancel the companynewsletter subscription",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB23",
+          "query": "I need help filing a claim, and is it possible to check the early termination charges",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB24",
+          "query": "review, and edit details oon gold account",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "AMB25",
+          "query": "what time can I contact customer service, and need assistance seeing the withdrawal penalty",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        }
+      ],
+      "assumption": "A blend of two requests from different categories has no single correct intent; CLARIFY or ESCALATE counts as correct, a confident single-intent ANSWER counts as wrong."
+    },
+    "missing_slot": {
+      "n": 8,
+      "low_sample": true,
+      "correctly_routed": 7,
+      "correctly_routed_share": 0.875,
+      "wrongly_answered": 1,
+      "wrongly_answered_share": 0.125,
+      "decisions": {
+        "CLARIFY": 7,
+        "ANSWER": 1
+      },
+      "cases": [
+        {
+          "id": "MIS01",
+          "query": "I need a refund but I cannot find my order number",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS02",
+          "query": "I want to cancel my order but I lost the order id",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS03",
+          "query": "where is my refund? I do not have my order number",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS04",
+          "query": "please cancel my order, I cannot find my order number anywhere",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS05",
+          "query": "I need to change my shipping address but I lost my order number",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS06",
+          "query": "my refund has not arrived and I cannot find my order number",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS07",
+          "query": "can you tell me my refund status, I lost the order number",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "MIS08",
+          "query": "I want my money back but I cannot find the order number",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        }
+      ],
+      "preferred_decision": "CLARIFY"
+    },
+    "out_of_scope": {
+      "n": 10,
+      "low_sample": true,
+      "correctly_routed": 10,
+      "correctly_routed_share": 1.0,
+      "wrongly_answered": 0,
+      "wrongly_answered_share": 0.0,
+      "decisions": {
+        "ESCALATE": 10
+      },
+      "cases": [
+        {
+          "id": "OOS01",
+          "query": "what is the weather in Paris tomorrow",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS02",
+          "query": "write me a poem about cats",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS03",
+          "query": "tell me a joke",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS04",
+          "query": "who won the world cup in 2018",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS05",
+          "query": "translate this sentence into French",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS06",
+          "query": "give me a recipe for paneer butter masala",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS07",
+          "query": "what is the capital of Australia",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS08",
+          "query": "explain quantum entanglement simply",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS09",
+          "query": "book me a flight to Tokyo next Friday",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "OOS10",
+          "query": "what should I do about a persistent headache",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        }
+      ]
+    },
+    "weak_evidence": {
+      "n": 20,
+      "low_sample": true,
+      "correctly_routed": 2,
+      "correctly_routed_share": 0.1,
+      "wrongly_answered": 18,
+      "wrongly_answered_share": 0.9,
+      "decisions": {
+        "ANSWER": 18,
+        "CLARIFY": 2
+      },
+      "cases": [
+        {
+          "id": "WK001",
+          "query": "i dont know how i could check purchase {{Order Number}} status",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK002",
+          "query": "leaving review about your company",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK003",
+          "query": "I have to unsubscribe to your newsletter",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK004",
+          "query": "i have got to correct the info included on my user profile",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK005",
+          "query": "I want assistance seeing what shipping options you offer",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK006",
+          "query": "open a {{Account Category}} acocunt",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK007",
+          "query": "could i recover  my damn profile key",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK008",
+          "query": "i neee help solving problems with payments",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK009",
+          "query": "where to check what hours I can reach customer service?",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK010",
+          "query": "I don't know how to get the invoice #37777",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK011",
+          "query": "i have an problem with the pass recovery",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK012",
+          "query": "where do I check how long it takes for my item to arrive?",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK013",
+          "query": "need to correct the damn data on my user how do i do it",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK014",
+          "query": "I don't know what I need to do to download the bill #00108",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK015",
+          "query": "need to submit my feedback for a service can uhelp me",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK016",
+          "query": "what do i need to do to check the status of the restitution",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK017",
+          "query": "i need assistance to check the allowed payment options",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK018",
+          "query": "I am trying to see the current status of the compensation",
+          "decision": "CLARIFY",
+          "correct": true,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK019",
+          "query": "wanna know more about correcting the address",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "WK020",
+          "query": "I  have got to lodge a consumer complaint",
+          "decision": "ANSWER",
+          "correct": false,
+          "expected": [
+            "CLARIFY",
+            "ESCALATE"
+          ]
+        }
+      ]
+    },
+    "contradictory_neighbour": {
+      "n": 2,
+      "low_sample": true,
+      "correctly_routed": 2,
+      "correctly_routed_share": 1.0,
+      "wrongly_answered": 0,
+      "wrongly_answered_share": 0.0,
+      "decisions": {
+        "ESCALATE": 2
+      },
+      "cases": [
+        {
+          "id": "CON01",
+          "query": "How can I request a refund for my purchase?",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        },
+        {
+          "id": "CON02",
+          "query": "How can I request a refund for my purchase?",
+          "decision": "ESCALATE",
+          "correct": true,
+          "expected": [
+            "ESCALATE"
+          ]
+        }
+      ],
+      "probe_note": "Constructed conflicting evidence driven through A4/A5 directly; it tests the audit/coordination layer, not retrieval."
+    }
+  },
+  "false_action_claims": {
+    "answers_checked": 406,
+    "false_action_claims": 0,
+    "target": 0,
+    "passed": true,
+    "examples": []
+  },
+  "ablation_day1_vs_l2": {
+    "ambiguous": {
+      "n": 25,
+      "level2_wrong_answer_share": 0.84,
+      "level2_correct_routing_share": 0.16,
+      "day1_answered_share": 1.0,
+      "day1_asks_question_share": 0.36,
+      "day1_action_claim_share": 0.12
+    },
+    "missing_slot": {
+      "n": 8,
+      "level2_wrong_answer_share": 0.125,
+      "level2_correct_routing_share": 0.875,
+      "day1_answered_share": 1.0,
+      "day1_asks_question_share": 0.375,
+      "day1_action_claim_share": 0.0
+    },
+    "out_of_scope": {
+      "n": 10,
+      "level2_wrong_answer_share": 0.0,
+      "level2_correct_routing_share": 1.0,
+      "day1_answered_share": 1.0,
+      "day1_asks_question_share": 0.4,
+      "day1_action_claim_share": 0.0
+    },
+    "weak_evidence": {
+      "n": 20,
+      "level2_wrong_answer_share": 0.9,
+      "level2_correct_routing_share": 0.1,
+      "day1_answered_share": 1.0,
+      "day1_asks_question_share": 0.25,
+      "day1_action_claim_share": 0.0
+    }
+  }
+}

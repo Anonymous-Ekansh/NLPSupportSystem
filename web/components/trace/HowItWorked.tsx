@@ -12,7 +12,10 @@ import {
 import {
   getA1Output,
   getA2Output,
+  getAudit,
+  getRoutePlan,
   getTraceStep,
+  isLevel2,
   isOutOfScope,
   type MapPoint,
   type Meta,
@@ -37,6 +40,8 @@ import { CheckRow } from "@/components/trace/CheckRow";
 import { ScatterMap } from "@/components/trace/ScatterMap";
 import { PlaceholderText } from "@/components/chat/PlaceholderText";
 import { SessionCard } from "@/components/demo/SessionCard";
+import { DecisionBadge } from "@/components/decisions/DecisionBadge";
+import { AgentTimeline } from "@/components/decisions/AgentTimeline";
 
 type TraceView = "simple" | "technical";
 
@@ -645,15 +650,19 @@ export function HowItWorked({
   const body = (
     <>
       {header}
-      <div aria-live="polite">
-        {stepNodes.map((node, index) =>
-          show(index + 1) ? (
-            <div key={index} className="animate-fade-up">
-              {node}
-            </div>
-          ) : null
-        )}
-      </div>
+      {isLevel2(result) ? (
+        <Level2Trace result={result} />
+      ) : (
+        <div aria-live="polite">
+          {stepNodes.map((node, index) =>
+            show(index + 1) ? (
+              <div key={index} className="animate-fade-up">
+                {node}
+              </div>
+            ) : null
+          )}
+        </div>
+      )}
 
       <details className="group mt-4 border-t border-line pt-3">
         <summary className="flex cursor-pointer list-none items-center gap-1.5 text-xs font-medium text-ink-secondary hover:text-ink [&::-webkit-details-marker]:hidden">
@@ -682,6 +691,79 @@ export function HowItWorked({
     <Card className={cn("p-4", className)}>{body}</Card>
   ) : (
     <div className={className}>{body}</div>
+  );
+}
+
+/**
+ * Level-2 view: the decision first, then the five-agent timeline that
+ * produced it. The Day-1 two-agent narrative above stays for baseline / older
+ * cached payloads.
+ */
+function Level2Trace({ result }: { result: ResolveResult }) {
+  const plan = getRoutePlan(result);
+  const audit = getAudit(result);
+  const revised = audit?.verdict === "revise" && audit.revised_response;
+
+  return (
+    <div className="space-y-3" aria-live="polite">
+      <div className="rounded-[12px] border border-line bg-soft p-3">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <DecisionBadge decision={result.decision} size="lg" showBlurb />
+          <div className="text-right">
+            <p className="font-mono text-[11px] uppercase tracking-[0.06em] text-ink-faint">
+              final
+            </p>
+            <p className="font-mono text-xs tabular-nums text-ink">
+              {formatLatency(result.total_latency_ms)}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-2.5 rounded-[8px] border border-line bg-card p-2.5 text-sm leading-[21px] text-ink">
+          <PlaceholderText
+            text={result.final_response || "No response text returned."}
+          />
+        </div>
+
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+          {result.predicted_intent ? (
+            <Chip tone="a1">{result.predicted_intent}</Chip>
+          ) : null}
+          {result.predicted_category ? (
+            <Chip tone="outline">{result.predicted_category}</Chip>
+          ) : null}
+          {revised ? <Chip tone="warning">A4 revised</Chip> : null}
+          {result.cached ? <Chip tone="outline">Cached</Chip> : null}
+        </div>
+
+        {(result.reason_codes?.length ?? 0) > 0 ? (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {result.reason_codes!.map((code) => (
+              <span
+                key={code}
+                className="rounded-[6px] border border-line bg-card px-1.5 py-0.5 font-mono text-[11px] text-ink-secondary"
+              >
+                {code}
+              </span>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {plan ? (
+        <p className="text-xs leading-[18px] text-ink-secondary">
+          <span className="font-medium text-ink">Why: </span>
+          {plan.reasons?.[0] ?? "routed by A3"}
+        </p>
+      ) : null}
+
+      <div>
+        <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-faint">
+          agent timeline · expand any step
+        </p>
+        <AgentTimeline result={result} />
+      </div>
+    </div>
   );
 }
 

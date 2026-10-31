@@ -51,9 +51,77 @@ export interface A2Output {
 
 export interface TraceStep {
   agent: "IntentAnalyst" | "ResponseSpecialist" | string;
+  role?: string;
+  decision?: string;
+  evidence?: string[];
+  input_summary?: string;
+  output_summary?: string;
   input: Record<string, unknown>;
   output: unknown;
   latency_ms: number;
+}
+
+/* ── Level 2 contracts ─────────────────────────────────────────────── */
+
+/** The one decision the system is allowed to return. */
+export type Decision = "ANSWER" | "CLARIFY" | "ESCALATE";
+
+export const DECISIONS: Decision[] = ["ANSWER", "CLARIFY", "ESCALATE"];
+
+export interface MissingSlot {
+  slot: string;
+  label: string;
+  question: string;
+  evidence?: string;
+  required?: boolean;
+}
+
+export interface ClarifyOption {
+  intent: string;
+  prob: number;
+  question: string;
+  category?: string;
+}
+
+/** A3 output: what happens next, and why. */
+export interface RoutePlan {
+  route: "answer" | "clarify" | "escalate" | string;
+  reasons: string[];
+  reason_codes: string[];
+  missing_slots: MissingSlot[];
+  clarify_options: ClarifyOption[];
+  intent: string;
+  category: string;
+  confidence: number;
+  retrieval?: { mode?: string; k?: number; intents?: string[]; widen?: boolean };
+}
+
+export interface CheckResult {
+  name: string;
+  passed: boolean;
+  detail?: string;
+  value?: number | null;
+}
+
+/** A4 output: accept, revise, or flag. */
+export interface AuditResult {
+  verdict: "accept" | "revise" | "flag" | string;
+  checks: CheckResult[];
+  issues: string[];
+  revised_response: string | null;
+  evidence_ids: string[];
+  retry_candidate_rank: number | null;
+}
+
+/** A5 output. */
+export interface FinalDecision {
+  decision: Decision;
+  response: string;
+  intent: string;
+  category: string;
+  reason_codes: string[];
+  evidence_ids: string[];
+  notes: string[];
 }
 
 export interface MapPosition {
@@ -71,7 +139,48 @@ export interface ResolveResult {
   retrieval_backend: string;
   /** True when the live API was unavailable and a checked-in demo run was used. */
   cached?: boolean;
+
+  /* Level 2 — absent only on a Day-1 baseline payload. */
+  decision?: Decision | null;
+  predicted_intent?: string | null;
+  predicted_category?: string | null;
+  reason_codes?: string[];
+  evidence_ids?: string[];
+  mode?: "l2" | "baseline";
+  a1?: Record<string, unknown> | null;
+  a3?: RoutePlan | null;
+  a4?: AuditResult | null;
+  a5?: FinalDecision | null;
+  latency_breakdown_ms?: Record<string, number>;
 }
+
+/** True when this result carries the five-agent Level-2 trace. */
+export function isLevel2(result: ResolveResult | null | undefined) {
+  return Boolean(result?.decision);
+}
+
+/** A3 plan, from the field or the trace step (older cached payloads). */
+export function getRoutePlan(result: ResolveResult | null): RoutePlan | null {
+  if (!result) return null;
+  if (result.a3) return result.a3;
+  const step = result.trace.find((item) => item.agent === "A3");
+  return step && step.output && typeof step.output === "object"
+    ? (step.output as RoutePlan)
+    : null;
+}
+
+/** A4 audit, from the field or the trace step. */
+export function getAudit(result: ResolveResult | null): AuditResult | null {
+  if (!result) return null;
+  if (result.a4) return result.a4;
+  const step = result.trace.find((item) => item.agent === "A4");
+  return step && step.output && typeof step.output === "object"
+    ? (step.output as AuditResult)
+    : null;
+}
+
+/** The five Level-2 agents in execution order. */
+export const AGENT_ORDER = ["A1", "A3", "A2", "A4", "A5"] as const;
 
 export interface MetaA1 {
   served_level: string | null;
@@ -162,11 +271,20 @@ async function parseError(response: Response): Promise<ApiRequestError> {
   return new ApiRequestError(message, response.status, code);
 }
 
-export async function resolveQuestion(query: string): Promise<ResolveResult> {
+export async function resolveQuestion(
+  query: string,
+  options: { answer?: string | null } = {}
+): Promise<ResolveResult> {
+  const body: Record<string, string> = { query: query.trim() };
+  const answer = options.answer?.trim();
+  // Stateless follow-up: the server re-runs the original query plus this
+  // answer, so the clarification and its reply travel together.
+  if (answer) body.answer = answer;
+
   const response = await fetch("/api/resolve", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) throw await parseError(response);

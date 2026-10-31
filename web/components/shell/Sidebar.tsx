@@ -6,6 +6,7 @@ import {
   BarChart3,
   Database,
   MessageSquareText,
+  ShieldAlert,
   Workflow,
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
@@ -17,6 +18,7 @@ const navItems = [
   { href: "/architecture", label: "Architecture", icon: Workflow },
   { href: "/data", label: "Data explorer", icon: Database },
   { href: "/results", label: "Results", icon: BarChart3 },
+  { href: "/robustness", label: "Robustness", icon: ShieldAlert },
 ];
 
 export function Sidebar() {

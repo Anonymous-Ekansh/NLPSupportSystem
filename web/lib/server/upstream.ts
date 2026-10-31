@@ -3,10 +3,13 @@ import path from "node:path";
 import type {
   A1Output,
   A2Output,
+  AuditResult,
+  Decision,
   Health,
   MapPointsFile,
   Meta,
   ResolveResult,
+  RoutePlan,
   TraceStep,
 } from "@/lib/api";
 
@@ -92,9 +95,37 @@ function asNullableNumber(value: unknown) {
   return Number.isFinite(number) ? number : null;
 }
 
+const AGENT_KEYS = new Set([
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "IntentAnalyst",
+  "ResponseSpecialist",
+  "RoutePlanner",
+  "ResponseAuditor",
+  "Coordinator",
+]);
+
+function asObject(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function asStringArray(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
+}
+
 /**
  * Whitelist the public contract. In particular, roadmap / planned-agent
  * fields from the backend are deliberately dropped.
+ *
+ * Level 2 adds A3/A4/A5 to the trace, so the filter now keeps all five agent
+ * steps — dropping them would hide exactly what a reviewer wants to see.
  */
 export function sanitizeResolve(raw: unknown): ResolveResult {
   const data = (raw ?? {}) as Record<string, unknown>;
@@ -104,6 +135,17 @@ export function sanitizeResolve(raw: unknown): ResolveResult {
       const step = (item ?? {}) as Record<string, unknown>;
       return {
         agent: asString(step.agent),
+        role: step.role ? asString(step.role) : undefined,
+        decision: step.decision ? asString(step.decision) : undefined,
+        evidence: Array.isArray(step.evidence)
+          ? asStringArray(step.evidence)
+          : undefined,
+        input_summary: step.input_summary
+          ? asString(step.input_summary)
+          : undefined,
+        output_summary: step.output_summary
+          ? asString(step.output_summary)
+          : undefined,
         input:
           step.input && typeof step.input === "object"
             ? (step.input as Record<string, unknown>)
@@ -112,11 +154,7 @@ export function sanitizeResolve(raw: unknown): ResolveResult {
         latency_ms: asNumber(step.latency_ms),
       };
     })
-    .filter(
-      (step) =>
-        step.agent === "IntentAnalyst" ||
-        step.agent === "ResponseSpecialist"
-    );
+    .filter((step) => AGENT_KEYS.has(step.agent));
 
   for (const step of trace) {
     if (step.output && typeof step.output === "object") {
@@ -137,6 +175,8 @@ export function sanitizeResolve(raw: unknown): ResolveResult {
   }
 
   const map = (data.map ?? {}) as Record<string, unknown>;
+  const decision = asString(data.decision).toUpperCase();
+  const breakdown = asObject(data.latency_breakdown_ms);
 
   return {
     query: asString(data.query),
@@ -149,6 +189,30 @@ export function sanitizeResolve(raw: unknown): ResolveResult {
       confidence: asNumber(map.confidence),
     },
     retrieval_backend: asString(data.retrieval_backend, "in-memory"),
+
+    // Level 2 (all optional so a Day-1 payload still validates).
+    decision:
+      decision === "ANSWER" || decision === "CLARIFY" || decision === "ESCALATE"
+        ? (decision as Decision)
+        : null,
+    predicted_intent: data.predicted_intent
+      ? asString(data.predicted_intent)
+      : null,
+    predicted_category: data.predicted_category
+      ? asString(data.predicted_category)
+      : null,
+    reason_codes: asStringArray(data.reason_codes),
+    evidence_ids: asStringArray(data.evidence_ids),
+    mode: data.mode === "l2" || data.mode === "baseline" ? data.mode : undefined,
+    a3: (asObject(data.a3) as unknown as RoutePlan | null) ?? null,
+    a4: (asObject(data.a4) as unknown as AuditResult | null) ?? null,
+    a5: (asObject(data.a5) as unknown as ResolveResult["a5"]) ?? null,
+    a1: asObject(data.a1),
+    latency_breakdown_ms: breakdown
+      ? Object.fromEntries(
+          Object.entries(breakdown).map(([key, value]) => [key, asNumber(value)])
+        )
+      : undefined,
   };
 }
 

@@ -13,6 +13,7 @@ import {
   followupIntents,
   getA1Output,
   getA2Output,
+  getRoutePlan,
   type ResolveResult,
 } from "@/lib/api";
 import {
@@ -27,6 +28,8 @@ import { PlaceholderText } from "@/components/chat/PlaceholderText";
 import { Sources } from "@/components/chat/Sources";
 import { Chip, Dot } from "@/components/ui/Chip";
 import { LogoMark } from "@/components/ui/Logo";
+import { DecisionBadge } from "@/components/decisions/DecisionBadge";
+import { ClarifyReply } from "@/components/decisions/ClarifyReply";
 
 interface ChatMessageProps {
   message: ChatMessageData;
@@ -35,6 +38,9 @@ interface ChatMessageProps {
   onFollowup: (query: string) => void;
   onRetry: (query: string) => void;
   onOpenTrace: (result: ResolveResult) => void;
+  /** Send the answer to a CLARIFY question back into the pipeline. */
+  onClarifyReply: (query: string, answer: string) => void;
+  clarifyLoading?: boolean;
 }
 
 export function ChatMessage({
@@ -44,6 +50,8 @@ export function ChatMessage({
   onFollowup,
   onRetry,
   onOpenTrace,
+  onClarifyReply,
+  clarifyLoading = false,
 }: ChatMessageProps) {
   if (message.role === "user") {
     return (
@@ -90,6 +98,7 @@ export function ChatMessage({
 
   const result = message.result;
   const a1 = result ? getA1Output(result) : null;
+  const plan = result ? getRoutePlan(result) : null;
   const followups = result && !message.withheld ? followupIntents(result) : [];
   const supportingExamples = result
     ? getA2Output(result)?.supporting_examples ?? []
@@ -138,9 +147,24 @@ export function ChatMessage({
           </div>
         ) : null}
 
+        {result?.decision && !message.withheld ? (
+          <div className="mb-2">
+            <DecisionBadge decision={result.decision} />
+          </div>
+        ) : null}
+
         <p className="text-sm leading-[22px] text-ink">
           <PlaceholderText text={message.text} />
         </p>
+
+        {result?.decision === "CLARIFY" && !message.withheld ? (
+          <ClarifyReply
+            query={result.query}
+            missing={plan?.missing_slots ?? []}
+            loading={clarifyLoading}
+            onSend={(answer) => onClarifyReply(result.query, answer)}
+          />
+        ) : null}
 
         {result ? (
           <>
@@ -153,9 +177,10 @@ export function ChatMessage({
               {result.cached ? (
                 <Chip
                   tone="outline"
-                  title="The live API was waking, so this is a saved demo run."
+                  title="The live API was unreachable, so this is a saved run from the same pipeline — not a live result."
                 >
-                  Saved demo
+                  <Dot tone="neutral" />
+                  Cached
                 </Chip>
               ) : null}
               <span className="inline-flex items-center gap-1 text-xs text-ink-secondary">

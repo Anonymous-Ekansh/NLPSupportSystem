@@ -1,0 +1,723 @@
+{
+  "meta": {
+    "generated_at": "2026-10-31T03:23:57",
+    "split": "test",
+    "n": 400,
+    "policy_version": 1
+  },
+  "decisions": {
+    "ANSWER": 366,
+    "CLARIFY": 33,
+    "ESCALATE": 1
+  },
+  "decision_shares": {
+    "ANSWER": 0.915,
+    "CLARIFY": 0.0825,
+    "ESCALATE": 0.0025
+  },
+  "reason_codes": {
+    "standard_retrieval": 373,
+    "audit_accept": 261,
+    "audit_revise": 105,
+    "missing_information": 26,
+    "missing_order_number": 26,
+    "audit_flag": 7,
+    "intent_alignment": 7,
+    "uncertain_intent": 7,
+    "informational_question": 2,
+    "placeholder_safety": 1,
+    "low_confidence": 1
+  },
+  "by_intent": {
+    "cancel_order": {
+      "n": 5,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.6,
+        "CLARIFY": 0.4,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 3,
+        "CLARIFY": 2,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "change_order": {
+      "n": 13,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 13,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "change_shipping_address": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "check_cancellation_fee": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "check_invoice": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9375,
+        "CLARIFY": 0.0625,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 15,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 0.9375
+    },
+    "check_payment_methods": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "check_refund_policy": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "complaint": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "contact_customer_service": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "contact_human_agent": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9412,
+        "CLARIFY": 0.0588,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "create_account": {
+      "n": 14,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 14,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "delete_account": {
+      "n": 15,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.8667,
+        "CLARIFY": 0.1333,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 13,
+        "CLARIFY": 2,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "delivery_options": {
+      "n": 10,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 10,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "delivery_period": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "edit_account": {
+      "n": 11,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 11,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "get_invoice": {
+      "n": 14,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 14,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "get_refund": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.125,
+        "CLARIFY": 0.875,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 2,
+        "CLARIFY": 14,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "newsletter_subscription": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "payment_issue": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9412,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0588
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 0,
+        "ESCALATE": 1
+      },
+      "intent_accuracy": 0.9412
+    },
+    "place_order": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9412,
+        "CLARIFY": 0.0588,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "recover_password": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9412,
+        "CLARIFY": 0.0588,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "registration_problems": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "review": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.9412,
+        "CLARIFY": 0.0588,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "set_up_shipping_address": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 0.9412
+    },
+    "switch_account": {
+      "n": 12,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 12,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "track_order": {
+      "n": 12,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 12,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    },
+    "track_refund": {
+      "n": 10,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 0.0,
+        "CLARIFY": 1.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 0,
+        "CLARIFY": 10,
+        "ESCALATE": 0
+      },
+      "intent_accuracy": 1.0
+    }
+  },
+  "by_category": {
+    "ACCOUNT": {
+      "n": 86,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9651,
+        "CLARIFY": 0.0349,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 83,
+        "CLARIFY": 3,
+        "ESCALATE": 0
+      }
+    },
+    "CANCEL": {
+      "n": 16,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 16,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      }
+    },
+    "CONTACT": {
+      "n": 34,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9706,
+        "CLARIFY": 0.0294,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 33,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      }
+    },
+    "DELIVERY": {
+      "n": 27,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 27,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      }
+    },
+    "FEEDBACK": {
+      "n": 34,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9706,
+        "CLARIFY": 0.0294,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 33,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      }
+    },
+    "INVOICE": {
+      "n": 30,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9667,
+        "CLARIFY": 0.0333,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 29,
+        "CLARIFY": 1,
+        "ESCALATE": 0
+      }
+    },
+    "ORDER": {
+      "n": 47,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9362,
+        "CLARIFY": 0.0638,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 44,
+        "CLARIFY": 3,
+        "ESCALATE": 0
+      }
+    },
+    "PAYMENT": {
+      "n": 33,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.9697,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0303
+      },
+      "decisions": {
+        "ANSWER": 32,
+        "CLARIFY": 0,
+        "ESCALATE": 1
+      }
+    },
+    "REFUND": {
+      "n": 42,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 0.4286,
+        "CLARIFY": 0.5714,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 18,
+        "CLARIFY": 24,
+        "ESCALATE": 0
+      }
+    },
+    "SHIPPING": {
+      "n": 34,
+      "low_sample": false,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 34,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      }
+    },
+    "SUBSCRIPTION": {
+      "n": 17,
+      "low_sample": true,
+      "decision_shares": {
+        "ANSWER": 1.0,
+        "CLARIFY": 0.0,
+        "ESCALATE": 0.0
+      },
+      "decisions": {
+        "ANSWER": 17,
+        "CLARIFY": 0,
+        "ESCALATE": 0
+      }
+    }
+  },
+  "selective_prediction": {
+    "coverage": 0.915,
+    "n_answered": 366,
+    "accuracy_on_answered": 0.9945,
+    "answered_with_correct_intent": 364,
+    "accuracy_if_all_answered": 0.9925,
+    "risk_coverage_curve": [
+      {
+        "coverage": 0.05,
+        "accuracy": 1.0,
+        "n_answered": 20,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.1,
+        "accuracy": 1.0,
+        "n_answered": 40,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.15,
+        "accuracy": 1.0,
+        "n_answered": 60,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.2,
+        "accuracy": 1.0,
+        "n_answered": 80,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.25,
+        "accuracy": 1.0,
+        "n_answered": 100,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.3,
+        "accuracy": 1.0,
+        "n_answered": 120,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.35,
+        "accuracy": 1.0,
+        "n_answered": 140,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.4,
+        "accuracy": 1.0,
+        "n_answered": 160,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.45,
+        "accuracy": 1.0,
+        "n_answered": 180,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.5,
+        "accuracy": 1.0,
+        "n_answered": 200,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.55,
+        "accuracy": 1.0,
+        "n_answered": 220,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.6,
+        "accuracy": 1.0,
+        "n_answered": 240,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.65,
+        "accuracy": 1.0,
+        "n_answered": 260,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.7,
+        "accuracy": 1.0,
+        "n_answered": 280,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.75,
+        "accuracy": 1.0,
+        "n_answered": 300,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.8,
+        "accuracy": 1.0,
+        "n_answered": 320,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.85,
+        "accuracy": 1.0,
+        "n_answered": 340,
+        "confidence_floor": 1.0
+      },
+      {
+        "coverage": 0.9,
+        "accuracy": 1.0,
+        "n_answered": 360,
+        "confidence_floor": 0.9999
+      },
+      {
+        "coverage": 0.95,
+        "accuracy": 1.0,
+        "n_answered": 380,
+        "confidence_floor": 0.9995
+      },
+      {
+        "coverage": 1.0,
+        "accuracy": 0.9925,
+        "n_answered": 400,
+        "confidence_floor": 0.5709
+      }
+    ]
+  }
+}

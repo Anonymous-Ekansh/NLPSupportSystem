@@ -13,3 +13,17 @@ export function readDataJson<T>(filename: string): T | null {
     return null;
   }
 }
+
+/**
+ * Read a file from `web/public/evidence/` (written by the Python evaluation
+ * scripts and copied by scripts/sync_evidence.py). Returns `null` when the
+ * file has not been generated yet, so the page can say so instead of guessing.
+ */
+export function readEvidenceJson<T>(filename: string): T | null {
+  try {
+    const filePath = path.join(process.cwd(), "public", "evidence", filename);
+    return JSON.parse(fs.readFileSync(filePath, "utf-8")) as T;
+  } catch {
+    return null;
+  }
+}

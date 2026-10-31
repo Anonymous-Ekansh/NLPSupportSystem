@@ -1,0 +1,1003 @@
+{
+  "meta": {
+    "generated_at": "2026-10-31T03:23:57",
+    "split": "test",
+    "note": "Real traces from the Level-2 pipeline."
+  },
+  "examples": [
+    {
+      "label": "answer_accept",
+      "why": "A4 accepted the retrieved response",
+      "query": "I lost the password of my user, assistance resetting it",
+      "decision": "ANSWER",
+      "response": "I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be quite frustrating, but worry not, as I'm here to guide you through the process. \n\nTo reset your password, please follow these steps:\n\n1. Visit the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You'll be prompted to enter the email associated with your user profile. Please make sure to provide the correct email address.\n4. After verifying your email, a password reset link will be sent to your inbox. It's possible that the email might end up in your spam or junk folder, so kindly check there as well.\n5. Click on the password reset link and follow the instructions provided to create a new password for your user profile.\n\nIf you encounter any difficulties during the process or have any further questions, feel free to reach out to me. I'm here to assist you every step of the way, ensuring you regain access to your user profile seamlessly.",
+      "predicted_intent": "recover_password",
+      "human_intent": "password recovery",
+      "predicted_category": "ACCOUNT",
+      "reason_codes": [
+        "standard_retrieval",
+        "audit_accept"
+      ],
+      "total_latency_ms": 8241.9,
+      "trace": [
+        {
+          "agent": "A1",
+          "role": "intent classification",
+          "input": {
+            "query": "I lost the password of my user, assistance resetting it"
+          },
+          "output": {
+            "query": "I lost the password of my user, assistance resetting it",
+            "intent": "recover_password",
+            "category": "ACCOUNT",
+            "confidence": 1.0,
+            "margin": 1.0,
+            "top3": [
+              {
+                "intent": "recover_password",
+                "prob": 1.0
+              },
+              {
+                "intent": "delete_account",
+                "prob": 0.0
+              },
+              {
+                "intent": "edit_account",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.9284,
+            "needs_clarification": false
+          },
+          "decision": "recover_password",
+          "evidence": [
+            "recover_password"
+          ],
+          "input_summary": "I lost the password of my user, assistance resetting it",
+          "output_summary": "recover_password (conf 1.0, sim 0.9284)",
+          "latency_ms": 764.2
+        },
+        {
+          "agent": "A3",
+          "role": "routing / planning",
+          "input": {
+            "query": "I lost the password of my user, assistance resetting it",
+            "a1_output": {
+              "intent": "recover_password",
+              "confidence": 1.0
+            }
+          },
+          "output": {
+            "route": "answer",
+            "reasons": [
+              "Intent 'recover_password' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly."
+            ],
+            "reason_codes": [
+              "standard_retrieval"
+            ],
+            "retrieval": {
+              "mode": "hybrid",
+              "k": 5,
+              "intents": [
+                "recover_password"
+              ],
+              "widen": false
+            },
+            "missing_slots": [],
+            "clarify_options": [],
+            "intent": "recover_password",
+            "category": "ACCOUNT",
+            "confidence": 1.0
+          },
+          "decision": "ANSWER",
+          "evidence": [
+            "standard_retrieval"
+          ],
+          "input_summary": "I lost the password of my user, assistance resetting it",
+          "output_summary": "route=answer; Intent 'recover_password' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly.",
+          "latency_ms": 1.0
+        },
+        {
+          "agent": "A2",
+          "role": "response retrieval",
+          "input": {
+            "query": "I lost the password of my user, assistance resetting it"
+          },
+          "output": {
+            "response": "I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be quite frustrating, but worry not, as I'm here to guide you through the process. \n\nTo reset your password, please follow these steps:\n\n1. Visit the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You'll be prompted to enter the email associated with your user profile. Please make sure to provide the correct email address.\n4. After verifying your email, a password reset link will be sent to your inbox. It's possible that the email might end up in your spam or junk folder, so kindly check there as well.\n5. Click on the password reset link and follow the instructions provided to create a new password for your user profile.\n\nIf you encounter any difficulties during the process or have any further questions, feel free to reach out to me. I'm here to assist you every step of the way, ensuring you regain access to your user profile seamlessly.",
+            "supporting_examples": [
+              {
+                "instruction": "I need to reset the password of my user profile",
+                "response": "I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be quite frustrating, but worry not, as I'm here to guide you through the process. \n\nTo reset your password, please follow these steps:\n\n1. Visit the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You'll be prompted to enter the email associated with your user profile. Please make sure to provide the correct email address.\n4. After verifying your email, a password reset link will be sent to your inbox. It's possible that the email might end up in your spam or junk folder, so kindly check there as well.\n5. Click on the password reset link and follow the instructions provided to create a new password for your user profile.\n\nIf you encounter any difficulties during the process or have any further questions, feel free to reach out to me. I'm here to assist you every step of the way, ensuring you regain access to your user profile seamlessly.",
+                "similarity": 0.0285,
+                "intent": "recover_password"
+              },
+              {
+                "instruction": "I can't retrieve the password of my user account",
+                "response": "I'm sorry to hear that you're having trouble retrieving the password for your user account. Don't worry, though, we'll work together to get this sorted out. \n\nFirst, let's make sure we're on the same page. Are you trying to recover the password for your account on our platform? If so, I can guide you through the necessary steps to regain access to your account.",
+                "similarity": 0.0264,
+                "intent": "recover_password"
+              },
+              {
+                "instruction": "I need assistance resetting my account password",
+                "response": "Assuredly! I understand the importance of regaining access to your account, and I'm here to help you with the password reset process. Here's what you need to do:\n\n1. Start by visiting our platform's login page.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You will be prompted to enter the email address associated with your account. Please provide the email address you used during the account registration process.\n4. In a short while, you should receive an email with detailed instructions on how to reset your password. If you don't see the email in your inbox, please check your spam or junk folder as well.\n5. Follow the instructions in the email to set up a new, secure password for your account.\n\nIf you encounter any difficulties during the process or if you have any additional questions, please don't hesitate to reach out. I'll be here to assist you every step of the way!\"",
+                "similarity": 0.0253,
+                "intent": "recover_password"
+              }
+            ],
+            "used_intents": [
+              "recover_password"
+            ],
+            "retrieval_score": 0.0285,
+            "low_confidence": false,
+            "self_check": {
+              "placeholder_safe": true,
+              "source_similarity_ok": false,
+              "source_similarity": 0.9031,
+              "response_intent_ok": true,
+              "response_predicted_intent": "recover_password",
+              "check_passed": false,
+              "candidates_rejected": 5
+            }
+          },
+          "decision": "candidate_produced",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "I lost the password of my user, assistance resetting it",
+          "output_summary": "retrieval_score=0.0285 self_check_passed=False",
+          "latency_ms": 7470.7
+        },
+        {
+          "agent": "A4",
+          "role": "response auditing",
+          "input": {
+            "query": "I lost the password of my user, assistance resetting it"
+          },
+          "output": {
+            "verdict": "accept",
+            "checks": [
+              {
+                "name": "intent_alignment",
+                "passed": true,
+                "detail": "all evidence intents align with predicted 'recover_password', q→resp cosine 0.783 (min 0.7)",
+                "value": 0.7832850217819214
+              },
+              {
+                "name": "grounding",
+                "passed": true,
+                "detail": "10/10 sentences supported (mean best-J=1.0)",
+                "value": 1.0
+              },
+              {
+                "name": "unsupported_claims",
+                "passed": true,
+                "detail": "0 completion claim(s), 0 invented specific(s)",
+                "value": 0.0
+              },
+              {
+                "name": "placeholder_safety",
+                "passed": true,
+                "detail": "no unresolved {{...}} tokens",
+                "value": 0.0
+              },
+              {
+                "name": "contradiction",
+                "passed": true,
+                "detail": "3/3 evidence example(s) agree with 'recover_password' (1.00)",
+                "value": 0.0
+              }
+            ],
+            "issues": [],
+            "revised_response": "I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be quite frustrating, but worry not, as I'm here to guide you through the process. \n\nTo reset your password, please follow these steps:\n\n1. Visit the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You'll be prompted to enter the email associated with your user profile. Please make sure to provide the correct email address.\n4. After verifying your email, a password reset link will be sent to your inbox. It's possible that the email might end up in your spam or junk folder, so kindly check there as well.\n5. Click on the password reset link and follow the instructions provided to create a new password for your user profile.\n\nIf you encounter any difficulties during the process or have any further questions, feel free to reach out to me. I'm here to assist you every step of the way, ensuring you regain access to your user profile seamlessly.",
+            "evidence_ids": [
+              "ex0",
+              "ex1",
+              "ex2"
+            ],
+            "retry_candidate_rank": null
+          },
+          "decision": "ACCEPT",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "I lost the password of my user, assistance resetting it",
+          "output_summary": "verdict=accept; failed=[]",
+          "latency_ms": 5.2
+        },
+        {
+          "agent": "A5",
+          "role": "coordination / final decision",
+          "input": {
+            "query": "I lost the password of my user, assistance resetting it",
+            "plan_route": "answer",
+            "audit_verdict": "accept"
+          },
+          "output": {
+            "decision": "ANSWER",
+            "response": "I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be quite frustrating, but worry not, as I'm here to guide you through the process. \n\nTo reset your password, please follow these steps:\n\n1. Visit the login page of our platform.\n2. Look for the \"Forgot Password\" option and click on it.\n3. You'll be prompted to enter the email associated with your user profile. Please make sure to provide the correct email address.\n4. After verifying your email, a password reset link will be sent to your inbox. It's possible that the email might end up in your spam or junk folder, so kindly check there as well.\n5. Click on the password reset link and follow the instructions provided to create a new password for your user profile.\n\nIf you encounter any difficulties during the process or have any further questions, feel free to reach out to me. I'm here to assist you every step of the way, ensuring you regain access to your user profile seamlessly.",
+            "intent": "recover_password",
+            "category": "ACCOUNT",
+            "reason_codes": [
+              "standard_retrieval",
+              "audit_accept"
+            ],
+            "evidence_ids": [
+              "ex0",
+              "ex1",
+              "ex2"
+            ],
+            "notes": [
+              "Intent 'recover_password' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly."
+            ]
+          },
+          "decision": "ANSWER",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "I lost the password of my user, assistance resetting it",
+          "output_summary": "ANSWER: I understand how crucial it is for you to reset the password of your user profile. Losing access to your account can be ",
+          "latency_ms": 0.8
+        }
+      ]
+    },
+    {
+      "label": "answer_revise",
+      "why": "A4 rewrote the candidate before serving it",
+      "query": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+      "decision": "ANSWER",
+      "response": "We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #your order number. We understand the importance of this request and we're here to help. To proceed with the addition, could you please provide us with the details of the item you would like to add? Our team will ensure that the necessary adjustments are made to your purchase and that you have a seamless shopping experience.",
+      "predicted_intent": "change_order",
+      "human_intent": "changing an order",
+      "predicted_category": "ORDER",
+      "reason_codes": [
+        "standard_retrieval",
+        "audit_revise"
+      ],
+      "total_latency_ms": 233.6,
+      "trace": [
+        {
+          "agent": "A1",
+          "role": "intent classification",
+          "input": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}"
+          },
+          "output": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+            "intent": "change_order",
+            "category": "ORDER",
+            "confidence": 0.9998,
+            "margin": 0.9997,
+            "top3": [
+              {
+                "intent": "change_order",
+                "prob": 0.9998
+              },
+              {
+                "intent": "track_order",
+                "prob": 0.0001
+              },
+              {
+                "intent": "cancel_order",
+                "prob": 0.0001
+              }
+            ],
+            "top1_similarity": 0.7876,
+            "needs_clarification": false
+          },
+          "decision": "change_order",
+          "evidence": [
+            "change_order"
+          ],
+          "input_summary": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+          "output_summary": "change_order (conf 0.9998, sim 0.7876)",
+          "latency_ms": 98.9
+        },
+        {
+          "agent": "A3",
+          "role": "routing / planning",
+          "input": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+            "a1_output": {
+              "intent": "change_order",
+              "confidence": 0.9998
+            }
+          },
+          "output": {
+            "route": "answer",
+            "reasons": [
+              "Intent 'change_order' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly."
+            ],
+            "reason_codes": [
+              "standard_retrieval"
+            ],
+            "retrieval": {
+              "mode": "hybrid",
+              "k": 5,
+              "intents": [
+                "change_order"
+              ],
+              "widen": false
+            },
+            "missing_slots": [],
+            "clarify_options": [],
+            "intent": "change_order",
+            "category": "ORDER",
+            "confidence": 0.9998
+          },
+          "decision": "ANSWER",
+          "evidence": [
+            "standard_retrieval"
+          ],
+          "input_summary": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+          "output_summary": "route=answer; Intent 'change_order' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly.",
+          "latency_ms": 0.9
+        },
+        {
+          "agent": "A2",
+          "role": "response retrieval",
+          "input": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}"
+          },
+          "output": {
+            "response": "We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #{{Order Number}}. We understand the importance of this request and we're here to help. To proceed with the addition, could you please provide us with the details of the item you would like to add? Our team will ensure that the necessary adjustments are made to your purchase and that you have a seamless shopping experience.",
+            "supporting_examples": [
+              {
+                "instruction": "help me to add a goddamn item to purchase {{Order Number}}",
+                "response": "We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #{{Order Number}}. We understand the importance of this request and we're here to help. To proceed with the addition, could you please provide us with the details of the item you would like to add? Our team will ensure that the necessary adjustments are made to your purchase and that you have a seamless shopping experience.",
+                "similarity": 0.0331,
+                "intent": "change_order"
+              },
+              {
+                "instruction": "can uhelp me add some items to order {{Order Number}}",
+                "response": "We've received your message to us for assistance with adding items to order number {{Order Number}}. We understand how important it is to ensure your order is complete and meets your expectations. To help you with this, could you please provide us with the details of the items you would like to add? This will allow us to make the necessary adjustments and ensure your satisfaction. We appreciate your patience and look forward to helping you further.",
+                "similarity": 0.0318,
+                "intent": "change_order"
+              },
+              {
+                "instruction": "I have to add an item to purchase {{Order Number}}",
+                "response": "Thank you for letting us know about your need to add an item to your purchase with order number {{Order Number}}. We understand how important it is to have a seamless shopping experience and we're here to assist you. To ensure accuracy, could you please provide us with the details of the item you would like to add to your purchase? Our team will make sure to process your request and update your order accordingly.",
+                "similarity": 0.0308,
+                "intent": "change_order"
+              }
+            ],
+            "used_intents": [
+              "change_order"
+            ],
+            "retrieval_score": 0.0331,
+            "low_confidence": false,
+            "self_check": {
+              "placeholder_safe": false,
+              "source_similarity_ok": false,
+              "source_similarity": 0.9,
+              "response_intent_ok": true,
+              "response_predicted_intent": "change_order",
+              "check_passed": false,
+              "candidates_rejected": 5
+            }
+          },
+          "decision": "candidate_produced",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+          "output_summary": "retrieval_score=0.0331 self_check_passed=False",
+          "latency_ms": 66.4
+        },
+        {
+          "agent": "A4",
+          "role": "response auditing",
+          "input": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}"
+          },
+          "output": {
+            "verdict": "revise",
+            "checks": [
+              {
+                "name": "intent_alignment",
+                "passed": true,
+                "detail": "all evidence intents align with predicted 'change_order', q→resp cosine 0.737 (min 0.7)",
+                "value": 0.7372226715087891
+              },
+              {
+                "name": "grounding",
+                "passed": true,
+                "detail": "4/4 sentences supported (mean best-J=1.0)",
+                "value": 1.0
+              },
+              {
+                "name": "unsupported_claims",
+                "passed": true,
+                "detail": "0 completion claim(s), 0 invented specific(s)",
+                "value": 0.0
+              },
+              {
+                "name": "placeholder_safety",
+                "passed": false,
+                "detail": "unresolved tokens: Order Number",
+                "value": 1.0
+              },
+              {
+                "name": "contradiction",
+                "passed": true,
+                "detail": "3/3 evidence example(s) agree with 'change_order' (1.00)",
+                "value": 0.0
+              }
+            ],
+            "issues": [],
+            "revised_response": "We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #your order number. We understand the importance of this request and we're here to help. To proceed with the addition, could you please provide us with the details of the item you would like to add? Our team will ensure that the necessary adjustments are made to your purchase and that you have a seamless shopping experience.",
+            "evidence_ids": [
+              "ex0",
+              "ex1",
+              "ex2"
+            ],
+            "retry_candidate_rank": null
+          },
+          "decision": "REVISE",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+          "output_summary": "verdict=revise; failed=['placeholder_safety']",
+          "latency_ms": 66.5
+        },
+        {
+          "agent": "A5",
+          "role": "coordination / final decision",
+          "input": {
+            "query": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+            "plan_route": "answer",
+            "audit_verdict": "revise"
+          },
+          "output": {
+            "decision": "ANSWER",
+            "response": "We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #your order number. We understand the importance of this request and we're here to help. To proceed with the addition, could you please provide us with the details of the item you would like to add? Our team will ensure that the necessary adjustments are made to your purchase and that you have a seamless shopping experience.",
+            "intent": "change_order",
+            "category": "ORDER",
+            "reason_codes": [
+              "standard_retrieval",
+              "audit_revise"
+            ],
+            "evidence_ids": [
+              "ex0",
+              "ex1",
+              "ex2"
+            ],
+            "notes": [
+              "Intent 'change_order' is predicted with confidence 1.00 (margin 1.00), above the clarify floor 0.60, and no required detail is missing, so retrieval can answer directly."
+            ]
+          },
+          "decision": "ANSWER",
+          "evidence": [
+            "ex0",
+            "ex1",
+            "ex2"
+          ],
+          "input_summary": "can uhelp me to add a bloody item topurchase {{Order Number}}",
+          "output_summary": "ANSWER: We appreciate you reaching out to us for assistance with adding an item to your purchase with the number #your order num",
+          "latency_ms": 0.8
+        }
+      ]
+    },
+    {
+      "label": "clarify_missing_slot",
+      "why": "essential information is missing: A5 asks for it",
+      "query": "I need a refund but I cannot find my order number",
+      "decision": "CLARIFY",
+      "response": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account. If you cannot find your order number, reply with the email address you used to place the order instead.",
+      "predicted_intent": "get_refund",
+      "human_intent": "requesting a refund",
+      "predicted_category": "REFUND",
+      "reason_codes": [
+        "missing_information",
+        "missing_order_number",
+        "user_lacks_slot"
+      ],
+      "total_latency_ms": 132.9,
+      "trace": [
+        {
+          "agent": "A1",
+          "role": "intent classification",
+          "input": {
+            "query": "I need a refund but I cannot find my order number"
+          },
+          "output": {
+            "query": "I need a refund but I cannot find my order number",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 0.5846,
+            "margin": 0.1794,
+            "top3": [
+              {
+                "intent": "get_refund",
+                "prob": 0.5846
+              },
+              {
+                "intent": "cancel_order",
+                "prob": 0.4052
+              },
+              {
+                "intent": "track_order",
+                "prob": 0.0101
+              }
+            ],
+            "top1_similarity": 0.7232,
+            "needs_clarification": true
+          },
+          "decision": "get_refund",
+          "evidence": [
+            "get_refund"
+          ],
+          "input_summary": "I need a refund but I cannot find my order number",
+          "output_summary": "get_refund (conf 0.5846, sim 0.7232)",
+          "latency_ms": 129.4
+        },
+        {
+          "agent": "A3",
+          "role": "routing / planning",
+          "input": {
+            "query": "I need a refund but I cannot find my order number",
+            "a1_output": {
+              "intent": "get_refund",
+              "confidence": 0.5846
+            }
+          },
+          "output": {
+            "route": "clarify",
+            "reasons": [
+              "The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order).",
+              "The user states they cannot supply it ('cannot find'), so the reply must request it explicitly rather than assume a value."
+            ],
+            "reason_codes": [
+              "missing_information",
+              "missing_order_number",
+              "user_lacks_slot"
+            ],
+            "retrieval": {
+              "mode": "hybrid",
+              "k": 5,
+              "intents": [
+                "get_refund"
+              ],
+              "widen": false
+            },
+            "missing_slots": [
+              {
+                "slot": "order_number",
+                "label": "order number",
+                "question": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account.",
+                "evidence": "user says 'cannot find' about the order number and supplies no value",
+                "required": true
+              }
+            ],
+            "clarify_options": [],
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 0.5846
+          },
+          "decision": "CLARIFY",
+          "evidence": [
+            "missing_information",
+            "missing_order_number",
+            "user_lacks_slot"
+          ],
+          "input_summary": "I need a refund but I cannot find my order number",
+          "output_summary": "route=clarify; The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order).; The user states they cannot supply it ('cannot find'), so the reply must request it explicitly rather than assume a value.",
+          "latency_ms": 2.9
+        },
+        {
+          "agent": "A2",
+          "role": "response retrieval",
+          "input": {
+            "query": "I need a refund but I cannot find my order number"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_clarify"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "I need a refund but I cannot find my order number",
+          "output_summary": "skipped: A3 chose clarify, no candidate needed",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A4",
+          "role": "response auditing",
+          "input": {
+            "query": "I need a refund but I cannot find my order number"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_clarify"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "I need a refund but I cannot find my order number",
+          "output_summary": "skipped: A3 chose clarify",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A5",
+          "role": "coordination / final decision",
+          "input": {
+            "query": "I need a refund but I cannot find my order number",
+            "plan_route": "clarify",
+            "audit_verdict": null
+          },
+          "output": {
+            "decision": "CLARIFY",
+            "response": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account. If you cannot find your order number, reply with the email address you used to place the order instead.",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "reason_codes": [
+              "missing_information",
+              "missing_order_number",
+              "user_lacks_slot"
+            ],
+            "evidence_ids": [
+              "missing_order_number"
+            ],
+            "notes": [
+              "The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order).",
+              "The user states they cannot supply it ('cannot find'), so the reply must request it explicitly rather than assume a value."
+            ]
+          },
+          "decision": "CLARIFY",
+          "evidence": [
+            "missing_order_number"
+          ],
+          "input_summary": "I need a refund but I cannot find my order number",
+          "output_summary": "CLARIFY: Could you share your order number? You can find it in your order confirmation email or under Orders in your account. If ",
+          "latency_ms": 0.7
+        }
+      ]
+    },
+    {
+      "label": "clarify_ambiguous",
+      "why": "two intents compete: A5 asks which one is meant",
+      "query": "refund",
+      "decision": "CLARIFY",
+      "response": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account. Are you asking about requesting a refund or the refund policy?",
+      "predicted_intent": "get_refund",
+      "human_intent": "requesting a refund",
+      "predicted_category": "REFUND",
+      "reason_codes": [
+        "missing_information",
+        "missing_order_number"
+      ],
+      "total_latency_ms": 100.9,
+      "trace": [
+        {
+          "agent": "A1",
+          "role": "intent classification",
+          "input": {
+            "query": "refund"
+          },
+          "output": {
+            "query": "refund",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 0.9957,
+            "margin": 0.9915,
+            "top3": [
+              {
+                "intent": "get_refund",
+                "prob": 0.9957
+              },
+              {
+                "intent": "check_refund_policy",
+                "prob": 0.0042
+              },
+              {
+                "intent": "complaint",
+                "prob": 0.0
+              }
+            ],
+            "top1_similarity": 0.9431,
+            "needs_clarification": false
+          },
+          "decision": "get_refund",
+          "evidence": [
+            "get_refund"
+          ],
+          "input_summary": "refund",
+          "output_summary": "get_refund (conf 0.9957, sim 0.9431)",
+          "latency_ms": 98.9
+        },
+        {
+          "agent": "A3",
+          "role": "routing / planning",
+          "input": {
+            "query": "refund",
+            "a1_output": {
+              "intent": "get_refund",
+              "confidence": 0.9957
+            }
+          },
+          "output": {
+            "route": "clarify",
+            "reasons": [
+              "The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order)."
+            ],
+            "reason_codes": [
+              "missing_information",
+              "missing_order_number"
+            ],
+            "retrieval": {
+              "mode": "hybrid",
+              "k": 5,
+              "intents": [
+                "get_refund"
+              ],
+              "widen": false
+            },
+            "missing_slots": [
+              {
+                "slot": "order_number",
+                "label": "order number",
+                "question": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account.",
+                "evidence": "no order number value in query",
+                "required": true
+              }
+            ],
+            "clarify_options": [
+              {
+                "intent": "get_refund",
+                "prob": 0.9957,
+                "question": "Do you need help with get refund?",
+                "category": "REFUND"
+              },
+              {
+                "intent": "check_refund_policy",
+                "prob": 0.0042,
+                "question": "Do you need help with check refund policy?",
+                "category": ""
+              }
+            ],
+            "intent": "get_refund",
+            "category": "REFUND",
+            "confidence": 0.9957
+          },
+          "decision": "CLARIFY",
+          "evidence": [
+            "missing_information",
+            "missing_order_number"
+          ],
+          "input_summary": "refund",
+          "output_summary": "route=clarify; The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order).",
+          "latency_ms": 1.2
+        },
+        {
+          "agent": "A2",
+          "role": "response retrieval",
+          "input": {
+            "query": "refund"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_clarify"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "refund",
+          "output_summary": "skipped: A3 chose clarify, no candidate needed",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A4",
+          "role": "response auditing",
+          "input": {
+            "query": "refund"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_clarify"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "refund",
+          "output_summary": "skipped: A3 chose clarify",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A5",
+          "role": "coordination / final decision",
+          "input": {
+            "query": "refund",
+            "plan_route": "clarify",
+            "audit_verdict": null
+          },
+          "output": {
+            "decision": "CLARIFY",
+            "response": "Could you share your order number? You can find it in your order confirmation email or under Orders in your account. Are you asking about requesting a refund or the refund policy?",
+            "intent": "get_refund",
+            "category": "REFUND",
+            "reason_codes": [
+              "missing_information",
+              "missing_order_number"
+            ],
+            "evidence_ids": [
+              "missing_order_number"
+            ],
+            "notes": [
+              "The intent 'get_refund' needs the order number before an answer can be given; asking for it prevents a wrong answer (e.g. 'refund processed' with no order)."
+            ]
+          },
+          "decision": "CLARIFY",
+          "evidence": [
+            "missing_order_number"
+          ],
+          "input_summary": "refund",
+          "output_summary": "CLARIFY: Could you share your order number? You can find it in your order confirmation email or under Orders in your account. Are",
+          "latency_ms": 0.7
+        }
+      ]
+    },
+    {
+      "label": "escalate_handoff",
+      "why": "unsupported or sensitive: A5 hands off to a human",
+      "query": "what is the weather in Paris tomorrow",
+      "decision": "ESCALATE",
+      "response": "I'm passing this to a human specialist for review — I don't want to guess and get it wrong. No account, order, payment or refund changes have been made. Detected intent: delivery timeframes (delivery_period, DELIVERY). Reasons: out_of_distribution. Evidence: The query is not close to anything in the known catalogue (top-1 similarity 0.26 < 0.55), so it is treated as out of scope. Suggested queue: general-support.",
+      "predicted_intent": "delivery_period",
+      "human_intent": "delivery timeframes",
+      "predicted_category": "DELIVERY",
+      "reason_codes": [
+        "out_of_distribution"
+      ],
+      "total_latency_ms": 98.3,
+      "trace": [
+        {
+          "agent": "A1",
+          "role": "intent classification",
+          "input": {
+            "query": "what is the weather in Paris tomorrow"
+          },
+          "output": {
+            "query": "what is the weather in Paris tomorrow",
+            "intent": "delivery_period",
+            "category": "DELIVERY",
+            "confidence": 0.5973,
+            "margin": 0.4859,
+            "top3": [
+              {
+                "intent": "delivery_period",
+                "prob": 0.5973
+              },
+              {
+                "intent": "contact_human_agent",
+                "prob": 0.1114
+              },
+              {
+                "intent": "track_order",
+                "prob": 0.0843
+              }
+            ],
+            "top1_similarity": 0.2587,
+            "needs_clarification": true
+          },
+          "decision": "delivery_period",
+          "evidence": [
+            "delivery_period"
+          ],
+          "input_summary": "what is the weather in Paris tomorrow",
+          "output_summary": "delivery_period (conf 0.5973, sim 0.2587)",
+          "latency_ms": 96.9
+        },
+        {
+          "agent": "A3",
+          "role": "routing / planning",
+          "input": {
+            "query": "what is the weather in Paris tomorrow",
+            "a1_output": {
+              "intent": "delivery_period",
+              "confidence": 0.5973
+            }
+          },
+          "output": {
+            "route": "escalate",
+            "reasons": [
+              "The query is not close to anything in the known catalogue (top-1 similarity 0.26 < 0.55), so it is treated as out of scope."
+            ],
+            "reason_codes": [
+              "out_of_distribution"
+            ],
+            "retrieval": {
+              "mode": "hybrid",
+              "k": 5,
+              "intents": [],
+              "widen": false
+            },
+            "missing_slots": [],
+            "clarify_options": [],
+            "intent": "delivery_period",
+            "category": "DELIVERY",
+            "confidence": 0.5973
+          },
+          "decision": "ESCALATE",
+          "evidence": [
+            "out_of_distribution"
+          ],
+          "input_summary": "what is the weather in Paris tomorrow",
+          "output_summary": "route=escalate; The query is not close to anything in the known catalogue (top-1 similarity 0.26 < 0.55), so it is treated as out of scope.",
+          "latency_ms": 0.8
+        },
+        {
+          "agent": "A2",
+          "role": "response retrieval",
+          "input": {
+            "query": "what is the weather in Paris tomorrow"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_escalate"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "what is the weather in Paris tomorrow",
+          "output_summary": "skipped: A3 chose escalate, no candidate needed",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A4",
+          "role": "response auditing",
+          "input": {
+            "query": "what is the weather in Paris tomorrow"
+          },
+          "output": {
+            "skipped": true,
+            "reason": "a3_route_escalate"
+          },
+          "decision": "skipped",
+          "evidence": [],
+          "input_summary": "what is the weather in Paris tomorrow",
+          "output_summary": "skipped: A3 chose escalate",
+          "latency_ms": 0.0
+        },
+        {
+          "agent": "A5",
+          "role": "coordination / final decision",
+          "input": {
+            "query": "what is the weather in Paris tomorrow",
+            "plan_route": "escalate",
+            "audit_verdict": null
+          },
+          "output": {
+            "decision": "ESCALATE",
+            "response": "I'm passing this to a human specialist for review — I don't want to guess and get it wrong. No account, order, payment or refund changes have been made. Detected intent: delivery timeframes (delivery_period, DELIVERY). Reasons: out_of_distribution. Evidence: The query is not close to anything in the known catalogue (top-1 similarity 0.26 < 0.55), so it is treated as out of scope. Suggested queue: general-support.",
+            "intent": "delivery_period",
+            "category": "DELIVERY",
+            "reason_codes": [
+              "out_of_distribution"
+            ],
+            "evidence_ids": [
+              "out_of_distribution"
+            ],
+            "notes": [
+              "The query is not close to anything in the known catalogue (top-1 similarity 0.26 < 0.55), so it is treated as out of scope.",
+              "suggested_queue=general-support"
+            ]
+          },
+          "decision": "ESCALATE",
+          "evidence": [
+            "out_of_distribution"
+          ],
+          "input_summary": "what is the weather in Paris tomorrow",
+          "output_summary": "ESCALATE: I'm passing this to a human specialist for review — I don't want to guess and get it wrong. No account, order, payment o",
+          "latency_ms": 0.6
+        }
+      ]
+    }
+  ]
+}
