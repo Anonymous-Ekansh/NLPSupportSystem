@@ -290,7 +290,7 @@ class Level2Pipeline:
 
         # ── A3 route ───────────────────────────────────────────────
         t0 = time.perf_counter()
-        plan = self.planner.plan(query, a1_output)
+        plan = self.planner.plan(query, a1_output, analyzer=self.a1)
         lat["a3"] = round((time.perf_counter() - t0) * 1000, 1)
 
         a2_output = None

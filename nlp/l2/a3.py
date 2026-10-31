@@ -168,6 +168,103 @@ def _describe_missing(slots: list[MissingSlot]) -> str:
     return ", ".join(labels[:-1]) + " and " + labels[-1]
 
 
+# ── Multi-intent (clause level) ─────────────────────────────────────────
+#
+# A blended request ("I want a refund, and my password reset link is broken")
+# has no single correct intent.  A1 is trained on one-intent sentences, so on a
+# blend it still returns a confident top-1 and the system answers half the
+# question.  A3 therefore splits on coordination markers and re-runs A1 on each
+# clause.  This is conservative on purpose: a clause only counts when it is a
+# self-contained request (starts like one, has enough tokens) and A1 is
+# genuinely sure about it, so "cancel my order and refund the shipping" with a
+# shared topic does not turn into a question.
+
+_CLAUSE_SPLIT_RE = re.compile(
+    r"\s*(?:;\s*|,\s*(?:and\s+|then\s+|also\s+)?|"
+    r"\s+and\s+(?:also\s+)?|\s+plus\s+)",
+    re.IGNORECASE,
+)
+
+# A clause must open like an actual request, not like a noun phrase that the
+# split happened to detach ("shipping and billing address").
+_CLAUSE_START_RE = re.compile(
+    r"^(?:i\b|i'm\b|im\b|i've\b|my\b|me\b|we\b|our\b|you\b|can\b|"
+    r"could\b|would\b|will\b|should\b|please\b|need\b|needed\b|want\b|"
+    r"wanna\w*|wish\b|help\b|where\b|when\b|how\b|why\b|what\b|which\b|"
+    r"who\b|do\b|does\b|did\b|is\b|are\b|was\b|were\b|there\b|also\b|"
+    r"then\b|get\b|give\b|see\b|check\b|track\b|know\b|ask\b|find\b|"
+    r"show\b|update\b|change\b|send\b|tell\b|remove\b|cancel\b|return\b|"
+    r"receive\b|place\b|make\b|fix\b|resolve\b|look\b|have\b|has\b|am\b)",
+    re.IGNORECASE,
+)
+
+
+def split_clauses(query: str, max_clauses: int = 3) -> list[str]:
+    """Split a query on coordination markers; return request-like clauses."""
+    parts = [p.strip(" ,;") for p in _CLAUSE_SPLIT_RE.split(query or "")]
+    clauses = [p for p in parts if p and _CLAUSE_START_RE.match(p)]
+    return clauses[:max_clauses]
+
+
+def find_multi_intent(query: str, a1_output: dict, analyzer,
+                      policy: Optional[dict] = None) -> list[dict]:
+    """Return the two conflicting clause intents, or [] when there are none.
+
+    Only used when the caller can supply A1 (`analyzer`); A3 stays usable with
+    a pre-computed A1 output alone, in which case this check is skipped.
+    """
+    if analyzer is None:
+        return []
+    policy = policy or load_policy()
+    cfg = pget(policy, "routing.multi_intent", {}) or {}
+    if not cfg.get("enabled", True):
+        return []
+
+    min_tokens = int(cfg.get("min_clause_tokens", 3))
+    min_conf = float(cfg.get("clause_confidence_min", 0.55))
+    max_clauses = int(cfg.get("max_clauses", 3))
+
+    clauses = [c for c in split_clauses(query, max_clauses)
+               if len(_tokens(c)) >= min_tokens]
+    if len(clauses) < 2:
+        return []
+
+    anchor = bool(cfg.get("anchor_to_top3", True))
+    relax = float(cfg.get("anchor_relax_confidence", 0.90))
+    anchor_intents = {str(t.get("intent")) for t in (a1_output.get("top3") or [])}
+
+    readings = []
+    for clause in clauses:
+        out = analyzer.analyze(clause)
+        confidence = float(out.get("confidence") or 0.0)
+        if confidence < min_conf:
+            continue
+        intent = str(out.get("intent") or "")
+        # A single-topic query split into fragments can read its second
+        # fragment as an unrelated intent ("how long will delivery take" ->
+        # change_shipping_address).  Requiring the clause reading to be one of
+        # the intents the whole query already surfaced keeps that noise out,
+        # while a genuine blend keeps both halves in its top-3.
+        if (anchor and anchor_intents and intent not in anchor_intents
+                and confidence < relax):
+            continue
+        readings.append({
+            "clause": clause,
+            "intent": intent,
+            "category": str(out.get("category") or ""),
+            "confidence": round(confidence, 4),
+        })
+
+    # Pick the two strongest readings that disagree on category.
+    readings.sort(key=lambda r: -r["confidence"])
+    for i in range(len(readings)):
+        for j in range(i + 1, len(readings)):
+            a, b = readings[i], readings[j]
+            if a["intent"] != b["intent"] and a["category"] != b["category"]:
+                return [a, b]
+    return []
+
+
 # ── Planner ─────────────────────────────────────────────────────────────
 
 class RoutePlanner:
@@ -188,8 +285,14 @@ class RoutePlanner:
 
     # ── entry point ───────────────────────────────────────────────────
 
-    def plan(self, query: str, a1_output: Optional[dict] = None) -> RoutePlan:
-        """Select the next step for *query*. Always returns a plan."""
+    def plan(self, query: str, a1_output: Optional[dict] = None,
+             analyzer=None) -> RoutePlan:
+        """Select the next step for *query*. Always returns a plan.
+
+        `analyzer` is the A1 instance, used only for clause-level multi-intent
+        detection. Passing it is optional: without it A3 behaves exactly as
+        before for callers that already hold an A1 output.
+        """
         policy = self.policy
         a1_output = a1_output or {}
 
@@ -301,6 +404,28 @@ class RoutePlanner:
                     missing=missing,
                 )
 
+        # 4b. multi-intent: two clauses asking for different things ───────
+        multi = find_multi_intent(query, a1_output, analyzer, policy)
+        if multi:
+            first, second = multi[0], multi[1]
+            reasons.append(
+                f"The message asks for two different things — "
+                f"'{first['intent']}' ({first['category']}) and "
+                f"'{second['intent']}' ({second['category']}) — so one reply "
+                f"would answer at most half of it.")
+            codes.append("multi_intent")
+            return plan_route(
+                "clarify",
+                RetrievalSettings(mode=mode, k=k,
+                                  intents=[first["intent"], second["intent"]]),
+                clarify_options=[
+                    ClarifyOption(
+                        intent=r["intent"], prob=r["confidence"],
+                        question=_intent_question(r["intent"], r["category"]),
+                        category=r["category"]) for r in multi
+                ],
+            )
+
         # 5. low confidence ──────────────────────────────────────────────
         if confidence < conf_low:
             reasons.append(
@@ -312,11 +437,33 @@ class RoutePlanner:
 
         # 6. ambiguity ───────────────────────────────────────────────────
         ambiguous = margin < margin_min or confidence < conf_high
-        if ambiguous and len(top2) == 2:
+        if len(top2) == 2:
             cat_a = _category_of(top2[0], a1_output, policy)
             cat_b = _category_of(top2[1], a1_output, policy)
             same_category = bool(cat_a) and cat_a == cat_b
+            second_prob = float(top3[1].get("prob", 0.0)) if len(top3) > 1 else 0.0
+            cross_floor = float(pget(policy, "routing.ambiguous_top2_prob_min",
+                                     0.30))
 
+            # A confident top-1 can still be the wrong half of a genuinely
+            # split decision: when the runner-up is a different category and
+            # carries real probability, asking beats guessing.  The floor is
+            # tuned on DEV so this cannot swallow the clean traffic.
+            if (not same_category and second_prob >= cross_floor
+                    and top2[0] != top2[1]):
+                reasons.append(
+                    f"The runner-up '{top2[1]}' ({cat_b or 'unmapped'}) holds "
+                    f"{second_prob:.2f} probability against '{top2[0]}' "
+                    f"({cat_a or 'unmapped'}); a different category with that "
+                    f"much support is worth one question.")
+                codes.append("ambiguous_top2")
+                return plan_route(
+                    "clarify",
+                    RetrievalSettings(mode=mode, k=k, intents=top2),
+                    clarify_options=_clarify_options(a1_output, 2),
+                )
+
+        if ambiguous and len(top2) == 2:
             if (same_category and pget(policy, "routing.answer_when_top2_same_category", True)):
                 reasons.append(
                     f"Top-2 intents '{top2[0]}' and '{top2[1]}' are close "
@@ -354,8 +501,9 @@ class RoutePlanner:
         )
 
     # convenience alias used by the pipeline wrapper
-    def run(self, query: str, a1_output: Optional[dict] = None) -> RoutePlan:
-        return self.plan(query, a1_output)
+    def run(self, query: str, a1_output: Optional[dict] = None,
+            analyzer=None) -> RoutePlan:
+        return self.plan(query, a1_output, analyzer=analyzer)
 
 
 def _category_of(intent: str, a1_output: dict, policy: dict) -> str:
@@ -377,5 +525,6 @@ def route_to_decision(route: str) -> str:
 
 __all__ = [
     "RoutePlanner", "is_empty", "is_gibberish", "find_sensitive_terms",
-    "is_informational", "route_to_decision",
+    "is_informational", "route_to_decision", "split_clauses",
+    "find_multi_intent",
 ]

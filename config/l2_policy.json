@@ -18,7 +18,16 @@
     "clarify_on_missing_slot": true,
     "answer_when_top2_same_category": true,
     "gibberish_min_chars": 3,
-    "gibberish_max_token_chars": 25
+    "gibberish_max_token_chars": 25,
+    "multi_intent": {
+      "enabled": true,
+      "min_clause_tokens": 3,
+      "clause_confidence_min": 0.55,
+      "max_clauses": 3,
+      "anchor_to_top3": true,
+      "anchor_relax_confidence": 0.9
+    },
+    "ambiguous_top2_prob_min": 0.3
   },
   "escalation": {
     "sensitive_terms": {
@@ -381,10 +390,26 @@
     "claim_rewrite_note": "Passive 'has/have/had been <verb>ed' and 'is being <verb>ed' are rewritten to conditional wording; 'is on its way' is softened; every other completion-claim sentence is dropped entirely.",
     "retry_note": "If alignment or grounding fails, audit() flags the candidate and sets retry_candidate_rank=2; audit_with_retry() may re-audit A2's next-best supporting example once.",
     "conflict_axes": [
-      {"axis": "refund_eligibility", "pro": "(you\\s+can\\s+(?:request|get|receive)\\s+a\\s+refund|refundable)", "con": "(not\\s+refundable|non-?refundable|cannot\\s+(?:request|get|receive)\\s+a\\s+refund|do\\s+not\\s+offer\\s+refunds)"},
-      {"axis": "order_cancellation", "pro": "(you\\s+can\\s+cancel|can\\s+be\\s+cancelled|can\\s+be\\s+canceled)", "con": "(cannot\\s+cancel|unable\\s+to\\s+cancel|not\\s+be\\s+able\\s+to\\s+cancel|order\\s+cannot\\s+be)"},
-      {"axis": "availability", "pro": "(is\\s+available|we\\s+offer|we\\s+provide)", "con": "(is\\s+not\\s+available|unavailable|we\\s+do\\s+not\\s+offer|we\\s+do\\s+not\\s+provide)"},
-      {"axis": "tracking_support", "pro": "(you\\s+can\\s+track|tracking\\s+number\\s+is)", "con": "(cannot\\s+track|no\\s+tracking\\s+number)"}
+      {
+        "axis": "refund_eligibility",
+        "pro": "(you\\s+can\\s+(?:request|get|receive)\\s+a\\s+refund|refundable)",
+        "con": "(not\\s+refundable|non-?refundable|cannot\\s+(?:request|get|receive)\\s+a\\s+refund|do\\s+not\\s+offer\\s+refunds)"
+      },
+      {
+        "axis": "order_cancellation",
+        "pro": "(you\\s+can\\s+cancel|can\\s+be\\s+cancelled|can\\s+be\\s+canceled)",
+        "con": "(cannot\\s+cancel|unable\\s+to\\s+cancel|not\\s+be\\s+able\\s+to\\s+cancel|order\\s+cannot\\s+be)"
+      },
+      {
+        "axis": "availability",
+        "pro": "(is\\s+available|we\\s+offer|we\\s+provide)",
+        "con": "(is\\s+not\\s+available|unavailable|we\\s+do\\s+not\\s+offer|we\\s+do\\s+not\\s+provide)"
+      },
+      {
+        "axis": "tracking_support",
+        "pro": "(you\\s+can\\s+track|tracking\\s+number\\s+is)",
+        "con": "(cannot\\s+track|no\\s+tracking\\s+number)"
+      }
     ]
   }
 }
