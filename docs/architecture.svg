@@ -1,187 +1,190 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780" style="background:#090d16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 910" width="1400" height="910" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo3MzFjZjQ0NC05ZTM1LTQwMjMtODViZi1iMGI2ZWI0ODE1OTgAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaAvLqrNpZyAGOBSYAZQmqtcAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDowOTg3NTYxMC02YmY5LTRkYTQtOWM1YS1kNTMwNzlkOTFmMjZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoLoPYH0lvjqdVLsZxnHe/WgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg/5sfZmInKuvSLEHEYaoFAnXvvBRP2/Pv1yQAXrhhjGKkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaIh6mkkqV2h/mdqvYsBTEREAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCBQsoZHSkO3wmgmnRiZU8brNNOPDEPIOfeH8Z0ydWCX8GRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBjWZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjczMWNmNDQ0LTllMzUtNDAyMy04NWJmLWIwYjZlYjQ4MTU5OC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjc4NGUwMmM0LTQ2ZWEtNDdhNS1hY2FiLTgzMThmYjZjYjUyYnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD/mx9mYicq69IsQcRhqgUCde+8FE/b8+/XJABeuGGMYqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggCcGlm5XAlVhm5bZGhPha5m+BAYJFKTWWgAYKF/1LQnGiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggWdKIGe7VexY94H54gvQJCTa8yUk+/K8FD6spLtszrrF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQHOV9BAOVGyL4oHg0eEjnIb2tAjRw1nJWrk3Gp/tP/watLjWkz2ThB7GmT50nBHmOEcViOY9cPon9ojto71+S6g=</c2pa:manifest></metadata>
   <defs>
-    <linearGradient id="gradIndigo" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#312e81" stop-opacity="0.35"/>
-    </linearGradient>
-    <linearGradient id="gradTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0d9488" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#115e59" stop-opacity="0.35"/>
-    </linearGradient>
-    <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#075985" stop-opacity="0.3"/>
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#cbd5e1"/>
+    </marker>
+    <marker id="arrAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#38bdf8"/>
+    </marker>
   </defs>
 
-  <!-- Title & Header -->
-  <text x="50" y="45" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="-0.5">NLP Support System — End-to-End System Architecture</text>
-  <text x="50" y="70" fill="#94a3b8" font-size="14">FastAPI Microservice (Render) • Next.js Frontend (Vercel) • Supabase pgvector • 2-Agent Sequential Orchestration</text>
+  <!-- Background + title -->
+  <rect width="1400" height="910" fill="#0b1220"/>
+  <text x="30" y="42" font-size="26" font-weight="700" fill="#f8fafc">NLP Support System — End-to-End System Architecture (Level 2)</text>
+  <text x="30" y="68" font-size="14" fill="#94a3b8">FastAPI Microservice (Render) • Next.js Frontend (Vercel) • Supabase pgvector • 5-Agent Orchestration (A1–A5)</text>
 
-  <!-- 1. Offline Pipeline Box (Left Top) -->
-  <g transform="translate(50, 95)">
-    <rect width="280" height="290" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="280" height="38" rx="12" fill="#334155" />
-    <text x="15" y="24" fill="#38bdf8" font-size="14" font-weight="600">1. OFFLINE NLP PIPELINE</text>
-    
-    <rect x="15" y="50" width="250" height="42" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="68" fill="#e2e8f0" font-size="12" font-weight="600">Bitext Customer Support Dataset</text>
-    <text x="25" y="83" fill="#64748b" font-size="11">27 Intents • 11 Categories • 26,872 Rows</text>
+  <!-- ============ PANEL 1: OFFLINE ============ -->
+  <rect x="30" y="90" width="280" height="330" rx="14" fill="#111a2b" stroke="#2b3a55" stroke-width="1.5"/>
+  <text x="48" y="118" font-size="14" font-weight="700" fill="#93c5fd">1. OFFLINE NLP PIPELINE</text>
+  <g font-size="11.5" fill="#cbd5e1">
+    <rect x="46" y="135" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="58" y="156" font-weight="700" fill="#f1f5f9" font-size="12.5">Bitext Customer Support Dataset</text>
+    <text x="58" y="176" fill="#94a3b8">27 Intents • 11 Categories • 26,872 Rows</text>
 
-    <path d="M 140 92 L 140 106" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+    <rect x="46" y="205" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="58" y="226" font-weight="700" fill="#f1f5f9" font-size="12.5">fastembed (bge-small-en-v1.5)</text>
+    <text x="58" y="246" fill="#94a3b8">384-d dense embeddings (CPU / ONNX)</text>
 
-    <rect x="15" y="108" width="250" height="50" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="126" fill="#e2e8f0" font-size="12" font-weight="600">fastembed (bge-small-en-v1.5)</text>
-    <text x="25" y="141" fill="#64748b" font-size="11">384-d dense embeddings (CPU/ONNX)</text>
-    <text x="25" y="153" fill="#64748b" font-size="10">UMAP 2D Projection (build_map.py)</text>
+    <rect x="46" y="275" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="58" y="296" font-weight="700" fill="#f1f5f9" font-size="12.5">Training &amp; Calibration</text>
+    <text x="58" y="316" fill="#94a3b8">LogReg + Platt • a1_model.joblib</text>
 
-    <path d="M 140 158 L 140 172" stroke="#64748b" stroke-width="2" />
-
-    <rect x="15" y="174" width="250" height="50" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="192" fill="#e2e8f0" font-size="12" font-weight="600">Model Training &amp; Calibration</text>
-    <text x="25" y="207" fill="#64748b" font-size="11">LogisticRegression + Platt scaling</text>
-    <text x="25" y="219" fill="#10b981" font-size="10" font-weight="600">Saved: outputs/a1_model.joblib</text>
-
-    <path d="M 140 224 L 140 238" stroke="#64748b" stroke-width="2" />
-
-    <rect x="15" y="240" width="250" height="38" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="256" fill="#e2e8f0" font-size="11" font-weight="600">outputs/evidence/*.json &amp; map_points</text>
-    <text x="25" y="270" fill="#a855f7" font-size="10">Synced to web/public via sync_evidence.py</text>
+    <rect x="46" y="345" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="58" y="366" font-weight="700" fill="#f1f5f9" font-size="12.5">Evidence &amp; Map Points</text>
+    <text x="58" y="386" fill="#c4b5fd">outputs/evidence/*.json → web/public</text>
   </g>
 
-  <!-- 2. Web UI Box (Middle Top) -->
-  <g transform="translate(360, 95)">
-    <rect width="250" height="290" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="250" height="38" rx="12" fill="#334155" />
-    <text x="15" y="24" fill="#60a5fa" font-size="14" font-weight="600">2. NEXT.JS WEB APP (Vercel)</text>
-    
-    <rect x="15" y="50" width="220" height="48" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="69" fill="#e2e8f0" font-size="12" font-weight="600">Chat / Voice Interface</text>
-    <text x="25" y="84" fill="#94a3b8" font-size="11">Voice input placeholder (Sarvam)</text>
+  <!-- ============ PANEL 2: NEXT.JS ============ -->
+  <rect x="330" y="90" width="280" height="330" rx="14" fill="#111a2b" stroke="#2b3a55" stroke-width="1.5"/>
+  <text x="348" y="118" font-size="14" font-weight="700" fill="#93c5fd">2. NEXT.JS WEB APP (Vercel)</text>
+  <g font-size="11.5" fill="#cbd5e1">
+    <rect x="346" y="135" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="358" y="156" font-weight="700" fill="#f1f5f9" font-size="12.5">Chat / Voice Interface</text>
+    <text x="358" y="176" fill="#94a3b8">Voice input placeholder (Sarvam)</text>
 
-    <path d="M 125 98 L 125 112" stroke="#64748b" stroke-width="2" />
+    <rect x="346" y="205" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="358" y="226" font-weight="700" fill="#f1f5f9" font-size="12.5">Next.js API Proxy Route</text>
+    <text x="358" y="244" fill="#94a3b8">/api/proxy → NLP_API_URL</text>
+    <text x="358" y="258" fill="#fbbf24" font-size="10.5">Fallback: demo_cache.json</text>
 
-    <rect x="15" y="114" width="220" height="52" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="133" fill="#e2e8f0" font-size="12" font-weight="600">Next.js API Proxy Route</text>
-    <text x="25" y="148" fill="#cbd5e1" font-size="11">/api/proxy -> NLP_API_URL</text>
-    <text x="25" y="160" fill="#f59e0b" font-size="10">Fallback: demo_cache.json</text>
+    <rect x="346" y="275" width="248" height="60" rx="8" fill="#10281f" stroke="#10b981" stroke-width="1.5"/>
+    <text x="358" y="296" font-weight="700" fill="#f1f5f9" font-size="12.5">Live Dashboard</text>
+    <text x="358" y="314" fill="#6ee7b7">A1–A5 cards • decision badge</text>
+    <text x="358" y="328" fill="#94a3b8" font-size="10.5">trace timeline • latency</text>
 
-    <path d="M 125 166 L 125 180" stroke="#64748b" stroke-width="2" />
-
-    <rect x="15" y="182" width="220" height="44" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="200" fill="#e2e8f0" font-size="12" font-weight="600">Two-Column Live Dashboard</text>
-    <text x="25" y="215" fill="#94a3b8" font-size="11">Timeline, A1/A2 Cards, Latency</text>
-
-    <path d="M 125 226 L 125 240" stroke="#64748b" stroke-width="2" />
-
-    <rect x="15" y="242" width="220" height="38" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="25" y="258" fill="#e2e8f0" font-size="11" font-weight="600">/evidence &amp; Intent Map</text>
-    <text x="25" y="271" fill="#94a3b8" font-size="10">Interactive Recharts + UMAP scatter</text>
+    <rect x="346" y="345" width="248" height="60" rx="8" fill="#17233a" stroke="#2b3a55"/>
+    <text x="358" y="366" font-weight="700" fill="#f1f5f9" font-size="12.5">/evidence &amp; Intent Map</text>
+    <text x="358" y="386" fill="#94a3b8">Recharts + UMAP scatter</text>
   </g>
 
-  <!-- Arrow from Web App to Backend -->
-  <path d="M 610 180 L 650 180" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4 4" />
-  <text x="618" y="172" fill="#38bdf8" font-size="11" font-weight="600">HTTP</text>
+  <!-- HTTP link panel2 -> panel3 -->
+  <line x1="610" y1="250" x2="638" y2="250" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrBlue)"/>
+  <text x="560" y="243" font-size="11" fill="#38bdf8" font-weight="700" text-anchor="middle" transform="translate(0,-4)">HTTP</text>
 
-  <!-- 3. FastAPI Service Box (Right Top & Down) -->
-  <g transform="translate(660, 95)">
-    <rect width="490" height="420" rx="12" fill="#0f172a" stroke="#475569" stroke-width="2" />
-    <rect width="490" height="38" rx="12" fill="#1e293b" />
-    <text x="20" y="24" fill="#38bdf8" font-size="15" font-weight="700">3. FASTAPI ORCHESTRATOR SERVICE (Render)</text>
-    <text x="360" y="24" fill="#10b981" font-size="12">Port 8000 | /resolve</text>
+  <!-- ============ PANEL 3: ORCHESTRATOR ============ -->
+  <rect x="640" y="90" width="730" height="700" rx="14" fill="#111a2b" stroke="#2b3a55" stroke-width="1.5"/>
+  <text x="660" y="118" font-size="14" font-weight="700" fill="#93c5fd">3. FASTAPI ORCHESTRATOR SERVICE (Render)</text>
+  <text x="1350" y="118" font-size="11" fill="#34d399" text-anchor="end">Port 8000 | POST /resolve</text>
 
-    <!-- Agent 1 Card -->
-    <g transform="translate(20, 52)">
-      <rect width="450" height="105" rx="8" fill="url(#gradIndigo)" stroke="#6366f1" stroke-width="2" />
-      <text x="15" y="24" fill="#818cf8" font-size="14" font-weight="700">AGENT A1 — IntentAnalyst</text>
-      <text x="340" y="24" fill="#c7d2fe" font-size="11">Latency: ~20-50ms</text>
-      <text x="15" y="48" fill="#e2e8f0" font-size="12">• BAAI/bge-small-en-v1.5 384-d Dense Embedding</text>
-      <text x="15" y="68" fill="#e2e8f0" font-size="12">• Logistic Regression (L2) with Platt Scaling Calibration</text>
-      <text x="15" y="88" fill="#c7d2fe" font-size="11" font-weight="600">Output: {intent, category, confidence, margin, top3, top1_sim}</text>
-    </g>
+  <!-- A1 -->
+  <rect x="660" y="135" width="650" height="80" rx="10" fill="#1e1b4b" stroke="#818cf8" stroke-width="2"/>
+  <text x="678" y="160" font-size="15" font-weight="700" fill="#a5b4fc">AGENT A1 — IntentAnalyst</text>
+  <text x="1294" y="160" font-size="11.5" fill="#e5e7eb" text-anchor="end">~20–50ms</text>
+  <text x="678" y="182" font-size="12" fill="#e5e7eb">• bge-small-en-v1.5 384-d embedding + Logistic Regression (L2), Platt-calibrated</text>
+  <text x="678" y="202" font-size="12" font-weight="700" fill="#c7d2fe">Output: {intent, category, confidence, margin, top3, top1_sim}</text>
 
-    <!-- Handoff Arrow -->
-    <path d="M 245 160 L 245 180" stroke="#6366f1" stroke-width="2.5" />
-    <rect x="180" y="165" width="130" height="18" rx="4" fill="#312e81" />
-    <text x="188" y="178" fill="#e0e7ff" font-size="10" font-weight="600">Structured JSON Handoff</text>
+  <line x1="985" y1="215" x2="985" y2="245" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="995" y="234" font-size="10.5" fill="#94a3b8">Structured JSON handoff</text>
 
-    <!-- Agent 2 Card -->
-    <g transform="translate(20, 185)">
-      <rect width="450" height="120" rx="8" fill="url(#gradTeal)" stroke="#14b8a6" stroke-width="2" />
-      <text x="15" y="24" fill="#2dd4bf" font-size="14" font-weight="700">AGENT A2 — ResponseSynthesizer</text>
-      <text x="335" y="24" fill="#99f6e4" font-size="11">Latency: ~40-120ms</text>
-      <text x="15" y="46" fill="#e2e8f0" font-size="12">• Category-Routed Retrieval (Supabase pgvector / In-Memory)</text>
-      <text x="15" y="66" fill="#e2e8f0" font-size="12">• Hybrid Cosine + Lexical Re-ranking with Distance Thresholding</text>
-      <text x="15" y="86" fill="#e2e8f0" font-size="12">• Self-Check Hallucination Guard (Intent &amp; Category Consistency)</text>
-      <text x="15" y="104" fill="#99f6e4" font-size="11" font-weight="600">Output: {response, source_examples, score, confidence}</text>
-    </g>
+  <!-- A3 -->
+  <rect x="660" y="245" width="650" height="95" rx="10" fill="#082f49" stroke="#38bdf8" stroke-width="2"/>
+  <text x="678" y="270" font-size="15" font-weight="700" fill="#7dd3fc">AGENT A3 — Routing / Planning</text>
+  <rect x="945" y="256" width="40" height="18" rx="9" fill="#10b981"/>
+  <text x="965" y="269" font-size="10" font-weight="700" fill="#052e1f" text-anchor="middle">NEW</text>
+  <text x="1294" y="270" font-size="11.5" fill="#e5e7eb" text-anchor="end">~1–3ms (rule-based)</text>
+  <text x="678" y="292" font-size="12" fill="#e5e7eb">• Plans next steps from intent, uncertainty (conf &lt; 0.50, margin &lt; 0.15), evidence</text>
+  <text x="678" y="310" font-size="12" fill="#e5e7eb">• Required-slot check (e.g. order number for get_refund / track_order)</text>
+  <text x="678" y="328" font-size="12" font-weight="700" fill="#bae6fd">Output: {steps: [retrieve | clarify | escalate], missing_info, reason}</text>
 
-    <!-- Trace & Response -->
-    <g transform="translate(20, 318)">
-      <rect width="450" height="85" rx="8" fill="#1e293b" stroke="#334155" />
-      <text x="15" y="22" fill="#f8fafc" font-size="13" font-weight="600">Sequential Execution Trace &amp; Response Packet</text>
-      <text x="15" y="44" fill="#94a3b8" font-size="11">• query, final_response, total_latency_ms, retrieval_backend</text>
-      <text x="15" y="60" fill="#94a3b8" font-size="11">• trace: [{agent: "IntentAnalyst", ...}, {agent: "ResponseSynthesizer", ...}]</text>
-      <text x="15" y="76" fill="#94a3b8" font-size="11">• planned_agents: [{name: "Verifier"}, {name: "Clarifier"}, {name: "Escalator"}]</text>
-    </g>
-  </g>
+  <!-- A3 -> A2 -->
+  <line x1="817" y1="340" x2="817" y2="385" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="827" y="367" font-size="10.5" fill="#94a3b8">plan: retrieve</text>
 
-  <!-- 4. Supabase Database Box (Bottom Left) -->
-  <g transform="translate(50, 420)">
-    <rect width="560" height="150" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="560" height="38" rx="12" fill="#334155" />
-    <text x="15" y="24" fill="#34d399" font-size="14" font-weight="600">4. SUPABASE CLOUD (PostgreSQL + pgvector)</text>
-    
-    <!-- Table: examples -->
-    <rect x="15" y="50" width="255" height="85" rx="6" fill="#0f172a" stroke="#10b981" />
-    <text x="25" y="70" fill="#34d399" font-size="13" font-weight="700">Table: examples</text>
-    <text x="25" y="88" fill="#cbd5e1" font-size="11">id, instruction, response, intent, category</text>
-    <text x="25" y="104" fill="#cbd5e1" font-size="11">embedding: vector(384)</text>
-    <text x="25" y="120" fill="#a7f3d0" font-size="10">Index: ivfflat (cosine ops) / RPC: match_examples</text>
+  <!-- A2 -->
+  <rect x="660" y="385" width="315" height="140" rx="10" fill="#042f2e" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="676" y="409" font-size="14" font-weight="700" fill="#5eead4">AGENT A2 — ResponseSynthesizer</text>
+  <text x="676" y="427" font-size="11" fill="#e5e7eb">~40–120ms • only when plan = retrieve</text>
+  <text x="676" y="450" font-size="12" fill="#e5e7eb">• Category-routed hybrid retrieval</text>
+  <text x="684" y="467" font-size="11" fill="#94a3b8">(pgvector RPC / in-memory RRF)</text>
+  <text x="676" y="486" font-size="12" fill="#e5e7eb">• 3-stage self-check, placeholder guard</text>
+  <text x="676" y="511" font-size="11.5" font-weight="700" fill="#99f6e4">Output: {response, source_examples, score}</text>
 
-    <!-- Table: logs & metrics -->
-    <rect x="290" y="50" width="255" height="85" rx="6" fill="#0f172a" stroke="#475569" />
-    <text x="300" y="70" fill="#e2e8f0" font-size="13" font-weight="700">Tables: audit_log &amp; metrics</text>
-    <text x="300" y="88" fill="#94a3b8" font-size="11">audit_log: query, trace, latency_ms, ts</text>
-    <text x="300" y="104" fill="#94a3b8" font-size="11">metrics: a1_accuracy, a2_relevance</text>
-    <text x="300" y="120" fill="#64748b" font-size="10">Automatic telemetry on each /resolve</text>
-  </g>
+  <line x1="975" y1="455" x2="995" y2="455" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr)"/>
 
-  <!-- Connect Supabase to Agent 2 -->
-  <path d="M 575 490 L 690 490 L 690 320 L 730 320" stroke="#34d399" stroke-width="2" stroke-dasharray="3 3" fill="none" />
-  <text x="610" y="482" fill="#34d399" font-size="11">RPC match_examples</text>
+  <!-- A4 -->
+  <rect x="995" y="385" width="315" height="140" rx="10" fill="#500724" stroke="#f472b6" stroke-width="2"/>
+  <text x="1011" y="409" font-size="14" font-weight="700" fill="#f9a8d4">AGENT A4 — Response Auditor</text>
+  <rect x="1262" y="395" width="36" height="17" rx="8" fill="#10b981"/>
+  <text x="1280" y="407.5" font-size="9.5" font-weight="700" fill="#052e1f" text-anchor="middle">NEW</text>
+  <text x="1011" y="427" font-size="11" fill="#e5e7eb">~2–5ms (rule-based)</text>
+  <text x="1011" y="450" font-size="12" fill="#e5e7eb">• Intent alignment (A2 vs A1)</text>
+  <text x="1011" y="467" font-size="12" fill="#e5e7eb">• Grounding score vs retrieved evidence</text>
+  <text x="1011" y="484" font-size="12" fill="#e5e7eb">• Unsupported-claim scan (action claims)</text>
+  <text x="1011" y="511" font-size="11.5" font-weight="700" fill="#fbcfe8">Verdict: accept | revise | flag</text>
 
-  <!-- 5. Level 2 Extension (Dashed Box - Bottom Full Width) -->
-  <g transform="translate(50, 600)">
-    <rect width="1100" height="150" rx="12" fill="#0f172a" stroke="#eab308" stroke-width="2" stroke-dasharray="8 6" />
-    <rect width="320" height="30" rx="6" fill="#ca8a04" transform="translate(15, -15)" />
-    <text x="30" y="5" fill="#fef08a" font-size="13" font-weight="700">LEVEL 2 PLANNED EXTENSIONS (Roadmap)</text>
+  <!-- A4 -> A5 -->
+  <line x1="1152" y1="525" x2="1152" y2="570" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr)"/>
 
-    <g transform="translate(25, 30)">
-      <!-- Verifier -->
-      <rect x="0" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
-      <text x="15" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Verifier</text>
-      <text x="15" y="44" fill="#cbd5e1" font-size="11">• Policy &amp; SLA compliance check</text>
-      <text x="15" y="60" fill="#cbd5e1" font-size="11">• Hallucination &amp; tone scoring</text>
-      <text x="15" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
+  <!-- Bypass A3 -> A5 -->
+  <path d="M1310 292 H1332 V620 H1312" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrAmber)"/>
+  <text x="1346" y="470" font-size="10.5" fill="#fbbf24" text-anchor="middle" transform="rotate(90 1346 470)">clarify / escalate — skip A2 + A4</text>
 
-      <!-- Clarifier -->
-      <rect x="365" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
-      <text x="380" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Clarifier</text>
-      <text x="380" y="44" fill="#cbd5e1" font-size="11">• Ambiguity detector (margin &lt; 0.15)</text>
-      <text x="380" y="60" fill="#cbd5e1" font-size="11">• Targeted follow-up question generation</text>
-      <text x="380" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
+  <!-- A5 -->
+  <rect x="660" y="570" width="650" height="110" rx="10" fill="#1c1917" stroke="#fbbf24" stroke-width="2"/>
+  <text x="678" y="594" font-size="15" font-weight="700" fill="#fcd34d">AGENT A5 — Coordinator</text>
+  <rect x="920" y="580" width="40" height="18" rx="9" fill="#10b981"/>
+  <text x="940" y="593" font-size="10" font-weight="700" fill="#052e1f" text-anchor="middle">NEW</text>
+  <text x="1294" y="594" font-size="11.5" fill="#e5e7eb" text-anchor="end">~1ms</text>
+  <text x="678" y="614" font-size="12" fill="#e5e7eb">• Combines A1 confidence/margin + A3 plan + A4 verdict; resolves conflicts</text>
+  <rect x="678" y="630" width="190" height="34" rx="8" fill="#064e3b" stroke="#34d399"/>
+  <text x="773" y="652" font-size="13" font-weight="700" fill="#6ee7b7" text-anchor="middle">ANSWER</text>
+  <rect x="884" y="630" width="190" height="34" rx="8" fill="#78350f" stroke="#fbbf24"/>
+  <text x="979" y="652" font-size="13" font-weight="700" fill="#fde68a" text-anchor="middle">CLARIFY</text>
+  <rect x="1090" y="630" width="200" height="34" rx="8" fill="#7f1d1d" stroke="#f87171"/>
+  <text x="1190" y="652" font-size="13" font-weight="700" fill="#fecaca" text-anchor="middle">ESCALATE</text>
 
-      <!-- Escalator -->
-      <rect x="730" y="0" width="330" height="95" rx="8" fill="#1e293b" stroke="#ca8a04" stroke-dasharray="4 4" />
-      <text x="745" y="24" fill="#fde047" font-size="13" font-weight="700">Agent: Escalator</text>
-      <text x="745" y="44" fill="#cbd5e1" font-size="11">• Sentiment &amp; confidence thresholding</text>
-      <text x="745" y="60" fill="#cbd5e1" font-size="11">• Human agent routing &amp; ticket creation</text>
-      <text x="745" y="78" fill="#fef08a" font-size="10">Status: Planned (UI Slot Active)</text>
-    </g>
-  </g>
+  <!-- A5 -> Packet -->
+  <line x1="985" y1="680" x2="985" y2="705" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Packet -->
+  <rect x="660" y="705" width="650" height="70" rx="10" fill="#17233a" stroke="#2b3a55"/>
+  <text x="678" y="729" font-size="13.5" font-weight="700" fill="#f1f5f9">Sequential Execution Trace &amp; Response Packet</text>
+  <text x="678" y="749" font-size="11.5" fill="#cbd5e1">{decision, message, trace: [A1, A3, A2?, A4?, A5], total_latency_ms, retrieval_backend}</text>
+  <text x="678" y="765" font-size="11" fill="#94a3b8">Total ≈ 65–180ms • A2 and A4 are skipped when A3 plans clarify / escalate</text>
+
+  <!-- ============ PANEL 4: SUPABASE ============ -->
+  <rect x="30" y="450" width="580" height="340" rx="14" fill="#111a2b" stroke="#2b3a55" stroke-width="1.5"/>
+  <text x="48" y="478" font-size="14" font-weight="700" fill="#34d399">4. SUPABASE CLOUD (PostgreSQL + pgvector)</text>
+
+  <rect x="330" y="500" width="260" height="140" rx="10" fill="#0b2a22" stroke="#34d399" stroke-width="1.5"/>
+  <text x="344" y="523" font-size="13" font-weight="700" fill="#6ee7b7">Table: examples</text>
+  <text x="344" y="545" font-size="11.5" fill="#e5e7eb">id, instruction, response,</text>
+  <text x="344" y="561" font-size="11.5" fill="#e5e7eb">intent, category, embedding vector(384)</text>
+  <text x="344" y="583" font-size="11" fill="#6ee7b7">Index: ivfflat / hnsw (cosine) + FTS</text>
+  <text x="344" y="601" font-size="11" fill="#6ee7b7">RPC: match_examples</text>
+  <text x="344" y="623" font-size="10.5" fill="#94a3b8">15,567 TRAIN rows</text>
+
+  <rect x="50" y="500" width="260" height="140" rx="10" fill="#17233a" stroke="#2b3a55"/>
+  <text x="64" y="523" font-size="13" font-weight="700" fill="#f1f5f9">Tables: audit_log &amp; metrics</text>
+  <text x="64" y="545" font-size="11.5" fill="#e5e7eb">query, trace, latency_ms, ts</text>
+  <text x="64" y="563" font-size="11.5" fill="#6ee7b7" font-weight="700">+ decision, audit_issues,</text>
+  <text x="64" y="579" font-size="11.5" fill="#6ee7b7" font-weight="700">   missing_info (new)</text>
+  <text x="64" y="601" font-size="11" fill="#e5e7eb">metrics: a1_accuracy, a2_relevance,</text>
+  <text x="64" y="617" font-size="11" fill="#e5e7eb">clarify / escalate rate</text>
+
+  <text x="50" y="672" font-size="12" font-weight="700" fill="#cbd5e1">Resilience</text>
+  <text x="50" y="692" font-size="11.5" fill="#94a3b8">• If Supabase is unreachable (&gt;2s), A2 falls back to the in-memory index;</text>
+  <text x="58" y="708" font-size="11.5" fill="#94a3b8">retrieval_backend reports "in-memory" vs "pgvector".</text>
+  <text x="50" y="728" font-size="11.5" fill="#94a3b8">• A3, A4 and A5 are rule-based: no extra DB or LLM calls on the hot path.</text>
+  <text x="50" y="748" font-size="11.5" fill="#94a3b8">• Telemetry is async, so logging never blocks the response.</text>
+
+  <!-- A2 -> examples (RPC) -->
+  <line x1="660" y1="520" x2="592" y2="520" stroke="#34d399" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrGreen)"/>
+  <text x="626" y="512" font-size="10" fill="#34d399" text-anchor="middle">RPC</text>
+
+  <!-- Packet -> audit_log (telemetry) -->
+  <path d="M660 765 H40 V570 H48" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrGreen)"/>
+  <text x="350" y="760" font-size="10.5" fill="#34d399" text-anchor="middle">async telemetry on each /resolve</text>
+
+  <!-- ============ RESPONSIBLE BEHAVIOR STRIP ============ -->
+  <rect x="30" y="810" width="1340" height="76" rx="12" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="8 5"/>
+  <text x="50" y="835" font-size="13" font-weight="700" fill="#fcd34d">RESPONSIBLE BEHAVIOR (enforced by A4 + A5)</text>
+  <text x="50" y="857" font-size="12" fill="#e5e7eb">• Never claims an order, payment, refund or account was changed — completed-action phrases are stripped or rewritten.   • Raw {{placeholders}} never reach the customer.</text>
+  <text x="50" y="875" font-size="12" fill="#e5e7eb">• "I need a refund but cannot find my order number" → CLARIFY (asks for details).   • ESCALATE recommends human review; it never claims the issue is resolved.</text>
 </svg>
