@@ -87,13 +87,14 @@ class A2Builder:
             print("[A2] Loading / computing TRAIN embeddings …")
             train_emb = embed_split("train", model=self.embed_model)
 
-        # Sparse TF-IDF
+        # Sparse TF-IDF (float32: halves resident RAM vs sklearn's default
+        # float64; identical scores after 4-dp rounding)
         print("[A2] Fitting TF-IDF …")
         tfidf = TfidfVectorizer(
             ngram_range=(1, 2), max_features=30_000,
             sublinear_tf=True, min_df=2,
         )
-        train_tfidf = tfidf.fit_transform(train_texts)
+        train_tfidf = tfidf.fit_transform(train_texts).astype(np.float32)
 
         # Response→intent classifier (for self-check)
         print("[A2] Training response→intent classifier …")
@@ -101,14 +102,16 @@ class A2Builder:
             ngram_range=(1, 2), max_features=20_000,
             sublinear_tf=True, min_df=2,
         )
-        X_resp = resp_tfidf_vec.fit_transform(train_responses)
+        X_resp = resp_tfidf_vec.fit_transform(train_responses).astype(np.float32)
+        del train_responses
         resp_clf = LogisticRegression(
             max_iter=1000, C=1.0, solver="lbfgs",
             random_state=SEED,
         )
         resp_clf.fit(X_resp, train_intents)
-        print(f"  Response→intent train acc: "
-              f"{(resp_clf.predict(X_resp) == train_intents).mean():.4f}")
+        train_acc = (resp_clf.predict(X_resp) == train_intents).mean()
+        del X_resp                                      # free the 25k×20k matrix
+        print(f"  Response→intent train acc: {train_acc:.4f}")
 
         # Choose SIM_MIN on DEV if not provided (default: 0.9107 precomputed on DEV)
         if sim_min_dev is None:
@@ -126,6 +129,8 @@ class A2Builder:
             sim_min=sim_min_dev,
         )
         print(f"[A2] Ready. SIM_MIN={sim_min_dev:.4f}")
+        import gc
+        gc.collect()                     # return fit transients before serving
         return specialist
 
     def _choose_sim_min(self, train_emb, train_intents, train_df):
@@ -172,7 +177,7 @@ class ResponseSpecialist:
         embed_model: str,
         sim_min: float = 0.70,
     ):
-        self.train_df = train_df.reset_index(drop=True)
+        self.train_df = train_df            # read_csv starts at index 0; no copy needed
         self.train_texts = train_texts
         self.train_emb = train_emb           # (N, 384) L2-normed
         self.train_tfidf = train_tfidf       # (N, F) sparse

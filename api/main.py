@@ -89,16 +89,26 @@ async def startup():
     _state["a1"] = a1
     log.info("A1 loaded (served level: %s)", a1.served_level)
 
-    a2 = A2Builder().build()
-    _state["a2"] = a2
-    log.info("A2 loaded")
+    # A2 is by far the heaviest build step.  If the box cannot afford it, the
+    # API still starts and serves the Day-1 A1 -> A2 path: /resolve falls back
+    # to _resolve_day1 when l2 is None.  A boot that degrades beats a boot
+    # that is OOM-killed and crash-loops on the free tier.
+    try:
+        a2 = A2Builder().build()
+        _state["a2"] = a2
+        log.info("A2 loaded")
 
-    _state["pipeline_agents"] = [A1Agent(a1), A2Agent(a2)]
-    _state["train_emb"] = a2.train_emb
+        _state["pipeline_agents"] = [A1Agent(a1), A2Agent(a2)]
+        _state["train_emb"] = a2.train_emb
 
-    # Level 2: reuse the loaded models so no extra weights are held in memory.
-    _state["l2"] = Level2Pipeline(a1=a1, a2=a2)
-    log.info("Level-2 pipeline ready (A1 -> A3 -> A2 -> A4 -> A5)")
+        # Level 2: reuse the loaded models so no extra weights are held in memory.
+        _state["l2"] = Level2Pipeline(a1=a1, a2=a2)
+        log.info("Level-2 pipeline ready (A1 -> A3 -> A2 -> A4 -> A5)")
+    except Exception as exc:
+        import gc
+        gc.collect()                          # free any half-built components
+        log.error("A2/L2 build failed (%s: %s) — serving Day-1 fallback",
+                  type(exc).__name__, exc)
 
     # Try Supabase connection
     url = os.environ.get("SUPABASE_URL")
@@ -122,12 +132,23 @@ async def startup():
     else:
         log.info("Supabase not configured — using in-memory retrieval")
 
-    log.info("Ready (retrieval_backend=%s)", _state["retrieval_backend"])
+    log.info("Ready (retrieval_backend=%s, peak_rss=%dMB)",
+             _state["retrieval_backend"], _peak_rss_mb())
 
 
 # ═══════════════════════════════════════════════════════════════════════
 # pgvector retrieval via Supabase RPC
 # ═══════════════════════════════════════════════════════════════════════
+
+def _peak_rss_mb() -> int:
+    """Peak RSS of this process for the Render logs (std-lib only)."""
+    try:
+        import resource
+        rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        return int(rss / (1024 * 1024))       # macOS reports bytes
+    except Exception:
+        return 0
+
 
 def _pgvector_respond(query: str, a1_output: dict, timeout_s: float = 2.0) -> Optional[dict]:
     """Try pgvector retrieval via Supabase RPC. Returns None on failure."""

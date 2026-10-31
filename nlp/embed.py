@@ -14,6 +14,15 @@ import os
 import pathlib
 from typing import Optional
 
+# Thread caps must be set BEFORE fastembed/onnxruntime initialise: unbounded
+# ONNX/OpenMP threads multiply RAM via per-thread workspaces and malloc
+# arenas, which OOM-kills the service on 512 MB free-tier hosts.
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("ORT_NUM_THREADS", "1")
+os.environ.setdefault("FASTEMBED_THREADS", "1")
+
 import numpy as np
 from fastembed import TextEmbedding
 
@@ -44,7 +53,11 @@ def _get_embedder(model: str) -> TextEmbedding:
                 f"Model '{model}' is not a supported 384-d fastembed model.\n"
                 f"Supported:\n  {supported}"
             )
-        _instances[model] = TextEmbedding(model_name=model)
+        _instances[model] = TextEmbedding(
+            model_name=model,
+            threads=int(os.environ.get("FASTEMBED_THREADS", "1")),
+            providers=["CPUExecutionProvider"],
+        )
     return _instances[model]
 
 

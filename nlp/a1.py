@@ -42,6 +42,7 @@ class IntentAnalyst:
 
     def __init__(self):
         cfg = _load_config()
+        self._npz_path = NPZ_PATH
         blob = np.load(NPZ_PATH, allow_pickle=True)
 
         self.classes: list[str] = blob["classes"].tolist()
@@ -61,8 +62,8 @@ class IntentAnalyst:
             raise RuntimeError("L1 cannot be served without scikit-learn.")
 
         elif self.served_level == "L2":
-            self.W = blob["W"]      # (n_features, n_classes)
-            self.b = blob["b"]      # (n_classes,)
+            self.W = np.asarray(blob["W"], dtype=np.float32)      # (n_features, n_classes)
+            self.b = np.asarray(blob["b"], dtype=np.float32)      # (n_classes,)
 
         elif self.served_level == "L3":
             self.train_embs = blob["train_embs"]    # (N_train, 384)
@@ -130,12 +131,13 @@ class IntentAnalyst:
         category = self.intent_to_cat.get(intent, "UNKNOWN")
 
         # top1_similarity: cosine to nearest TRAIN neighbour
-        if hasattr(self, "train_embs"):
-            all_sims = self.train_embs @ q_emb
-        else:
-            # For L2: load train embeddings for similarity
-            blob = np.load(NPZ_PATH, allow_pickle=True)
-            all_sims = blob["train_embs"] @ q_emb
+        if not hasattr(self, "train_embs"):
+            # Loaded once and cached: reloading the 20 MB npz on every request
+            # re-materialises ~53 MB and adds ~100 ms latency per call.
+            with np.load(self._npz_path, allow_pickle=True) as blob:
+                self.train_embs = np.asarray(blob["train_embs"],
+                                             dtype=np.float32)
+        all_sims = self.train_embs @ q_emb
         top1_similarity = float(np.max(all_sims))
 
         needs_clarification = (

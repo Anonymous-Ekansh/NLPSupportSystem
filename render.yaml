@@ -17,3 +17,15 @@ services:
         value: "*"
       - key: PYTHON_VERSION
         value: "3.13"
+      # Memory ceilings for the 512 MB free tier: BLAS/OpenMP threads multiply
+      # per-thread arenas and workspaces; this keeps the process well under
+      # the limit (each of these is also setdefault-ed inside nlp/embed.py,
+      # but env vars apply to every library that reads them, incl. numpy/uvicorn).
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: MKL_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: MALLOC_ARENA_MAX
+        value: "2"
