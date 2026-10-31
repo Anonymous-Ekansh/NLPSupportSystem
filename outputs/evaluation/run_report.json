@@ -1,0 +1,190 @@
+{
+  "input_file": "data/eval/evaluation_queries.csv",
+  "total_rows": 4031,
+  "error_rows": 0,
+  "runtime_seconds": 1491.9,
+  "latency_ms": {
+    "p50": 254.3,
+    "p95": 940.1,
+    "max": 25666.8
+  },
+  "decisions": {
+    "ANSWER": 3601,
+    "CLARIFY": 421,
+    "ESCALATE": 9
+  },
+  "decision_shares": {
+    "ANSWER": 0.8933,
+    "CLARIFY": 0.1044,
+    "ESCALATE": 0.0022
+  },
+  "top10_intents": [
+    [
+      "track_refund",
+      152
+    ],
+    [
+      "change_order",
+      151
+    ],
+    [
+      "contact_human_agent",
+      151
+    ],
+    [
+      "create_account",
+      151
+    ],
+    [
+      "get_refund",
+      151
+    ],
+    [
+      "complaint",
+      150
+    ],
+    [
+      "contact_customer_service",
+      150
+    ],
+    [
+      "delivery_period",
+      150
+    ],
+    [
+      "edit_account",
+      150
+    ],
+    [
+      "get_invoice",
+      150
+    ]
+  ],
+  "category_distribution": {
+    "ACCOUNT": 897,
+    "ORDER": 598,
+    "REFUND": 452,
+    "CONTACT": 301,
+    "DELIVERY": 299,
+    "INVOICE": 299,
+    "PAYMENT": 299,
+    "FEEDBACK": 298,
+    "SHIPPING": 295,
+    "SUBSCRIPTION": 150,
+    "CANCEL": 143
+  },
+  "reason_code_counts": {
+    "standard_retrieval": 3671,
+    "audit_accept": 2274,
+    "audit_revise": 1327,
+    "missing_information": 293,
+    "missing_order_number": 293,
+    "audit_flag": 70,
+    "intent_alignment": 69,
+    "uncertain_intent": 69,
+    "multi_intent": 59,
+    "placeholder_safety": 26,
+    "informational_question": 18,
+    "low_confidence": 4,
+    "out_of_distribution": 4,
+    "conflicting_evidence": 1,
+    "contradiction": 1
+  },
+  "clarify_from_missing_slots": 293,
+  "placeholder_rows": 985,
+  "placeholder_decisions": {
+    "ANSWER": 869,
+    "CLARIFY": 114,
+    "ESCALATE": 2
+  },
+  "confidence_below_0_6": 8,
+  "escalate_rows": [
+    {
+      "query_id": "Q0257",
+      "instruction": "need help informing of rergistration errors",
+      "reason_codes": [
+        "low_confidence"
+      ]
+    },
+    {
+      "query_id": "Q1045",
+      "instruction": "direct to mw someone",
+      "reason_codes": [
+        "out_of_distribution"
+      ]
+    },
+    {
+      "query_id": "Q1964",
+      "instruction": "need assistance withcanceling purchase {{Order Number}}",
+      "reason_codes": [
+        "low_confidence"
+      ]
+    },
+    {
+      "query_id": "Q2299",
+      "instruction": "i have got to send feeback",
+      "reason_codes": [
+        "low_confidence"
+      ]
+    },
+    {
+      "query_id": "Q2428",
+      "instruction": "can Icontact a person?",
+      "reason_codes": [
+        "out_of_distribution"
+      ]
+    },
+    {
+      "query_id": "Q2540",
+      "instruction": "withdrawal hcarge",
+      "reason_codes": [
+        "out_of_distribution"
+      ]
+    },
+    {
+      "query_id": "Q2624",
+      "instruction": "I need to see your money back guarantee, can you help me?",
+      "reason_codes": [
+        "standard_retrieval",
+        "audit_flag",
+        "contradiction",
+        "conflicting_evidence"
+      ]
+    },
+    {
+      "query_id": "Q2823",
+      "instruction": "seeing biols from {{Person Name}}",
+      "reason_codes": [
+        "out_of_distribution"
+      ]
+    },
+    {
+      "query_id": "Q3237",
+      "instruction": "would it be possible to lolok for my bill #12588",
+      "reason_codes": [
+        "low_confidence"
+      ]
+    }
+  ],
+  "note": "This file has NO gold labels: no accuracy or F1 is reported here.",
+  "validation": {
+    "exit_code": 0,
+    "checks": {
+      "T1": "PASS",
+      "T2": "PASS",
+      "T3": "PASS",
+      "T4": "PASS",
+      "T5": "PASS",
+      "T6": "PASS",
+      "T7": "PASS",
+      "T8": "PASS",
+      "T9": "PASS",
+      "T10": "PASS"
+    },
+    "validator_definition_notes": {
+      "t6_v1_strict_endswith_question_flagged": 275,
+      "t6_v2_violations": 0,
+      "t9_t10_lookup_key_fix": "validator-only; no predictions changed"
+    }
+  }
+}
