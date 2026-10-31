@@ -20,6 +20,7 @@ Exit codes: 0 success, 2 bad input, 1 internal error.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import csv
 import json
 import os
@@ -207,12 +208,17 @@ def main(argv=None) -> int:
         build_parser().print_help()
         return 2
 
-    pipe = Level2Pipeline()
-    if args.follow_up:
-        result = pipe.resolve_with_followup(query, args.follow_up,
-                                            baseline=args.baseline)
-    else:
-        result = pipe.resolve(query, baseline=args.baseline)
+    # With --json, stdout must be the JSON payload alone: A2 prints warm-up
+    # lines while it builds, so route those to stderr instead.
+    sink = contextlib.redirect_stdout(sys.stderr) if args.json \
+        else contextlib.nullcontext()
+    with sink:
+        pipe = Level2Pipeline()
+        if args.follow_up:
+            result = pipe.resolve_with_followup(query, args.follow_up,
+                                                baseline=args.baseline)
+        else:
+            result = pipe.resolve(query, baseline=args.baseline)
 
     if args.json:
         print(json.dumps(result, indent=2, default=str))

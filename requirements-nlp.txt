@@ -1,10 +1,27 @@
-pandas>=2.0
-numpy>=1.24
-scikit-learn>=1.4
-scipy>=1.11
-matplotlib>=3.7
-joblib>=1.3
-fastembed>=0.3
-fastapi>=0.110
-uvicorn>=0.27
-pydantic>=2.0
+# NLP pipeline: training, evaluation, splits, maps, evidence generation.
+# Versions are the ones this repository was built and validated against.
+# Python 3.11+ (developed on 3.13).
+
+pandas==3.1.0
+numpy==2.5.1
+scikit-learn==1.9.1
+scipy==1.18.0
+joblib==1.6.0
+
+# Embeddings (CPU / ONNX, no torch)
+fastembed==0.9.1
+onnxruntime==1.31.1
+
+# Figures for evaluation reports
+matplotlib==3.11.2
+
+# 2D semantic map (scripts/build_map.py); falls back to sklearn TSNE if absent
+umap-learn==0.5.12
+
+# Served by api/main.py as well, so a single environment can do both
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2
+
+# Used by scripts/judge_test.py
+requests==2.34.2

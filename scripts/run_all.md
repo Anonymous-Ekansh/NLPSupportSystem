@@ -1,69 +1,97 @@
-# Full Pipeline Reproduction Guide (`scripts/run_all.py`)
+# Full pipeline reproduction (`scripts/run_all.py`)
 
-This document explains how to regenerate all model artifacts, evaluation benchmarks, 2D semantic maps, and frontend evidence files directly from raw data in `data/`.
+Regenerates the Day-1 model artifacts, evaluation benchmarks, 2D map and frontend evidence
+directly from `data/`. Level-2 evidence and submission files are produced by separate scripts
+(see the last section).
+
+```bash
+source .venv/bin/activate
+python scripts/run_all.py
+```
 
 ---
 
-## Overview
+## What `run_all.py` runs
 
-The entire NLP pipeline is reproducible with a single command:
+| Step | Script | Input | Output |
+|---|---|---|---|
+| **1** | `scripts/train_a1.py` | `outputs/splits/train.csv` (15,567 rows) | `outputs/models/a1_pipe.joblib`, `a1.npz`, `a1_config.json`, `a1_intent_to_cat.joblib`, `a1_centroids.joblib` |
+| **2** | `scripts/eval_a1.py` | `outputs/splits/test.csv` (3,475 rows), model | `outputs/evidence/a1.json`, `outputs/evidence/a1_errors.csv` |
+| **3** | `scripts/eval_a2.py` | test + train splits | `outputs/evidence/a2.json`, `outputs/a2_results.md`, `outputs/a2_samples.csv` |
+| **4** | `scripts/build_map.py` | `outputs/splits/train.csv` | `outputs/map_points.json` (2D projection of a stratified sample) |
+| **5** | `scripts/sync_evidence.py` | `outputs/evidence/*.json`, `map_points.json` | `web/public/evidence/*`, `web/public/map_points.json` |
 
-```bash
-python3 scripts/run_all.py
-```
+Runtime is a few minutes on a modern CPU; the first run also downloads the embedding models.
 
-### Pipeline Execution Order
-
-| Step | Script | Input | Output Artifact | Typical Runtime |
-|---|---|---|---|---|
-| **1** | `scripts/train_a1.py` | `data/train.csv` | `outputs/a1_model.joblib` | ~45s |
-| **2** | `scripts/eval_a1.py` | `data/test.csv`, `a1_model.joblib` | `outputs/evidence/a1.json`, `a1_errors.csv` | ~15s |
-| **3** | `scripts/eval_a2.py` | `data/test.csv`, `data/train.csv` | `outputs/evidence/a2.json`, `a2_results.md`, `a2_samples.csv` | ~60s |
-| **4** | `scripts/build_map.py` | `data/train.csv` | `outputs/map_points.json` (3,000 UMAP 2D points) | ~25s |
-| **5** | `scripts/sync_evidence.py` | `outputs/evidence/*.json`, `map_points.json` | `web/public/evidence/*`, `web/public/map_points.json` | <1s |
-
-**Total End-to-End Runtime**: ~2.5 to 3 minutes on CPU (Apple Silicon / modern x86).
+> `outputs/models/` and `outputs/splits/` are committed on purpose, so a fresh clone can serve
+> requests without running this script.
 
 ---
 
 ## Prerequisites
 
-Ensure all dependencies from both requirements files are installed in your virtual environment:
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-nlp.txt
+```
+
+Splits must exist before training. If `outputs/splits/` is missing:
 
 ```bash
-# 1. Activate environment
-source .venv/bin/activate
-
-# 2. Install requirements
-pip install -r requirements-nlp.txt
-pip install -r requirements-api.txt
+python -m nlp.split_data      # dedup + leak removal → train 15,567 / dev 1,730 / test 3,475
 ```
 
 ---
 
-## Step-by-Step Breakdown
+## Step details
 
-### 1. Training Agent A1 (`train_a1.py`)
-- Computes 384-dimensional dense embeddings for all 21,497 training instructions using `BAAI/bge-small-en-v1.5` (CPU via ONNX runtime).
-- Trains a multi-class `LogisticRegression` model with L2 regularization (`C=1.0`, `max_iter=1000`).
-- Fits a 5-fold cross-validated Platt scaling calibrator to ensure confidence outputs represent true probabilities.
-- Serializes model and metadata to `outputs/a1_model.joblib`.
+### 1. Train A1 (`train_a1.py`)
+- Embeds TRAIN instructions with `sentence-transformers/all-MiniLM-L6-v2` through fastembed
+  (CPU / ONNX), 384 dimensions.
+- Compares a model ladder on DEV (majority class, TF-IDF + LogReg, embedding + LogReg,
+  similarity-weighted kNN) and serves the embedding + LogReg model (C chosen on DEV; 50.0 in the
+  committed artifacts).
+- Fits temperature scaling on DEV logits — not a CV Platt fit — and records `temperature`, `tau`
+  (clarification threshold) and `s_min` (similarity floor) in `a1_config.json`.
+- Writes the ONNX embedding cache matrix used for similarity and the confusion/centroid artifacts.
 
-### 2. Evaluating Agent A1 (`eval_a1.py`)
-- Evaluates top-1 accuracy, top-3 accuracy, macro F1, and category accuracy on `data/test.csv` (2,688 queries).
-- Calculates Expected Calibration Error (ECE) across 10 probability bins.
-- Saves structured evaluation evidence to `outputs/evidence/a1.json` and misclassified queries to `outputs/evidence/a1_errors.csv`.
+### 2. Evaluate A1 (`eval_a1.py`)
+- Intent top-1 accuracy, top-3, macro-F1 with bootstrap CI, category accuracy, per-intent F1,
+  ECE before/after calibration, OOD AUROC, and per-`flags`-letter F1.
+- Writes `outputs/evidence/a1.json` and the misclassified rows to `a1_errors.csv`.
 
-### 3. Evaluating Agent A2 (`eval_a2.py`)
-- Benchmarks retrieval accuracy on the test set comparing unrouted baseline vs. category-routed retrieval.
-- Evaluates Top-1 intent match, Top-3 recall, mean cosine similarity, and end-to-end latency.
-- Validates the self-check hallucination guard.
-- Saves results to `outputs/evidence/a2.json`, `outputs/a2_results.md`, and sample traces to `outputs/a2_samples.csv`.
+### 3. Evaluate A2 (`eval_a2.py`)
+- Benchmarks `dense`, `sparse`, `hybrid` and unrouted retrieval on TEST: cosine to the reference
+  reply, ROUGE-L, intent consistency, placeholder safety, self-check rejection/pass rates, plus
+  slices for A1's misclassified and low-confidence rows.
+- Builds A2 through `A2Builder.build()`, which loads the committed
+  `outputs/models/a2_emb_matrix.joblib` / `a2_train_df.pkl` if present and otherwise recomputes
+  the TRAIN embeddings (cached under `outputs/cache/`). These matrices back the in-memory
+  retrieval used when Supabase is unavailable; they are written by `nlp/agent_a2.py`.
+- Writes `outputs/evidence/a2.json`, `outputs/a2_results.md`, `outputs/a2_samples.csv`.
 
-### 4. Semantic Projection Map (`build_map.py`)
-- Computes 2D UMAP projection (with t-SNE fallback) on a stratified sample of 3,000 training queries across all 27 intents.
-- Normalizes coordinates to `[-1, 1]` range.
-- Saves `outputs/map_points.json` for interactive rendering in the web dashboard.
+### 4. Semantic map (`build_map.py`)
+- UMAP if `umap-learn` is installed, otherwise a sklearn TSNE fallback, on a stratified sample of
+  TRAIN queries; coordinates normalised to `[-1, 1]` and written to `outputs/map_points.json`.
 
-### 5. Frontend Evidence Sync (`sync_evidence.py`)
-- Copies all generated evidence files directly into `web/public/` so the Next.js static and dynamic views can consume them without hardcoding.
+### 5. Evidence sync (`sync_evidence.py`)
+- Copies evidence JSONs and the map into `web/public/` so the UI needs no backend to render
+  measured numbers.
+
+---
+
+## Level 2 artifacts (separate commands)
+
+`run_all.py` covers Day 1 only. To regenerate the Level-2 outputs:
+
+| Artifact | Command |
+|---|---|
+| Decision thresholds (DEV only) | `python scripts/tune_a3_policy.py` |
+| Robustness / stress-set evidence | `python scripts/eval_l2.py --n 500 --n-pert 100 --seed 13 --sync` |
+| Cached demo payloads for the UI | `python scripts/build_demo_cache.py` |
+| Submission files | `python scripts/make_submission.py --n 300 --seed 13` |
+| Submission validation | `python scripts/validate_submission.py outputs/submission/predictions.csv --gold outputs/submission/gold.csv` |
+| Test scripts | `python tests/test_a4.py`, `python tests/test_pipeline_l2.py` |
+
+`eval_l2.py` writes `outputs/evidence/robustness.json`, `l2_decisions.json` and
+`trace_examples.json`; the `--sync` flag copies them to `web/public/evidence/`.
